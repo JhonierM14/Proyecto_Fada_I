@@ -1,8 +1,11 @@
+import copy
+
 class LDE: # Clase LDE (Lista Doblemente Entrelazada)
     def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
+
 
 # def List_Delete(head, L, key):
 #     if head is None:
@@ -44,6 +47,36 @@ def List_Insert_End(head, data):
         actual = actual.next
     actual.next = nuevo
     nuevo.prev = actual
+    return head
+
+#--------------------------------------Insertion sort LDE-------------------------------------
+def lde_insertion_sort(head):
+    key=head.next
+    while key:
+        i=key.prev
+        #Aqui se debe poner el metodo para extraer el atributo de los objetos que se quiere comparar
+        while i and key.data>=i.data:
+            #Copia del valor de key, se usa para intercambiar el valor de i y key sin problemas
+            key_0=copy.copy(key)
+            if key.data==i.data:
+                #Aqui se debe poner el metodo para extraer el atributo a comparar en caso de empate
+                if key.data>=i.data:
+                    key.data=i.data
+                    i.data=key_0.data
+                    #Este if verifica si i NO es el primer elemento de la lista, ya que si lo fuera
+                    #no tendria sentido asignarle a key la primera posicion de la lista, porque esto causaria una verificacion extra innecesaria
+                    if i.prev:
+                        key=i
+                    i=i.prev
+                else:
+                    i=i.prev
+            else:
+                key.data=i.data
+                i.data=key_0.data
+                if i.prev:
+                    key=i
+                i=i.prev        
+        key=key.next
     return head
 
 #--------------------------------------FUNCIONES PARA MERGE SORT-------------------------------------
