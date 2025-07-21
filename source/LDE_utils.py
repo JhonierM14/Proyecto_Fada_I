@@ -2,16 +2,6 @@ from controlador_LDE import *
 
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
 def punto1_LDE():
-     #Insertion sort alreves
-     lista=[1, 2, 5, 4, 5]
-     for j in range(1, len(lista)):
-          key=lista[len(lista)-j-1]
-          i=len(lista)-j
-          while i<len(lista) and key<lista[i]:
-               lista[i-1]=lista[i]
-               i=i+1
-          lista[i-1]=key
-
      # Se asigna a "lista" el arreglo que se quiere ordenar:
      lista: list = pregunta1_1.encuestados
      list_encuestados=[]
