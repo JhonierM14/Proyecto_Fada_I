@@ -53,7 +53,7 @@ def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
     return Pregunta(nombre, encuestados_pregunta)
 
 def Texto_a_Encuesta(archivo):
-    with open("Proyecto_FADA_I/Pruebas/" + archivo, "r", encoding='utf-8') as documento:
+    with open("source/tests/" + archivo, "r", encoding='utf-8') as documento:
         texto = documento.read() # Leer todo el contenido del archivo
         parrafos = texto.split("\n\n") # Dividir en párrafos
         encuestados = texto.split("\n\n")[0].split("\n") # El primer parrafo (los encuestados y sus datos)
