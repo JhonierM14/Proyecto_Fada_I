@@ -1,5 +1,5 @@
-from source.data_structures.abb import abb, arb_insert, inorder
-from source.data import *
+from data_structures.abb import abb, arb_insert, inorder
+from data import *
 
 headAbb = abb(Persona)
 arb_insert(headAbb, Persona2)
@@ -14,4 +14,4 @@ arb_insert(headAbb, Persona10)
 arb_insert(headAbb, Persona11)
 arb_insert(headAbb, Persona12)
 
-inorder(headAbb)
+# inorder(headAbb)

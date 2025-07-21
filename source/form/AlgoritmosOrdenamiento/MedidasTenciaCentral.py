@@ -1,13 +1,13 @@
-def promedio(valores):
-    if not valores:
-        return 0
-    return sum(valores) / len(valores)
+def promedio(valores: list) -> int:
+        if not valores:
+            return 0
+        return sum(valores) / len(valores)
 
 
-def mediana(valores):
+def mediana(valores: list) -> list:
     if not valores:
         return 0
-    ordenados = sorted(valores)
+    ordenados = "" #sorted(valores)
     n = len(ordenados)
     medio = n // 2
     if n % 2 == 0:
@@ -16,7 +16,7 @@ def mediana(valores):
         return ordenados[medio]
 
 
-def moda(valores):
+def moda(valores: list) -> int:
     if not valores:
         return None
     frecuencia = {}

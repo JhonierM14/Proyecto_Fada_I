@@ -1,16 +1,18 @@
 import copy
 
-class LDE(): # Clase LDE (Lista Doblemente Entrelazada)
-    
+class LDE():
+
     def __init__(self, data: object):
         self.data = data
         self.next = None
         self.prev = None
-    
+
     def getData(self):
         return self.data
+
     def getNext(self):
         return self.next
+
     def getPrev(self):
         return self.prev
 
@@ -22,6 +24,7 @@ class LDE(): # Clase LDE (Lista Doblemente Entrelazada)
         return nuevo_nodo
 
 #--------------------------------------Insertion sort LDE-------------------------------------
+
     def lde_insertion_sort(self, head):
         key=head.next
         while key:
@@ -128,6 +131,9 @@ class LDE(): # Clase LDE (Lista Doblemente Entrelazada)
     #     return head
 
 def List_Insert_End(head: LDE, data: LDE) -> object:
+    """
+    Inserta al final de la lista doblemente enlazada un objecto
+    """
     nuevo = LDE(data)
     if head is None:
         return nuevo

@@ -1,8 +1,10 @@
-from source.form.encuestado import Encuestado
-from source.form.pregunta import Pregunta
-from source.form.tema import Tema
-from source.form.encuesta import Encuesta
+from form.encuestado import Encuestado
+from form.pregunta import Pregunta
+from form.tema import Tema
+from form.encuesta import Encuesta
 
+
+# id, nombre, experticia, opinion.
 Persona   = Encuestado(1,  "Sofia García",         1, 6)
 Persona2  = Encuestado(2,  "Alejandro Torres",     7, 10)
 Persona3  = Encuestado(3,  "Valentina Rodriguez",  9, 0)
@@ -16,12 +18,15 @@ Persona10 = Encuestado(10, "Daniel Ruiz",          2, 9)
 Persona11 = Encuestado(11, "Luciana Sánchez",      1, 7)
 Persona12 = Encuestado(12, "Lucas Vásquez",        6, 8)
 
-pregunta1_1 = Pregunta("Pregunta1.1", [Persona7, Persona8, Persona2])
-pregunta1_2 = Pregunta("Pregunta1.2", [Persona, Persona9, Persona12, Persona6])
-pregunta2_1 = Pregunta("Pregunta2.1", [Persona11, Persona8, Persona7])
-pregunta2_2 = Pregunta("Pregunta2.2", [Persona3, Persona4, Persona5])
+# nombre, encuestados
+pregunta1_1 = Pregunta("Pregunta 1.1", [Persona10, Persona2])
+pregunta1_2 = Pregunta("Pregunta 1.2", [Persona, Persona9, Persona12, Persona6])
+pregunta2_1 = Pregunta("Pregunta 2.1", [Persona11, Persona8, Persona7])
+pregunta2_2 = Pregunta("Pregunta 2.2", [Persona3, Persona4, Persona5])
 
+# nombre, preguntas
 tema1 = Tema("Tema 1", [pregunta1_1, pregunta1_2])
 tema2 = Tema("Tema 2", [pregunta2_1, pregunta2_2])
 
+# numero de temas, numero de preguntas, cantidad minima de encuestados, cantidad maxima de encuestados, temas
 prueba = Encuesta(2, 2, 2, 4, [tema1, tema2])

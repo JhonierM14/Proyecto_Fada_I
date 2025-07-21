@@ -1,5 +1,5 @@
-1. ordenar los encuestrados en cada pregunta (JUAN)
-2. en cada tema ordenar las preguntas por su promedio (JHONIER)
+1. ordenar los encuestrados en cada pregunta segun su valor de opinion (JUAN)
+2. en cada tema,  ordenar las preguntas por su promedio del valor de opinion (JHONIER)
 3. ordenar los temas por el promedio de sus preguntas (DAVID)
 4. ordenar a todos los encuestados segun su experticia (CRISTIAN)
 5. Pregunta con mayor promedio de opiniones. (JUAN)

@@ -1,0 +1,5 @@
+# Enviroment
+env
+
+# Archivos temporales
+__pycache__

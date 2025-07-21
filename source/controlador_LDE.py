@@ -1,5 +1,5 @@
-from source.data_structures.listadoble import LDE, List_Insert_End, List_Print
-from source.data import *
+from data_structures.listadoble import LDE, List_Insert_End, List_Print
+from data import *
 
 head = LDE(Persona)
 List_Insert_End(head, Persona2)
@@ -14,4 +14,4 @@ List_Insert_End(head, Persona10)
 List_Insert_End(head, Persona11)
 List_Insert_End(head, Persona12)
 
-List_Print(head)
+# List_Print(head)

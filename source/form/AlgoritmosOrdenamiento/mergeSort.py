@@ -1,4 +1,10 @@
-def merge_sort(arr):
+def merge_sort(arr: list):
+    """
+    El algoritmo divide el arreglo de entrada en dos
+    mitades, ordena las dos mitades por separado y luego
+    las combina, al combinarlas también las ordena comparando
+    cada elemento de una mitad con cada elemento de la otra mitad.
+    """
     if len(arr) <= 1:
         return arr
 
@@ -7,7 +13,7 @@ def merge_sort(arr):
     right = merge_sort(arr[mid:])
     return merge(left, right)
 
-def merge(left, right):
+def merge(left: list, right: list) -> list:
     result = []
     i = j = 0
     while i < len(left) and j < len(right):
