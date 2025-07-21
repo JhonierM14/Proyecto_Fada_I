@@ -32,75 +32,60 @@ tema2 = Tema("Tema 2", [pregunta2_1, pregunta2_2])
 # numero de temas, numero de preguntas, cantidad minima de encuestados, cantidad maxima de encuestados, temas
 prueba = Encuesta(2, 2, 2, 4, [tema1, tema2])
 
-
-
 def Encuestado_a_Objeto(texto, id):
     partes = texto.split(',')
     nombre = partes[0]
     experiencia = partes[1].split(': ')[1]
     opinion = partes[2].split(': ')[1]
+    
     return Encuestado(id, nombre, int(experiencia), int(opinion))
 
-def Pregunta_a_Objeto(texto, nombre, encuestados_total):
+def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
     partes = texto.strip('{}')
     partes = partes.split(', ')
     encuestados_pregunta = None
+
     for e in partes:
-        encuestados_pregunta = List_Insert_End(encuestados_pregunta, encuestados_total[int(e)])
+        encuestado_texto = lista_todos_encuestados[int(e)-1]
+        encuestado = Encuestado_a_Objeto(encuestado_texto, int(e))
+        encuestados_pregunta = List_Insert_End(encuestados_pregunta, encuestado)
+
     return Pregunta(nombre, encuestados_pregunta)
-
-# Pregunta_a_Objeto("{10, 3, 2}", id)
-
-# print(Encuestado_a_Objeto("Sofía García, Experticia: 1, Opinión: 6", 1).getID())
-# print(Encuestado_a_Objeto("Sofía García, Experticia: 1, Opinión: 6", 1).getNombre())
-# print(Encuestado_a_Objeto("Sofía García, Experticia: 1, Opinión: 6", 1).getExperticia())
-# print(Encuestado_a_Objeto("Sofía García, Experticia: 1, Opinión: 6", 1).getOpinion())
 
 def Texto_a_Encuesta(archivo):
     with open("Proyecto_FADA_I/Pruebas/" + archivo, "r", encoding='utf-8') as documento:
-        texto = documento.read()
-        parrafos = texto.split("\n\n")
-        encuestados = texto.split("\n\n")[0].split("\n")
-        sada = []
-        contador_encuestados = 1
-        lista_encuestados = None
+        texto = documento.read() # Leer todo el contenido del archivo
+        parrafos = texto.split("\n\n") # Dividir en párrafos
+        encuestados = texto.split("\n\n")[0].split("\n") # El primer parrafo (los encuestados y sus datos)
+
+        lista_encuestados = []
         lista_temas = None
 
-        for i in range(0, len(parrafos)):
+        K = len(parrafos)-1 # Cantidad de temas
+        M = len(parrafos[1].split("\n"))-1 # Cantidad de preguntas por tema
+
+        for i in range(0, K+1):
             if i == 0:
                 for e in encuestados:
-                    sada.append(e)
-                    lista_encuestados = List_Insert_End(lista_encuestados, e)
-                    contador_encuestados += 1
-                    #lista_encuestados = List_Insert_End(lista_encuestados, Encuestado_a_Objeto(e, contador_encuestados))
+                    lista_encuestados.append(e)
+                Nmin = len(lista_encuestados) # Número como caso base
+                Nmax = 1 #Número como caso base
             else:
                 lista_preguntas = None
-                for j in range(1, len(parrafos[i].split("\n"))):
-                    #print(parrafos[i].split("\n")[j])
-                    print("Pregunta: " + str(i+j*0.1))
-                #print(parrafos[i].split("\n"))
-                tema = Tema("Tema " + str(i), [])
+                for j in range(1, M+1):
+                    texto_pregunta = parrafos[i].split("\n")[j]
+                    nombre_pregunta = "Pregunta " + str(i+j*0.1)
+                    pregunta = Pregunta_a_Objeto(texto_pregunta, nombre_pregunta, lista_encuestados)
+                    lista_preguntas = List_Insert_End(lista_preguntas, pregunta)
+
+                    if Nmin > List_Size(pregunta.getEncuestados()):
+                        Nmin = List_Size(pregunta.getEncuestados())
+                    if Nmax < List_Size(pregunta.getEncuestados()):
+                        Nmax = List_Size(pregunta.getEncuestados())
+
+                tema = Tema("Tema " + str(i), lista_preguntas)
                 lista_temas = List_Insert_End(lista_temas, tema)
 
-    #return Encuesta(len(parrafos)-1, len(parrafos[i].split("\n"))-1, 1, 1, lista_temas)
+    return Encuesta(K, M, Nmin, Nmax, lista_temas)
 
-Texto_a_Encuesta("Test2.txt")
-    #print(sada)
-    #encuesta = Encuesta(1, 1, 1, 1, [])
-
-    # print(texto.split("\n\n")[1].split("\n"))
-    # print(texto.split("\n\n")[2].split("\n"))
-    
-    #List_Print(lista_encuestados)
-
-    # encuestados = None
-    # temas = None
-    # preguntas = None
-    # for x in texto:
-    #     linea = texto.readline()
-    #     print(linea)
-    #     if linea.startswith('{'):
-    #         preguntas = List_Insert(preguntas, linea.strip())
-    #     else:
-    #         encuestados = List_Insert_End(encuestados, linea.strip())
-    # List_Print(encuestados)
+encuesta = Texto_a_Encuesta("Test3.txt")
