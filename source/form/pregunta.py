@@ -8,6 +8,9 @@ class Pregunta:
 
     def getNombre(self) -> str:
         return self.nombre
+        
+    def getEncuestados(self):
+        return self.encuestados
 
     def getIDS(self) -> list[int]:
         """
