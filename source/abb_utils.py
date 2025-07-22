@@ -51,7 +51,7 @@ def abb_insert_encuestados(root, key):
         else:
             abb_insert_encuestados(root.right, key)
 
-#Sirve para imprimir la id de los encuestados en orden ascendiente
+#Sirve para imprimir la id de los encuestados en orden descendente segun su opinion
 def inorder_encuestados(root):
     if root is None:
         return root
