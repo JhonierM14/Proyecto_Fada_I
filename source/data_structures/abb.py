@@ -24,6 +24,24 @@ def arb_insert(root, key):
         else:
             arb_insert(root.right, key)
 
+def Arb_Insert(nodo, llave, metodo):
+    if nodo is None or nodo.val is None:
+        return abb(llave)
+    
+    if metodo(nodo.val) >= metodo(llave):
+        if nodo.left == None:
+            nodo.left = abb(llave)
+        else:
+            Arb_Insert(nodo.left, llave, metodo)
+    
+    if metodo(nodo.val) < metodo(llave):
+        if nodo.right == None:
+            nodo.right = abb(llave)
+        else:
+            Arb_Insert(nodo.right, llave, metodo)
+            
+    return nodo
+
 #Solo sirve para imprimir los valores del arbol de forma ascendiente
 def inorder(root: abb):
     if root is None:
