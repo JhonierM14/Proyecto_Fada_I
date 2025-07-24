@@ -65,9 +65,70 @@ def punto4_LDE():
      pass
 
 #Punto 5
+#Funcion auxliar que calcula el promedio de un grupo de encuestados, segun su opinion o experticia
+def lde_promedio(encuestados, method):
+    total: int=0
+    a: int = 0
+    if method == "opinion":
+        while encuestados:
+            a=a+1
+            total=total+encuestados.data.getOpinion()
+            encuestados=encuestados.next
+    else:
+        if method == "experticia":
+            while encuestados:
+                a=a+1
+                total=total+encuestados.data.getExperticia()
+                encuestados=encuestados.next
+    return total/a
 
-def punto5_LDE():
-     pass
+#La funcion recibe una encuesta y extrae los 
+def punto5_LDE(encuesta):
+    temas=encuesta.getTemas()
+    key=None
+    while temas:
+        preguntas = temas.data.getPreguntas()
+        key = lde_join(key, preguntas)
+        temas=temas.next
+
+    while key.next:
+        i=key.next
+        while i and lde_promedio(key.data.getEncuestados(), "opinion") >= lde_promedio(i.data.getEncuestados(), "opinion"):
+            if lde_promedio(key.data.getEncuestados(), "opinion") == lde_promedio(i.data.getEncuestados(), "opinion"):
+                #Comparacion de las experticias para el desempate
+                if lde_promedio(key.data.getEncuestados(), "experticia") > lde_promedio(i.data.getEncuestados(), "experticia"):
+                    i=i.next
+                elif lde_promedio(key.data.getEncuestados(), "experticia") < lde_promedio(i.data.getEncuestados(), "experticia"):
+                    if i.next:
+                        key=i
+                    else:
+                        #Si no hay i.next, significa que i es la ultima pregunta de la lista, 
+                        #por lo cual no hay mas preguntas para comparar y se debe retornar i al ser mayor que key.
+                        return List_Insert_End(lde(i), lde_promedio(i.data.getEncuestados(), "opinion"))
+                elif lde_promedio(key.data.getEncuestados(), "experticia") == lde_promedio(i.data.getEncuestados(), "experticia"):
+                    #Comparacion del numero de encuestados de las preguntas para el segundo desempate. Si en este caso todavía
+                    #hay empate, se toma la pregunta mas a la izquierda (key) como la que tiene mayor promedio.
+                    if List_Size(key) >= List_Size(i):
+                        i=i.next
+                    else:
+                        if i.next:
+                            key=i
+                        else:
+                            return List_Insert_End(lde(i), lde_promedio(i.data.getEncuestados(), "opinion"))   
+            i=i.next
+
+        if i:
+            key=i
+        else:
+            return List_Insert_End(lde(key), lde_promedio(key.data.getEncuestados(), "opinion"))   
+    return List_Insert_End(lde(key), lde_promedio(key.data.getEncuestados(), "opinion"))   
+
+#Es necesario llamar la funcion con una deep copy de la encuesta, ya que si no, se enviaría la encuesta como referencia,
+#asi que cualquier cambio que le haga a encuesta_lde en la funcion tambien modificaría la encuesta_lde original y me dañaría los otros puntos.
+lde_punto5 = punto5_LDE(copy.deepcopy(encuesta_lde))
+
+print("Pregunta de la encuesta con mayor promedio:",
+       "["f"{lde_punto5.next.data}""]" ,lde_punto5.data.data.getNombre())
 
 #Punto 6
 
