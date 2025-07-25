@@ -23,6 +23,27 @@ class LDE():
             lista.prev = nuevo_nodo # el puntero prev de la cabeza apunta al nuevo nodo
         return nuevo_nodo
 
+def List_Insert_End(head: LDE, data: LDE) -> object:
+    """
+    Inserta al final de la lista doblemente enlazada un objecto
+    """
+    nuevo = LDE(data)
+    if head is None:
+        return nuevo
+    actual = head
+    while actual.next:
+        actual = actual.next
+    actual.next = nuevo
+    nuevo.prev = actual
+    return head
+
+def List_Print(head: LDE):
+    nodo_actual = head
+    while nodo_actual:
+        print(nodo_actual.getData().getID(), end=" <-> ")  
+        nodo_actual = nodo_actual.next  
+    print("None")
+
 #--------------------------------------Insertion sort LDE-------------------------------------
 
     def lde_insertion_sort(self, head):
@@ -55,98 +76,71 @@ class LDE():
         return head
 
 #--------------------------------------FUNCIONES PARA MERGE SORT-------------------------------------
-    def List_Size(self, lista):
-        if lista is None:
-            return 0
-        size = 1
-        actual = lista
-        while actual.next is not None:
-            size += 1
-            actual = actual.next
-        return size
+def List_Size(lista):
+    if lista is None: # Si la lista está vacía, retornamos 0
+        return 0
+    
+    actual = lista
+    size = 1 # Contador para saber el tamaño de la lista
 
-    def List_Divide(self, lista):
-        lista_izq = None
-        lista_der = None
-        full_size = self.List_Size(lista)
-        mitad = full_size // 2
-        contador = 0
-        
-        while contador < full_size:
-            if contador < mitad:
-                lista_izq = self.List_Insert_End(lista_izq, lista.data)
-            else:
-                lista_der = self.List_Insert_End(lista_der, lista.data)
-            lista = lista.next
-            contador += 1
+    while actual.next: # Mientras haya un siguiente nodo
+        size += 1 # Aumentamos el contador
+        actual = actual.next # Cambiamos al siguiente nodo
+    return size # Retornamos el tamaño de la lista
 
-        return lista_izq, lista_der
+def List_Divide(lista):
+    lista_izq = None # Lista para almacenar la mitad izquierda
+    lista_der = None # Lista para almacenar la mitad derecha
+    full_size = List_Size(lista) # Tamaño total de la lista
+    mitad = full_size // 2 # Tamaño de la mitad de la lista
+    contador = 0 # Contador para recorrer la lista original
+    
+    while contador < full_size: # Recorremos la lista original
+        if contador < mitad: # Si el contador es menor que la mitad
+            lista_izq = List_Insert_End(lista_izq, lista.data) # Añadimos el nodo a la lista izquierda
+        else: # Si el contador es mayor o igual que la mitad
+            lista_der = List_Insert_End(lista_der, lista.data) # Añadimos el nodo a la lista derecha
+        lista = lista.next # Cambiamos al siguiente nodo
+        contador += 1 # Aumentamos el contador
 
-    def List_Merge(self, lista_izq, lista_der):
-        merged = None
+    return lista_izq, lista_der # Retornamos las dos mitades de la lista
 
-        while lista_izq and lista_der:
-            if lista_izq.data <= lista_der.data:
-                merged = self.List_Insert_End(merged, lista_izq.data)
+
+def List_Merge(lista_izq, lista_der, metodo, orden):
+    merged = None
+
+    while lista_izq and lista_der:
+        if orden == "ascendente":
+            if metodo(lista_izq.data) <= metodo(lista_der.data):
+                merged = List_Insert_End(merged, lista_izq.data)
                 lista_izq = lista_izq.next
             else:
-                merged = self.List_Insert_End(merged, lista_der.data)
+                merged = List_Insert_End(merged, lista_der.data)
+                lista_der = lista_der.next
+        if orden == "descendente":
+            if metodo(lista_izq.data) >= metodo(lista_der.data):
+                merged = List_Insert_End(merged, lista_izq.data)
+                lista_izq = lista_izq.next
+            else:
+                merged = List_Insert_End(merged, lista_der.data)
                 lista_der = lista_der.next
 
-        while lista_izq:
-            merged = self.List_Insert_End(merged, lista_izq.data)
-            lista_izq = lista_izq.next
+    while lista_izq:
+        merged = List_Insert_End(merged, lista_izq.data)
+        lista_izq = lista_izq.next
 
-        while lista_der:
-            merged = self.List_Insert_End(merged, lista_der.data)
-            lista_der = lista_der.next
+    while lista_der:
+        merged = List_Insert_End(merged, lista_der.data)
+        lista_der = lista_der.next
 
-        return merged
+    return merged
 
-    def List_Merge_Sort(self, lista):
-        if self.List_Size(lista) <= 1: # caso base: si la lista tiene 0 o 1 elemento, ya está ordenada
-            return lista # retorna la lista tal cual
+def List_Merge_Sort(lista, metodo, orden):
+    if List_Size(lista) <= 1: # caso base: si la lista tiene 0 o 1 elemento, ya está ordenada
+        return lista # retorna la lista tal cual
 
-        izq, der = self.List_Divide(lista) # divide la lista en dos mitades
-        lista_izq = self.List_Merge_Sort(izq) # ordena la mitad izquierda
-        lista_der = self.List_Merge_Sort(der) # ordena la mitad derecha
+    izq, der = List_Divide(lista) # divide la lista en dos mitades
+    lista_izq = List_Merge_Sort(izq, metodo, orden) # ordena la mitad izquierda
+    lista_der = List_Merge_Sort(der, metodo, orden) # ordena la mitad derecha
 
-        return self.List_Merge(lista_izq, lista_der) # junta las dos mitades ordenadas
-    
-    # def List_Delete(head, L, key):
-    #     if head is None:
-    #         print("Doubly linked list is empty")
-    #         return None
-
-    #     if head.next is None:
-    #         return None
-
-    #     current = head
-    #     while current.next.next:
-    #         current = current.next
-
-    #     del_node = current.next
-    #     current.next = None
-    #     del del_node
-    #     return head
-
-def List_Insert_End(head: LDE, data: LDE) -> object:
-    """
-    Inserta al final de la lista doblemente enlazada un objecto
-    """
-    nuevo = LDE(data)
-    if head is None:
-        return nuevo
-    actual = head
-    while actual.next:
-        actual = actual.next
-    actual.next = nuevo
-    nuevo.prev = actual
-    return head
-
-def List_Print(head: LDE):
-    nodo_actual = head
-    while nodo_actual:
-        print(nodo_actual.getData().getID(), end=" <-> ")  
-        nodo_actual = nodo_actual.next  
-    print("None")
+    return List_Merge(lista_izq, lista_der, metodo, orden) # junta las dos mitades ordenadas
