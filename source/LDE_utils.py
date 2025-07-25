@@ -56,8 +56,41 @@ punto2_LDE()
 
 #Punto 3
 
-def punto3_LDE():
-     pass
+# A esta función se le pasa la lista entrelazada con los encuestados
+def Promedio_Pregunta(lista):
+    actual = lista # Obtenemos la lista de encuestados
+    opinion = 0 # Contador para ir sumando las opiniones de los encuestados
+
+    while actual: # Mientras hayan encuestados
+        opinion += actual.data.getOpinion() # Sumar al contador la opinión del encuestado
+        actual = actual.next # Avanzar al siguiente encuestado
+        
+    return round((opinion / List_Size(lista)), 2) # Devolver el promedio de las opiniones de los encuestados
+
+# A esta función se le pasa la lista entrelazada con las preguntas
+def Promedio_Tema(lista, M):
+    pregunta_actual = lista # Obtenemos la lista de preguntas
+    promedio = 0 # Contador para ir sumando los promedios de las preguntas
+
+    while pregunta_actual:
+        promedio += Promedio_Pregunta(pregunta_actual.data.getEncuestados()) # Sumamos el promedio de la pregunta al contador
+        pregunta_actual = pregunta_actual.next # Cambiamos a la siguiente pregunta
+        
+    return round(promedio / M, 2) # Retornamos el promedio de los promedios de las preguntas
+
+# A esta función se le pasa la lista entrelazada con los temas
+def Ordenar_Tema_Por_Promedio(lista, M):
+    # Ordenar descendentemente la lista dependiendo del promedio del promedio de sus preguntas
+    lista = List_Merge_Sort(lista, lambda e: Promedio_Tema(e.getPreguntas(), M), "descendente")
+    resultado = ""
+
+    while lista: # Mientras hayan temas
+        # Concatenar al resultado el promedio de promedios del tema y su nombre
+        resultado = resultado + f"{[Promedio_Tema(lista.data.getPreguntas(), M)]}" + " Tema " + f"{lista.data.getNombre()}:" + "\n"
+        lista = lista.next # Avanzar al siguiente tema
+
+    print(resultado)
+    return resultado # Retornamos los temas por orden descendente de sus promedios
 
 #Punto 4
 
@@ -135,11 +168,6 @@ print("Pregunta de la encuesta con mayor promedio:",
 def punto6_LDE():
      print("#################################")
 
-#Punto 7
-
-def punto7_LDE():
-     pass
-
 #Punto 8
 
 def punto8_LDE():
@@ -157,8 +185,52 @@ def punto10_LDE():
 
 #Punto 11
 
-def punto11_LDE():
-     pass
+# A esta función se le pasa la lista entrelazada con los encuestados
+def Extremismo_Pregunta(lista):
+    actual = lista # Obtenemos la lista de encuestados
+    extremismo = 0 # Contador para saber cuantos encuestados tienen una opinion extrema
+
+    while actual:
+        if actual.data.getOpinion() == 0 or actual.data.getOpinion() == 10: # Si el encuestado tiene una opinion de 0 o 10
+            extremismo += 1 # Se le suma 1 al extremismo
+        actual = actual.next # Avanzamos al siguiente encuestado
+        
+    return round((extremismo / List_Size(lista)), 2) # Devuelve el porcentaje de encuestados que tienen una opinión de 0 o 10
+
+# A esta función se le pasa la lista entrelazada con los temas
+def Mayor_X_Pregunta(lista, K, M, dato):
+    if lista is None:
+        return 0
+    temas = K # Obtenemos cuántos temas hay
+    tema_actual = lista # Obtenemos la lista de temas
+    preguntas_actuales = tema_actual.data.getPreguntas() # Obtenemos la lista de preguntas del primer tema como base
+    mayor = preguntas_actuales # Por si hay empate de extremismo, se toma la pregunta con menor id
+
+    while temas > 0:
+        preguntas = M # Obtenemos cuántas preguntas hay en cada tema
+        while preguntas > 0:
+            if dato == "extremismo":
+                if Extremismo_Pregunta(mayor.data.getEncuestados()) < Extremismo_Pregunta(preguntas_actuales.data.getEncuestados()):
+                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor extremismo
+            if dato == "mediana":
+                if List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion() < List_Median(List_Merge_Sort(preguntas_actuales.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion():
+                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor mediana
+            preguntas_actuales = preguntas_actuales.next # Cambiamos a la siguiente pregunta
+            preguntas -= 1
+
+        tema_actual = tema_actual.next # Cambiamos al siguiente tema
+        if tema_actual: # 
+            preguntas_actuales = tema_actual.data.getPreguntas() # Cambiamos a las preguntas del siguiente tema
+        temas -= 1
+        
+    if dato == "extremismo":
+        resultado = "Pregunta con mayor extremismo: " + f"{[Extremismo_Pregunta(mayor.data.getEncuestados())]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
+        print(resultado)
+        return resultado
+    if dato == "mediana":
+        resultado = "Pregunta con mayor mediana de opinión: " + f"{[List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion()]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
+        print(resultado)
+        return resultado
 
 #Punto 12
 
