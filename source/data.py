@@ -1,4 +1,4 @@
-from data_structures.listadoble import *
+from data_structures.listadoble import List_Insert_End, List_Size
 from data_structures.abb import abb, Arb_Insert
 
 from form.encuestado import Encuestado
@@ -6,6 +6,8 @@ from form.pregunta import Pregunta
 from form.tema import Tema
 from form.encuesta import Encuesta
 
+from LDE_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Listas, Mayor_X_Pregunta as Mayor_Listas
+from abb_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Arboles, Mayor_X_Pregunta as Mayor_Arboles
 
 # id, nombre, experticia, opinion.
 Persona   = Encuestado(1,  "Sofia García",         1, 6)
