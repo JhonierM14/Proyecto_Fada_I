@@ -44,6 +44,28 @@ def List_Print(head: LDE):
         nodo_actual = nodo_actual.next  
     print("None")
 
+def List_Size(lista):
+    if lista is None: # Si la lista está vacía, retornamos 0
+        return 0
+    
+    actual = lista
+    size = 1 # Contador para saber el tamaño de la lista
+
+    while actual.next: # Mientras haya un siguiente nodo
+        size += 1 # Aumentamos el contador
+        actual = actual.next # Cambiamos al siguiente nodo
+    return size # Retornamos el tamaño de la lista
+
+def List_Median(lista):
+    if lista is None:
+        return 0
+    
+    if List_Size(lista)%2 == 0: # Si la lista tiene un número par de elementos
+        lista = List_Insert(lista, 0) # Añadimos un elemento cualquiera para que sea impar
+
+    izq, der = List_Divide(lista) # Por la naturaleza de Divide, la mediana se encontrará al inicio de la lista derecha
+    return der.data # Retornamos la mediana
+
 #--------------------------------------Insertion sort LDE-------------------------------------
 
     def lde_insertion_sort(self, head):
@@ -76,18 +98,6 @@ def List_Print(head: LDE):
         return head
 
 #--------------------------------------FUNCIONES PARA MERGE SORT-------------------------------------
-def List_Size(lista):
-    if lista is None: # Si la lista está vacía, retornamos 0
-        return 0
-    
-    actual = lista
-    size = 1 # Contador para saber el tamaño de la lista
-
-    while actual.next: # Mientras haya un siguiente nodo
-        size += 1 # Aumentamos el contador
-        actual = actual.next # Cambiamos al siguiente nodo
-    return size # Retornamos el tamaño de la lista
-
 def List_Divide(lista):
     lista_izq = None # Lista para almacenar la mitad izquierda
     lista_der = None # Lista para almacenar la mitad derecha
