@@ -82,7 +82,7 @@ def Resultados_a_Texto(nombre, encuesta, tipo):
     # Lo abrimos y escribimos en él
     with open("source/results/" + nombre, "a", encoding='utf-8'):
 
-        if tipo == "listas entrelazadas":
+        if tipo == "listas_entrelazadas":
             f.write("Resultados de la encuesta:\n")
             f.write(Ordenar_Tema_Listas(encuesta.getTemas(), encuesta.getM()))
             f.write("\nResultados:\n")
