@@ -1,4 +1,4 @@
-import time
+import time, copy
 
 from data_structures.listadoble import List_Median, List_Merge_Sort, List_Print, List_Size
 
@@ -294,7 +294,7 @@ def lde_mayor_promedio(encuesta):
 #Es necesario llamar la funcion con una deep copy de la encuesta, ya que si no, se enviaría la encuesta como referencia,
 #asi que cualquier cambio que le haga a encuesta_lde en la funcion tambien modificaría la encuesta_lde original y me dañaría los otros puntos.
 #lde_punto5 tiene el string que debe salir en el output
-lde_punto5 = lde_mayor_promedio(copy.deepcopy(encuesta_lde))
+# lde_punto5 = lde_mayor_promedio(copy.deepcopy(encuesta_lde))
 
 #Punto 6
 
@@ -393,7 +393,7 @@ def lde_mayor_moda(encuesta):
     return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre()
 
 #La salida
-lde_punto9 = lde_mayor_moda(copy.deepcopy(encuesta_lde))
+# lde_punto9 = lde_mayor_moda(copy.deepcopy(encuesta_lde))
 
 #Punto 10
 
@@ -533,7 +533,7 @@ def lde_mayor_consenso(encuesta):
     return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
 
 #La salida
-lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))
+# lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))
 
 def seleccionarFuncionLDE(metodo: int):
      """

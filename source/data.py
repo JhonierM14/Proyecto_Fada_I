@@ -9,33 +9,6 @@ from form.encuesta import Encuesta
 from LDE_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Listas, Mayor_X_Pregunta as Mayor_Listas
 from abb_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Arboles, Mayor_X_Pregunta as Mayor_Arboles
 
-# id, nombre, experticia, opinion.
-Persona   = Encuestado(1,  "Sofia García",         1, 6)
-Persona2  = Encuestado(2,  "Alejandro Torres",     7, 10)
-Persona3  = Encuestado(3,  "Valentina Rodriguez",  9, 0)
-Persona4  = Encuestado(4,  "Juan Lopéz",          10, 1)
-Persona5  = Encuestado(5,  "Martina Martinez",     7, 0)
-Persona6  = Encuestado(6,  "Sebastián Pérez",      8, 9)
-Persona7  = Encuestado(7,  "Camila Fernández",     2, 7)
-Persona8  = Encuestado(8,  "Mateo González",       4, 7)
-Persona9  = Encuestado(9,  "Isabella Díaz",        7, 5)
-Persona10 = Encuestado(10, "Daniel Ruiz",          2, 9)
-Persona11 = Encuestado(11, "Luciana Sánchez",      1, 7)
-Persona12 = Encuestado(12, "Lucas Vásquez",        6, 8)
-
-# nombre, encuestados
-pregunta1_1 = Pregunta("Pregunta 1.1", [Persona10, Persona2])
-pregunta1_2 = Pregunta("Pregunta 1.2", [Persona, Persona9, Persona12, Persona6])
-pregunta2_1 = Pregunta("Pregunta 2.1", [Persona11, Persona8, Persona7])
-pregunta2_2 = Pregunta("Pregunta 2.2", [Persona3, Persona4, Persona5])
-
-# nombre, preguntas
-tema1 = Tema("Tema 1", [pregunta1_1, pregunta1_2])
-tema2 = Tema("Tema 2", [pregunta2_1, pregunta2_2])
-
-# numero de temas, numero de preguntas, cantidad minima de encuestados, cantidad maxima de encuestados, temas
-prueba = Encuesta(2, 2, 2, 4, [tema1, tema2])
-
 def Encuestado_a_Objeto(texto, id):
     partes = texto.split(',') # Separa el texto del nombre, experticia y opinion en una lista
     nombre = partes[0] # Obtiene el primer elemento de la lista (el nombre)

@@ -1,0 +1,8 @@
+Resultados de la encuesta:
+[6.0] Tema 1:
+[5.08] Tema 2:
+[4.96] Tema 3:
+
+Resultados:
+Pregunta con mayor extremismo: [0.67] Pregunta: 2.2
+Pregunta con mayor mediana de opinión: [7] Pregunta: 2.1

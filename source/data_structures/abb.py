@@ -1,12 +1,16 @@
 #Clase abb (Arbol Binario de Busqueda):
 class abb():
-    def __init__(self, key):
+    def __init__(self, key = None):
         self.left = None
         self.right = None
         self.val = key
     
     def getVal(self):
         return self.val
+    def gethijoIquierdo(self):
+        return self.left
+    def gethijoDerecho(self):
+        return self.right
 
 def arb_insert(root, key):
     if root is None:
@@ -86,3 +90,114 @@ def Arb_Median(arbol, metodo):
         return elementos[n // 2]
     else:
         return elementos[n // 2 - 1]
+
+def promedio_opinion(pregunta):
+    total = 0
+    count = 0
+    nodo = pregunta.encuestados
+    while nodo:
+        enc = nodo.val
+        total += enc.opinion
+        count += 1
+        nodo = nodo.right  # recorrido in-order
+    return total / count if count > 0 else 0
+
+def buscar_pregunta_menor_promedio(raiz, menor=None):
+    if raiz is None:
+        return menor
+
+    menor = buscar_pregunta_menor_promedio(raiz.left, menor)
+    actual_prom = promedio_opinion(raiz.val)
+    if menor is None or actual_prom < promedio_opinion(menor):
+        menor = raiz.val
+    menor = buscar_pregunta_menor_promedio(raiz.right, menor)
+    return menor
+
+def moda_opinion(pregunta):
+    frecuencias = [0] * 11
+    nodo = pregunta.encuestados
+    while nodo:
+        frecuencias[nodo.val.opinion] += 1
+        nodo = nodo.right
+    max_frec = max(frecuencias)
+    for i in range(11):
+        if frecuencias[i] == max_frec:
+            return i
+
+def buscar_pregunta_menor_moda(raiz, menor=None):
+    if raiz is None:
+        return menor
+
+    menor = buscar_pregunta_menor_moda(raiz.left, menor)
+    actual_moda = moda_opinion(raiz.val)
+    if menor is None or actual_moda < moda_opinion(menor):
+        menor = raiz.val
+    menor = buscar_pregunta_menor_moda(raiz.right, menor)
+    return menor
+
+def insertar_pregunta_arbol(raiz, pregunta):
+    if raiz.val is None:
+        raiz.val = pregunta
+        return
+
+    p1 = promedio_opinion(pregunta)
+    p2 = promedio_opinion(raiz.val)
+
+    if p1 > p2:
+        if raiz.left:
+            insertar_pregunta_arbol(raiz.left, pregunta)
+        else:
+            raiz.left = abb(pregunta)
+    elif p1 < p2:
+        if raiz.right:
+            insertar_pregunta_arbol(raiz.right, pregunta)
+        else:
+            raiz.right = abb(pregunta)
+    else:
+        # Desempatar con experticia y luego con número de encuestados
+        e1 = promedio_experticia(pregunta)
+        e2 = promedio_experticia(raiz.val)
+        if e1 > e2:
+            if raiz.left:
+                insertar_pregunta_arbol(raiz.left, pregunta)
+            else:
+                raiz.left = abb(pregunta)
+        elif e1 < e2:
+            if raiz.right:
+                insertar_pregunta_arbol(raiz.right, pregunta)
+            else:
+                raiz.right = abb(pregunta)
+        else:
+            n1 = contar_encuestados(pregunta)
+            n2 = contar_encuestados(raiz.val)
+            if n1 > n2:
+                if raiz.left:
+                    insertar_pregunta_arbol(raiz.left, pregunta)
+                else:
+                    raiz.left = abb(pregunta)
+            else:
+                if raiz.right:
+                    insertar_pregunta_arbol(raiz.right, pregunta)
+                else:
+                    raiz.right = abb(pregunta)
+
+def promedio_experticia(pregunta):
+    def _sumar(nodo):
+        if nodo is None or nodo.val is None:
+            return 0, 0  # suma, cantidad
+        suma_izq, cant_izq = _sumar(nodo.left)
+        suma_der, cant_der = _sumar(nodo.right)
+        suma = suma_izq + nodo.val.experticia + suma_der
+        cantidad = cant_izq + 1 + cant_der
+        return suma, cantidad
+
+    suma, cantidad = _sumar(pregunta.encuestados)
+    return suma / cantidad if cantidad > 0 else 0
+
+def contar_encuestados(pregunta):
+    def _contar(nodo):
+        if nodo is None or nodo.val is None:
+            return 0
+        return 1 + _contar(nodo.left) + _contar(nodo.right)
+    
+    return _contar(pregunta.encuestados)

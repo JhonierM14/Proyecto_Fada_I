@@ -2,7 +2,7 @@ import copy
 
 class LDE():
 
-    def __init__(self, data: object):
+    def __init__(self, data = None):
         self.data = data
         self.next = None
         self.prev = None
@@ -16,12 +16,12 @@ class LDE():
     def getPrev(self):
         return self.prev
 
-    def List_Insert(self, lista, llave):
-        nuevo_nodo = LDE(llave)
-        nuevo_nodo.next = lista # el puntero next del nuevo nodo apunta a la cabeza
-        if lista: # si la cabeza es None (no hay un nodo después) no entra en este if
-            lista.prev = nuevo_nodo # el puntero prev de la cabeza apunta al nuevo nodo
-        return nuevo_nodo
+def List_Insert(lista, llave):
+    nuevo_nodo = LDE(llave)
+    nuevo_nodo.next = lista # el puntero next del nuevo nodo apunta a la cabeza
+    if lista: # si la cabeza es None (no hay un nodo después) no entra en este if
+        lista.prev = nuevo_nodo # el puntero prev de la cabeza apunta al nuevo nodo
+    return nuevo_nodo
 
 def List_Insert_End(head: LDE, data: LDE) -> object:
     """

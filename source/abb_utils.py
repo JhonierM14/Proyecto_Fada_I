@@ -1,6 +1,6 @@
 import time
 
-from data_structures.abb import Arb_Median, Arb_Size, abb, buscar_pregunta_menor_moda, buscar_pregunta_menor_promedio, insertar_pregunta_arbol, promedio_opinion
+from data_structures.abb import Arb_Insert, Arb_Median, Arb_Size, abb, buscar_pregunta_menor_moda, buscar_pregunta_menor_promedio, insertar_pregunta_arbol, promedio_opinion
 
 #Punto 1
 #Funcion propia que reemplaza el len de python
@@ -76,7 +76,7 @@ def abb_escribir_opiniones(encuesta):
     return str
 
 #Salida del abb
-abb_print=abb_escribir_opiniones(encuesta_abb)
+# abb_print=abb_escribir_opiniones(encuesta_abb)
 
 #Punto 2
 
@@ -324,7 +324,7 @@ def abb_insert_promedios(root, pregunta):
         else:
             abb_insert_promedios(root.left, pregunta)
 
-abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
+# abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
 
 #Punto 6
 
@@ -454,7 +454,7 @@ def abb_insert_moda(root, pregunta):
         else:
             abb_insert_moda(root.left, pregunta)
 
-abb_punto9 = abb_mayor_moda(copy.deepcopy(encuesta_abb))
+# abb_punto9 = abb_mayor_moda(copy.deepcopy(encuesta_abb))
 
 #Punto 10
 
@@ -603,7 +603,7 @@ def abb_insert_consenso(root, pregunta):
         else:
             abb_insert_consenso(root.right, pregunta)
 
-abb_punto12 = abb_mayor_consenso(encuesta_abb)
+# abb_punto12 = abb_mayor_consenso(encuesta_abb)
 
 
 def seleccionarFuncionAbb(metodo: int):
@@ -629,7 +629,7 @@ def seleccionarFuncionAbb(metodo: int):
         case 3:
             pass
         case 4:
-            return punto4_Abb
+            pass
         case 5:
             pass
         case 6:
@@ -637,7 +637,7 @@ def seleccionarFuncionAbb(metodo: int):
         case 7:
             pass
         case 8:
-            return punto8_Abb
+            pass
         case 9:
             pass
         case 10:
