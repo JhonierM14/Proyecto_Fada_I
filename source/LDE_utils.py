@@ -1,4 +1,6 @@
-from controlador_LDE import *
+import time
+
+from data_structures.listadoble import List_Median, List_Merge_Sort, List_Print, List_Size
 
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
 #Insertion sort: lde
@@ -28,7 +30,6 @@ def lde_insertion_sort(head):
                 i=i.prev        
         key=key.next
     return head
-    
 
 #Sirve para pasar una lde a un string con las ids de los encuestados
 def lde_displayID(head):
@@ -39,7 +40,6 @@ def lde_displayID(head):
         current = current.next
     str=str+"None"
     return str
-
 
 def lde_escribir_opiniones(encuesta):
     temas=encuesta.getTemas()
@@ -55,27 +55,132 @@ def lde_escribir_opiniones(encuesta):
     return str
 
 #Esta es la salida de los encuestados de todas las preguntas de todos los temas ordenados
-lde_print = (lde_escribir_opiniones(encuesta_lde)
+# lde_print = (lde_escribir_opiniones(encuesta_lde)
 
 #Punto 2
 
-def punto2_LDE():
-     """
-     por cada tema, se busca que las preguntas estén ordenadas 
-     descendentemente según su promedio del valor de opinión
-     """
+def promedio_tema(tema):
+    """
+    Calcula el promedio del promedio de opiniones de todas las preguntas del tema.
+    """
+    nodo_pregunta = tema.preguntas
+    suma_promedios = 0
+    count = 0
 
-     for tema in prueba.getTemas():
-          print(f"[{tema.getPromedioAllPreguntas()}]{tema.getNombre()}:")
-          for pregunta in tema.getPreguntas():
-               print(f"[{pregunta.getPromedioPregunta()}] {pregunta.getNombre()}: {pregunta.getIDS()}\n")
-     print(f"Lista de encuestados")
+    while nodo_pregunta:
+        pregunta = nodo_pregunta.data
+        suma_promedios += promedio_opinion(pregunta)
+        count += 1
+        nodo_pregunta = nodo_pregunta.next
 
-     print(prueba.getIDSEncuestadosEncuesta())
-     
-     print("#################################")
+    return suma_promedios / count if count > 0 else 0
 
-punto2_LDE()
+def ordenar_preguntas_por_promedio_opinion(preguntas):
+    """
+    Ordena una lista doblemente enlazada de preguntas por promedio de opinión descendente.
+    """
+    if preguntas is None or preguntas.next is None:
+        return preguntas  # ya está ordenada o vacía
+
+    nueva_cabeza = None
+
+    actual = preguntas
+    while actual:
+        siguiente = actual.next
+        actual.prev = actual.next = None  # desconectar temporalmente
+
+        if nueva_cabeza is None:
+            nueva_cabeza = actual
+        else:
+            # insertar actual en nueva_cabeza de forma ordenada
+            nodo = nueva_cabeza
+            anterior = None
+            while nodo:
+                p1 = promedio_opinion(actual.data)
+                p2 = promedio_opinion(nodo.data)
+                if p1 > p2:
+                    break
+                elif p1 == p2:
+                    # empate: promedio de experticia
+                    e1 = promedio_experticia(actual.data)
+                    e2 = promedio_experticia(nodo.data)
+                    if e1 > e2:
+                        break
+                    elif e1 == e2:
+                        n1 = contar_encuestados(actual.data)
+                        n2 = contar_encuestados(nodo.data)
+                        if n1 > n2:
+                            break
+                anterior = nodo
+                nodo = nodo.next
+            if anterior is None:
+                actual.next = nueva_cabeza
+                nueva_cabeza.prev = actual
+                nueva_cabeza = actual
+            else:
+                actual.next = anterior.next
+                if anterior.next:
+                    anterior.next.prev = actual
+                anterior.next = actual
+                actual.prev = anterior
+
+        actual = siguiente
+
+    return nueva_cabeza
+
+def mostrar_ids_encuesta_completa(temas):
+    """
+    Muestra en una única línea los IDs de todos los encuestados que respondieron en toda la encuesta (LDE).
+    """
+
+    nodo_tema = temas
+    while nodo_tema:
+        tema = nodo_tema.data
+        nodo_pregunta = tema.preguntas
+        while nodo_pregunta:
+            pregunta = nodo_pregunta.data
+            imprimir_ids_encuestados_lde(pregunta.encuestados)
+            nodo_pregunta = nodo_pregunta.next
+        nodo_tema = nodo_tema.next
+
+    print() 
+
+def imprimir_ids_encuestados_lde(nodo):
+    """
+    Imprime los IDs de una LDE de encuestados
+    """
+    while nodo:
+        print(nodo.data.id, end=" ")
+        nodo = nodo.next
+
+def punto2_LDE(encuesta):
+    """
+    Por cada tema, se busca que las preguntas estén ordenadas 
+    descendentemente según su promedio del valor de opinión.
+    La salida se imprime por tema y por pregunta, mostrando sus promedios.
+    """
+    tiempo_inicio = time.time()
+
+    nodo_tema = encuesta.Temas
+    while nodo_tema:
+        tema = nodo_tema.data
+        tema.preguntas = ordenar_preguntas_por_promedio_opinion(tema.preguntas)
+        print(f"[{round(promedio_tema(tema), 2)}] Tema {tema.nombre}:")
+        nodo_pregunta = tema.preguntas
+        while nodo_pregunta:
+            pregunta = nodo_pregunta.data
+            prom = round(promedio_opinion(pregunta), 2)
+            print(f"[{prom}] Pregunta {pregunta.nombre}")
+            List_Print(pregunta.encuestados)
+            nodo_pregunta = nodo_pregunta.next
+
+        nodo_tema = nodo_tema.next
+
+    mostrar_ids_encuesta_completa(encuesta.Temas)
+
+    tiempo_final = time.time()
+
+    return List_Size(encuesta.Temas) , tiempo_final - tiempo_inicio
 
 #Punto 3
 
@@ -193,8 +298,26 @@ lde_punto5 = lde_mayor_promedio(copy.deepcopy(encuesta_lde))
 
 #Punto 6
 
-def punto6_LDE():
-     print("#################################")
+def punto6_LDE(encuesta):
+    """
+    Encuentra la pregunta con menor promedio de opiniones en toda la encuesta.
+    """
+    nodo_tema = encuesta.Temas
+    menor_pregunta = None
+
+    while nodo_tema:
+        nodo_pregunta = nodo_tema.data.preguntas
+        while nodo_pregunta:
+            p = nodo_pregunta.data
+            if menor_pregunta is None or promedio_opinion(p) < promedio_opinion(menor_pregunta):
+                menor_pregunta = p
+            nodo_pregunta = nodo_pregunta.next
+        nodo_tema = nodo_tema.next
+
+    if menor_pregunta:
+        print(f"La pregunta con menor promedio es '{menor_pregunta.nombre}' con promedio {round(promedio_opinion(menor_pregunta), 2)}")
+    else:
+        print("No se encontró ninguna pregunta.")
 
 #Punto 8
 
@@ -274,8 +397,66 @@ lde_punto9 = lde_mayor_moda(copy.deepcopy(encuesta_lde))
 
 #Punto 10
 
-def punto10_LDE():
-     print("#################################")
+def punto10_LDE(encuesta):
+     """
+     Encuentra y muestra la pregunta con el menor valor de moda de opiniones
+     en toda la encuesta, recorriendo todos los temas y preguntas.
+     """
+     nodo_tema = encuesta.Temas
+     menor_pregunta = None
+
+     while nodo_tema:
+          nodo_pregunta = nodo_tema.data.preguntas
+          while nodo_pregunta:
+               p = nodo_pregunta.data
+               if menor_pregunta is None or moda_opinion(p) < moda_opinion(menor_pregunta):
+                    menor_pregunta = p
+               nodo_pregunta = nodo_pregunta.next
+          nodo_tema = nodo_tema.next
+
+     if menor_pregunta:
+          print(f"La pregunta con menor moda es '{menor_pregunta.nombre}' con moda {moda_opinion(menor_pregunta)}")
+     else:
+          print("No se encontró ninguna pregunta.")
+
+def promedio_opinion(pregunta):
+    nodo = pregunta.encuestados
+    suma = 0
+    count = 0
+    while nodo:
+        suma += nodo.data.opinion
+        count += 1
+        nodo = nodo.next
+    return suma / count if count > 0 else 0
+
+def promedio_experticia(pregunta):
+    nodo = pregunta.encuestados
+    suma = 0
+    count = 0
+    while nodo:
+        suma += nodo.data.experticia
+        count += 1
+        nodo = nodo.next
+    return suma / count if count > 0 else 0
+
+def contar_encuestados(pregunta):
+    nodo = pregunta.encuestados
+    count = 0
+    while nodo:
+        count += 1
+        nodo = nodo.next
+    return count
+
+def moda_opinion(pregunta):
+    frec = [0] * 11
+    nodo = pregunta.encuestados
+    while nodo:
+        frec[nodo.data.opinion] += 1
+        nodo = nodo.next
+    max_frec = max(frec)
+    for i in range(11):
+        if frec[i] == max_frec:
+            return i
 
 #Punto 11
 
