@@ -534,3 +534,47 @@ def lde_mayor_consenso(encuesta):
 
 #La salida
 lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))
+
+def seleccionarFuncionLDE(metodo: int):
+     """
+     1. ordenar los encuestrados en cada pregunta segun su valor de opinion. 
+     2. por cada tema, ordenar las preguntas por su promedio del valor de opinion de forma descendente.
+     3. ordenar los temas por el promedio de sus preguntas.
+     4. ordenar a todos los encuestados segun su experticia.
+     5. Pregunta con mayor promedio de opiniones.
+     6. Pregunta con menor promedio de opiniones.
+     7. Pregunta con mayor  mediana de opiniones.
+     8. Pregunta con menor mediana  opiniones.
+     9. Pregunta con el mayor valor de moda de opiniones.
+     10. Pregunta con el menor valor de moda de opiniones.
+     11. Pregunta con mayor valor de extremismo.
+     12. Pregunta con mayor consenso
+     """
+     match metodo:
+        case 1:
+            pass
+        case 2:
+            return punto2_LDE
+        case 3:
+            pass
+        case 4:
+            pass
+        case 5:
+            pass
+        case 6:
+            return punto6_LDE
+        case 7:
+            pass
+        case 8:
+            pass
+        case 9:
+            pass
+        case 10:
+            return punto10_LDE
+        case 11:
+            pass
+        case 12:
+            pass
+        case _:
+            raise ValueError("funcion no implementada.")
+         

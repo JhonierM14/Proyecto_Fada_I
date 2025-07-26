@@ -1,4 +1,6 @@
-from controlador_abb import *
+import time
+
+from data_structures.abb import Arb_Median, Arb_Size, abb, buscar_pregunta_menor_moda, buscar_pregunta_menor_promedio, insertar_pregunta_arbol, promedio_opinion
 
 #Punto 1
 #Funcion propia que reemplaza el len de python
@@ -78,8 +80,126 @@ abb_print=abb_escribir_opiniones(encuesta_abb)
 
 #Punto 2
 
-def punto2_Abb():
-    print("#################################")
+def recorrer_temas(nodo_tema):
+    if nodo_tema is None or nodo_tema.val is None:
+        return
+    recorrer_temas(nodo_tema.left)
+
+    tema = nodo_tema.val
+    print(f"[{round(promedio_tema(tema), 2)}] Tema {tema.nombre}:")
+    recorrer_preguntas_ordenadas_por_promedio(tema.preguntas)
+
+    recorrer_temas(nodo_tema.right)
+
+def recorrer_preguntas_ordenadas_por_promedio(raiz_preguntas):
+    # Creamos un nuevo árbol ordenado por promedio de opinión
+    nuevo_arbol = abb()
+
+    def insertar_todas(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        insertar_todas(nodo.left)
+        insertar_pregunta_arbol(nuevo_arbol, nodo.val)
+        insertar_todas(nodo.right)
+
+    insertar_todas(raiz_preguntas)
+
+    def imprimir_en_orden(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        imprimir_en_orden(nodo.left)
+        preg = nodo.val
+        ids = obtener_ids_pregunta(preg)
+        prom = round(preg.promedio_opinion(), 2)
+        print(f"\n[{prom}] Pregunta {preg.nombre}: ({', '.join(map(str, ids))})")
+        imprimir_en_orden(nodo.right)
+
+    imprimir_en_orden(nuevo_arbol)
+
+def promedio_tema(tema):
+        suma = 0
+        count = 0
+
+        def acumular_promedios(nodo: abb): # preguntas
+            nonlocal suma, count
+            if nodo is None or nodo.val is None:
+                return
+            acumular_promedios(nodo.left)
+            pregunta: Pregunta = nodo.val
+            suma += promedio_opinion(pregunta)
+            count += 1
+            acumular_promedios(nodo.right)
+
+        acumular_promedios(tema.preguntas)
+        return suma / count if count > 0 else 0
+
+def obtener_ids_pregunta(pregunta):
+    ids = []
+
+    def recorrer_encuestados(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        recorrer_encuestados(nodo.left)
+        ids.append(nodo.val.id)
+        recorrer_encuestados(nodo.right)
+
+    recorrer_encuestados(pregunta.encuestados)
+    return ids
+
+def mostrar_ids_encuesta_completa(raiz_temas):
+    """
+    Muestra en una única línea los IDs de todos los encuestados de toda la encuesta (ABB).
+    """
+    def recorrer_temas(nodo_tema):
+        if nodo_tema is None or nodo_tema.val is None:
+            return
+        recorrer_temas(nodo_tema.left)
+
+        tema = nodo_tema.val
+        recorrer_preguntas(tema.preguntas)
+
+        recorrer_temas(nodo_tema.right)
+
+    def recorrer_preguntas(nodo_pregunta):
+        if nodo_pregunta is None or nodo_pregunta.val is None:
+            return
+        recorrer_preguntas(nodo_pregunta.left)
+
+        pregunta = nodo_pregunta.val
+        imprimir_ids_encuestados_abb(pregunta.encuestados)
+
+        recorrer_preguntas(nodo_pregunta.right)
+
+    recorrer_temas(raiz_temas)
+    print()  # salto de línea final
+
+def imprimir_ids_encuestados_abb(nodo):
+    """
+    Imprime los IDs de un ABB de encuestados en una misma línea, sin usar estructuras auxiliares.
+    """
+    if nodo is None or nodo.val is None:
+        return
+    imprimir_ids_encuestados_abb(nodo.left)
+    print(nodo.val.id, end=" ")
+    imprimir_ids_encuestados_abb(nodo.right)
+
+def punto2_Abb(encuesta):
+    """
+    Por cada tema, se busca que las preguntas estén ordenadas 
+    descendentemente según su promedio del valor de opinión.
+    La salida se imprime por tema y por pregunta, mostrando sus promedios.
+    """
+    tiempo_inicio = time.time()
+
+    # Ejecutar recorrido
+    recorrer_temas(encuesta.Temas)
+
+    mostrar_ids_encuesta_completa(encuesta.Temas)
+
+    tiempo_final = time.time()
+    print(f"\nTiempo usado: {tiempo_final - tiempo_inicio:.4f} segundos")
+
+    return Arb_Size(encuesta.Temas), tiempo_final
 
 #Punto 3
 
@@ -208,8 +328,31 @@ abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
 
 #Punto 6
 
-def punto6_Abb():
-    print("#################################")
+def buscar_en_temas(nodo_tema, menor):
+    if nodo_tema is None or nodo_tema.val is None:
+        return menor
+
+    menor = buscar_en_temas(nodo_tema.left, menor)
+    tema = nodo_tema.val
+    menor = buscar_pregunta_menor_promedio(tema.preguntas, menor)
+    menor = buscar_en_temas(nodo_tema.right, menor)
+    return menor
+
+def punto6_Abb(encuesta):
+    """
+    Pregunta con menor promedio de opiniones
+    """
+    tiempo_inicio = time.time()
+
+    pregunta_menor_prom = buscar_en_temas(encuesta.Temas, None)
+
+    if pregunta_menor_prom:
+        print(f"La pregunta con menor promedio es la '{pregunta_menor_prom.getNombre()}' con promedio {round(pregunta_menor_prom.promedio_opinion(), 2)}")
+    else:
+        print("No se encontró ninguna pregunta.")
+
+    tiempo_final = time.time()
+    print(f"Tiempo usado: {tiempo_final - tiempo_inicio}")
 
 #Punto 8
 
@@ -315,8 +458,48 @@ abb_punto9 = abb_mayor_moda(copy.deepcopy(encuesta_abb))
 
 #Punto 10
 
-def punto10_Abb():
-    print("#################################")
+def buscar_en_temas_10(nodo_tema, menor):
+    if nodo_tema is None or nodo_tema.val is None:
+        return menor
+
+    menor = buscar_en_temas_10(nodo_tema.left, menor)
+    tema = nodo_tema.val
+    menor = buscar_pregunta_menor_moda(tema.preguntas, menor)
+    menor = buscar_en_temas_10(nodo_tema.right, menor)
+    return menor
+
+def punto10_Abb(encuesta):
+    """
+    Encuentra y muestra la pregunta con el menor valor de moda de opiniones
+    en toda la encuesta, recorriendo todos los temas y preguntas.
+    """
+    tiempo_inicio = time.time()
+
+    pregunta_menor_moda = buscar_en_temas(encuesta.Temas, None)
+
+    if pregunta_menor_moda:
+        moda = moda_opinion(pregunta_menor_moda)
+        print(f"La pregunta con menor moda es '{pregunta_menor_moda.getNombre()}' con moda {moda}")
+    else:
+        print("No se encontró ninguna pregunta.")
+
+    tiempo_final = time.time()
+    print(f"Tiempo usado: {tiempo_final - tiempo_inicio:.4f} segundos")
+
+def moda_opinion(pregunta):
+    frecuencias = [0] * 11  # Opiniones entre 0 y 10
+    def recorrer(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        recorrer(nodo.left)
+        frecuencias[nodo.val.opinion] += 1
+        recorrer(nodo.right)
+
+    recorrer(pregunta.encuestados)
+    max_frec = max(frecuencias)
+    for i in range(11):
+        if frecuencias[i] == max_frec:
+            return i  # Retorna la menor moda (en caso de empate)
 
 #Punto 11
 
@@ -421,3 +604,47 @@ def abb_insert_consenso(root, pregunta):
             abb_insert_consenso(root.right, pregunta)
 
 abb_punto12 = abb_mayor_consenso(encuesta_abb)
+
+
+def seleccionarFuncionAbb(metodo: int):
+    """
+    1. ordenar los encuestrados en cada pregunta segun su valor de opinion. 
+    2. por cada tema, ordenar las preguntas por su promedio del valor de opinion de forma descendente.
+    3. ordenar los temas por el promedio de sus preguntas.
+    4. ordenar a todos los encuestados segun su experticia.
+    5. Pregunta con mayor promedio de opiniones.
+    6. Pregunta con menor promedio de opiniones.
+    7. Pregunta con mayor  mediana de opiniones.
+    8. Pregunta con menor mediana  opiniones.
+    9. Pregunta con el mayor valor de moda de opiniones.
+    10. Pregunta con el menor valor de moda de opiniones.
+    11. Pregunta con mayor valor de extremismo.
+    12. Pregunta con mayor consenso
+    """
+    match metodo:
+        case 1:
+            pass
+        case 2:
+            return punto2_Abb
+        case 3:
+            pass
+        case 4:
+            return punto4_Abb
+        case 5:
+            pass
+        case 6:
+            return punto6_Abb
+        case 7:
+            pass
+        case 8:
+            return punto8_Abb
+        case 9:
+            pass
+        case 10:
+            return punto10_Abb
+        case 11:
+            pass
+        case 12:
+            pass
+        case _:
+            raise ValueError("funcion no implementada.")        
