@@ -2,8 +2,26 @@ import time, copy
 
 from data_structures.listadoble import List_Median, List_Merge_Sort, List_Print, List_Size
 
+def contar_encuestados_encuesta_LDE(temas):
+    """
+    Retorna el número total de encuestados en toda la encuesta (estructura LDE).
+    """
+    total = 0
+    nodo_tema = temas
+    while nodo_tema:
+        tema = nodo_tema.data
+        nodo_pregunta = tema.preguntas
+        while nodo_pregunta:
+            pregunta = nodo_pregunta.data
+            nodo_encuestado = pregunta.encuestados
+            while nodo_encuestado:
+                total += 1
+                nodo_encuestado = nodo_encuestado.next
+            nodo_pregunta = nodo_pregunta.next
+        nodo_tema = nodo_tema.next
+    return total
+
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
-#Insertion sort: lde
 #Insertion sort: lde
 def lde_insertion_sort(head):
     key=head.next
@@ -180,7 +198,7 @@ def punto2_LDE(encuesta):
 
     tiempo_final = time.time()
 
-    return List_Size(encuesta.Temas) , tiempo_final - tiempo_inicio
+    return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
 
 #Punto 3
 
@@ -302,6 +320,9 @@ def punto6_LDE(encuesta):
     """
     Encuentra la pregunta con menor promedio de opiniones en toda la encuesta.
     """
+
+    tiempo_inicio = time.time()
+
     nodo_tema = encuesta.Temas
     menor_pregunta = None
 
@@ -318,6 +339,10 @@ def punto6_LDE(encuesta):
         print(f"La pregunta con menor promedio es '{menor_pregunta.nombre}' con promedio {round(promedio_opinion(menor_pregunta), 2)}")
     else:
         print("No se encontró ninguna pregunta.")
+
+    tiempo_final = time.time()
+
+    return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
 
 #Punto 8
 
@@ -402,6 +427,8 @@ def punto10_LDE(encuesta):
      Encuentra y muestra la pregunta con el menor valor de moda de opiniones
      en toda la encuesta, recorriendo todos los temas y preguntas.
      """
+     tiempo_inicio = time.time()
+     
      nodo_tema = encuesta.Temas
      menor_pregunta = None
 
@@ -418,6 +445,11 @@ def punto10_LDE(encuesta):
           print(f"La pregunta con menor moda es '{menor_pregunta.nombre}' con moda {moda_opinion(menor_pregunta)}")
      else:
           print("No se encontró ninguna pregunta.")
+
+
+     tiempo_final = time.time()
+
+     return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
 
 def promedio_opinion(pregunta):
     nodo = pregunta.encuestados

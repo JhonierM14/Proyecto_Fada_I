@@ -115,7 +115,6 @@ def List_Divide(lista):
 
     return lista_izq, lista_der # Retornamos las dos mitades de la lista
 
-
 def List_Merge(lista_izq, lista_der, metodo, orden):
     merged = None
 

@@ -32,11 +32,12 @@ def comparar_funciones_y_graficar(funcion1, funcion2, entradas, etiquetas=("LDE"
 
     plt.plot(tamaños1, tiempos1, marker='o', label=etiquetas[0], color='blue')
     plt.plot(tamaños2, tiempos2, marker='o', label=etiquetas[1], color='green')
-    plt.xlabel("Tamaño de entrada (cantidad de preguntas o nodos)")
+    plt.xlabel("Tamaño de entrada (cantidad de encuestados)")
     plt.ylabel("Tiempo de ejecución (segundos)")
     plt.title("Comparación de funciones LDE vs ABB")
     plt.grid(True)
     plt.legend()
     plt.show()
 
-comparar_funciones_y_graficar(punto6_LDE, punto6_Abb, entradas)
+comparar_funciones_y_graficar(punto2_LDE, punto2_Abb, entradas)
+

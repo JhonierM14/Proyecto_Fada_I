@@ -2,6 +2,45 @@ import time
 
 from data_structures.abb import Arb_Insert, Arb_Median, Arb_Size, abb, buscar_pregunta_menor_moda, buscar_pregunta_menor_promedio, insertar_pregunta_arbol, promedio_opinion
 
+def contar_encuestados_encuesta_ABB(raiz_temas):
+    """
+    Retorna el número total de encuestados en toda la encuesta (estructura ABB).
+    """
+    total = 0
+
+    def recorrer_temas(nodo_tema):
+        nonlocal total
+        if nodo_tema is None or nodo_tema.val is None:
+            return
+        recorrer_temas(nodo_tema.left)
+
+        tema = nodo_tema.val
+        recorrer_preguntas(tema.preguntas)
+
+        recorrer_temas(nodo_tema.right)
+
+    def recorrer_preguntas(nodo_pregunta):
+        nonlocal total
+        if nodo_pregunta is None or nodo_pregunta.val is None:
+            return
+        recorrer_preguntas(nodo_pregunta.left)
+
+        pregunta = nodo_pregunta.val
+        recorrer_encuestados(pregunta.encuestados)
+
+        recorrer_preguntas(nodo_pregunta.right)
+
+    def recorrer_encuestados(nodo_enc):
+        nonlocal total
+        if nodo_enc is None or nodo_enc.val is None:
+            return
+        recorrer_encuestados(nodo_enc.left)
+        total += 1
+        recorrer_encuestados(nodo_enc.right)
+
+    recorrer_temas(raiz_temas)
+    return total
+
 #Punto 1
 #Funcion propia que reemplaza el len de python
 def cant(lst):
@@ -171,7 +210,7 @@ def mostrar_ids_encuesta_completa(raiz_temas):
         recorrer_preguntas(nodo_pregunta.right)
 
     recorrer_temas(raiz_temas)
-    print()  # salto de línea final
+    print()
 
 def imprimir_ids_encuestados_abb(nodo):
     """
@@ -199,7 +238,7 @@ def punto2_Abb(encuesta):
     tiempo_final = time.time()
     print(f"\nTiempo usado: {tiempo_final - tiempo_inicio:.4f} segundos")
 
-    return Arb_Size(encuesta.Temas), tiempo_final
+    return contar_encuestados_encuesta_ABB(encuesta.Temas), tiempo_final - tiempo_inicio
 
 #Punto 3
 
@@ -352,7 +391,8 @@ def punto6_Abb(encuesta):
         print("No se encontró ninguna pregunta.")
 
     tiempo_final = time.time()
-    print(f"Tiempo usado: {tiempo_final - tiempo_inicio}")
+    
+    return contar_encuestados_encuesta_ABB(encuesta.Temas), tiempo_final - tiempo_inicio
 
 #Punto 8
 
@@ -484,7 +524,8 @@ def punto10_Abb(encuesta):
         print("No se encontró ninguna pregunta.")
 
     tiempo_final = time.time()
-    print(f"Tiempo usado: {tiempo_final - tiempo_inicio:.4f} segundos")
+    
+    return contar_encuestados_encuesta_ABB(encuesta.Temas), tiempo_final - tiempo_inicio
 
 def moda_opinion(pregunta):
     frecuencias = [0] * 11  # Opiniones entre 0 y 10
