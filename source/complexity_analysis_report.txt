@@ -1,0 +1,87 @@
+REPORTE DE ANÁLISIS DE COMPLEJIDAD
+============================================================
+Fecha: 2025-07-26 07:29:00
+Archivo de datos: improved_benchmark_results.csv
+Número de muestras: 18
+
+================================================================================
+ANÁLISIS DETALLADO DE COMPLEJIDAD
+================================================================================
+
+PROBLEMAS IDENTIFICADOS:
+----------------------------------------
+1. Ratio promedio LDE Actual/Teórico: 0.47009678
+2. Ratio promedio ABB Actual/Teórico: 1.48704742
+3. Los tiempos reales son 2x más pequeños que los teóricos
+
+POSIBLES CAUSAS:
+----------------------------------------
+1. Las implementaciones no procesan todos los encuestados
+2. Hay optimizaciones no consideradas en el análisis teórico
+3. Los algoritmos usan estructuras de datos más eficientes
+4. La medición de tiempo no incluye todo el procesamiento
+5. Los datos sintéticos no representan casos reales
+
+RECOMENDACIONES:
+----------------------------------------
+1. Revisar las implementaciones de punto4_LDE y punto4_Abb
+2. Verificar que se procesen todos los encuestados
+3. Analizar la complejidad real de los algoritmos implementados
+4. Usar datos de prueba más realistas
+5. Implementar mediciones más precisas
+
+ANÁLISIS POR TAMAÑO:
+----------------------------------------
+
+Tamaño 19381 (1110773 encuestados):
+  LDE P4: 0.370ms (teórico: 22307.8ms)
+  ABB P4: 0.138ms (teórico: 11153.9ms)
+  Ratio LDE: 0.00001660
+  Ratio ABB: 0.00001241
+
+Tamaño 29071 (2591354 encuestados):
+  LDE P4: 0.359ms (teórico: 55209.5ms)
+  ABB P4: 0.155ms (teórico: 27604.8ms)
+  Ratio LDE: 0.00000651
+  Ratio ABB: 0.00000563
+
+Tamaño 43606 (5827564 encuestados):
+  LDE P4: 0.400ms (teórico: 130971.4ms)
+  ABB P4: 0.161ms (teórico: 65485.7ms)
+  Ratio LDE: 0.00000305
+  Ratio ABB: 0.00000246
+
+Tamaño 65409 (12684053 encuestados):
+  LDE P4: 0.407ms (teórico: 299299.4ms)
+  ABB P4: 0.150ms (teórico: 149649.7ms)
+  Ratio LDE: 0.00000136
+  Ratio ABB: 0.00000100
+
+Tamaño 98113 (29046533 encuestados):
+  LDE P4: 0.486ms (teórico: 720117.7ms)
+  ABB P4: 0.164ms (teórico: 360058.8ms)
+  Ratio LDE: 0.00000068
+  Ratio ABB: 0.00000046
+
+DATOS COMPLETOS:
+------------------------------------------------------------
+Size     Encuestados  LDE P4     ABB P4     Ratio LDE    Ratio ABB   
+------------------------------------------------------------
+100      24           0.604      0.969      5.49034552   17.61792798 
+150      73           0.851      0.173      1.88315229   0.76543185  
+225      202          1.118      0.453      0.72246713   0.58565920  
+337      245          0.369      0.131      0.18960097   0.13495633  
+505      718          0.814      0.132      0.11949623   0.03884823  
+757      1603         0.566      64.883     0.03313691   7.60356103  
+1135     3437         0.507      0.163      0.01254859   0.00808228  
+1702     9386         0.963      0.580      0.00777209   0.00935885  
+2553     21009        0.525      0.331      0.00174114   0.00219664  
+3829     39936        0.675      0.163      0.00110570   0.00053534  
+5743     99432        0.355      0.132      0.00021501   0.00016032  
+8614     220985       0.342      0.145      0.00008723   0.00007402  
+12921    495419       0.422      0.185      0.00004502   0.00003948  
+19381    1110773      0.370      0.138      0.00001660   0.00001241  
+29071    2591354      0.359      0.155      0.00000651   0.00000563  
+43606    5827564      0.400      0.161      0.00000305   0.00000246  
+65409    12684053     0.407      0.150      0.00000136   0.00000100  
+98113    29046533     0.486      0.164      0.00000068   0.00000046  
