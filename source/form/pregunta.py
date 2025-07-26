@@ -1,10 +1,14 @@
-from form.AlgoritmosOrdenamiento.MedidasTenciaCentral import promedio
 from form.encuestado import Encuestado
+from data_structures.abb import abb
 
 class Pregunta:
-    def __init__(self, nombre: str, encuestados: list[Encuestado]):
+    def __init__(self, id: int, nombre: str, encuestados):
+        self.id = id
         self.nombre = nombre
         self.encuestados = encuestados
+    
+    def getID(self) -> int:
+        return self.id
 
     def getNombre(self) -> str:
         return self.nombre
@@ -12,26 +16,47 @@ class Pregunta:
     def getEncuestados(self):
         return self.encuestados
 
-    def getIDS(self) -> list[int]:
-        """
-        Retorna una lista con los ids de los encuestados de una pregunta 
-        """
-        return [e.getID() for e in self.encuestados]
+    
+    # ----------------------------------------------- ABB -----------------------------------------------
 
-    def get_experticias(self) -> list[int]:
-        """
-        Retorna una lista con la experticia de los encuestados de una pregunta
-        """
-        return [e.getExperticia() for e in self.encuestados]
-    
-    def get_opiniones(self) -> list[int]:
-        """
-        Retorna una lista con las opiniones de todos los encuestados de una pregunta
-        """
-        return [e.getOpinion() for e in self.encuestados]
-    
-    def getPromedioPregunta(self) -> int:
-        """
-        Retorna el puntaje promedio de la pregunta
-        """
-        return round(promedio(self.get_opiniones()), 2)
+    def get_ids_encuestados(self):
+        def insertar_id(arbol, id_val):
+            if arbol.val is None:
+                arbol.val = id_val
+                return
+            if id_val < arbol.val:
+                if arbol.left:
+                    insertar_id(arbol.left, id_val)
+                else:
+                    arbol.left = abb(id_val)
+            else:
+                if arbol.right:
+                    insertar_id(arbol.right, id_val)
+                else:
+                    arbol.right = abb(id_val)
+
+        def recorrer_y_insertar(nodo_enc, arbol_ids):
+            if nodo_enc is None or nodo_enc.val is None:
+                return
+            recorrer_y_insertar(nodo_enc.left, arbol_ids)
+            insertar_id(arbol_ids, nodo_enc.val.id)
+            recorrer_y_insertar(nodo_enc.right, arbol_ids)
+
+        arbol_ids = abb()
+        recorrer_y_insertar(self.encuestados, arbol_ids)
+        return arbol_ids
+
+    def promedio_opinion(self):
+        def _suma_opiniones(nodo: abb):
+            if nodo is None or nodo.val is None:
+                return 0, 0  # suma, cantidad
+            suma_izq, cant_izq = _suma_opiniones(nodo.left)
+            suma_der, cant_der = _suma_opiniones(nodo.right)
+            
+            encuestado : Encuestado = nodo.getVal()
+            suma_total = suma_izq + encuestado.getOpinion() + suma_der
+            cantidad_total = cant_izq + 1 + cant_der
+            return suma_total, cantidad_total
+
+        suma, cantidad = _suma_opiniones(self.getEncuestados())
+        return suma / cantidad if cantidad > 0 else 0

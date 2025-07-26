@@ -44,7 +44,7 @@ def Encuestado_a_Objeto(texto, id):
     
     return Encuestado(id, nombre, int(experiencia), int(opinion)) 
 
-def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
+def Pregunta_a_Objeto(texto, id, nombre, lista_todos_encuestados):
     partes = texto.strip('{}')
     partes = partes.split(', ')
     lista_encuestados_pregunta = None
@@ -56,7 +56,7 @@ def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
         lista_encuestados_pregunta = List_Insert_End(lista_encuestados_pregunta, encuestado_obj)
         arbol_encuestados_pregunta = Arb_Insert(arbol_encuestados_pregunta, encuestado_obj, lambda e: e.getID())
 
-    return Pregunta(nombre, lista_encuestados_pregunta), Pregunta(nombre, arbol_encuestados_pregunta)
+    return Pregunta(id, nombre, lista_encuestados_pregunta), Pregunta(id, nombre, arbol_encuestados_pregunta)
 
 def Texto_a_Encuesta(archivo):
     with open("source/tests/" + archivo, "r", encoding='utf-8') as documento:
@@ -84,7 +84,7 @@ def Texto_a_Encuesta(archivo):
                 for j in range(1, M+1):
                     texto_pregunta = parrafos[i].split("\n")[j]
                     nombre_pregunta = str(i+j*0.1)
-                    pregunta_lista, pregunta_arbol = Pregunta_a_Objeto(texto_pregunta, nombre_pregunta, lista_encuestados)
+                    pregunta_lista, pregunta_arbol = Pregunta_a_Objeto(texto_pregunta, j, nombre_pregunta, lista_encuestados)
 
                     lista_preguntas = List_Insert_End(lista_preguntas, pregunta_lista)
                     arbol_preguntas = Arb_Insert(arbol_preguntas, pregunta_arbol, lambda e: e.getNombre())
@@ -94,8 +94,8 @@ def Texto_a_Encuesta(archivo):
                     if Nmax < List_Size(pregunta_lista.getEncuestados()):
                         Nmax = List_Size(pregunta_lista.getEncuestados())
 
-                tema_lista = Tema(i, lista_preguntas)
-                tema_arbol = Tema(i, arbol_preguntas)
+                tema_lista = Tema(i, i, lista_preguntas)
+                tema_arbol = Tema(i, i, arbol_preguntas)
 
                 lista_temas = List_Insert_End(lista_temas, tema_lista)
                 arbol_temas = Arb_Insert(arbol_temas, tema_arbol, lambda e: e.getNombre())

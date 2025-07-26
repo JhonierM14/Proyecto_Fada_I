@@ -1,5 +1,5 @@
 class Encuestado:
-    def __init__(self, id: int, nombre: str, experticia: int, opinion: int) -> object:
+    def __init__(self, id: int, nombre: str, experticia: int, opinion: int):
         self.id = id 
         self.nombre = nombre
         self.experticia = experticia

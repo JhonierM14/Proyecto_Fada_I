@@ -37,18 +37,3 @@ class Encuesta():
         self.Nmax = Nmax
     def setTemas(self, Temas: list[Tema]):
         self.Temas = Temas
-    
-    def organizarPreguntasDeTemaPorPromedioMerge(self) -> list:
-        """
-        Retorna las preguntas de los temas asociados a una encuesta ordenadas por promedio
-        """
-        return self.getTemas().ordenarPreguntasPromedioMerge()
-
-    def getIDSEncuestadosEncuesta(self) -> list[int]:
-        """
-        Retorna el id de todos los participantes de la encuesta
-        """
-        aux = []
-        for tema in self.Temas:
-            aux += tema.getIDSEncuentadosTema()
-        return aux
