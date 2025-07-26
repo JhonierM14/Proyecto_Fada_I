@@ -92,14 +92,22 @@ def Arb_Median(arbol, metodo):
         return elementos[n // 2 - 1]
 
 def promedio_opinion(pregunta):
+    """
+    Calcula el promedio de opinión de los encuestados de una pregunta (ABB).
+    """
     total = 0
     count = 0
-    nodo = pregunta.encuestados
-    while nodo:
-        enc = nodo.val
-        total += enc.opinion
+
+    def recorrer(nodo):
+        nonlocal total, count
+        if nodo is None or nodo.val is None:
+            return
+        recorrer(nodo.left)
+        total += nodo.val.opinion
         count += 1
-        nodo = nodo.right  # recorrido in-order
+        recorrer(nodo.right)
+
+    recorrer(pregunta.encuestados)
     return total / count if count > 0 else 0
 
 def buscar_pregunta_menor_promedio(raiz, menor=None):

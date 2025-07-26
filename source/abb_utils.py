@@ -111,7 +111,7 @@ def recorrer_preguntas_ordenadas_por_promedio(raiz_preguntas):
         preg = nodo.val
         ids = obtener_ids_pregunta(preg)
         prom = round(preg.promedio_opinion(), 2)
-        print(f"\n[{prom}] Pregunta {preg.nombre}: ({', '.join(map(str, ids))})")
+        print(f"[{prom}] Pregunta {preg.nombre}: ({', '.join(map(str, ids))})")
         imprimir_en_orden(nodo.right)
 
     imprimir_en_orden(nuevo_arbol)
@@ -125,7 +125,7 @@ def promedio_tema(tema):
             if nodo is None or nodo.val is None:
                 return
             acumular_promedios(nodo.left)
-            pregunta: Pregunta = nodo.val
+            pregunta = nodo.val
             suma += promedio_opinion(pregunta)
             count += 1
             acumular_promedios(nodo.right)
