@@ -1,39 +1,45 @@
 from controlador_LDE import *
 
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
-def punto1_LDE():
-     # Se asigna a "lista" el arreglo que se quiere ordenar:
-     lista: list = pregunta1_1.encuestados
-     list_encuestados=[]
-     for e in lista:
-          list_encuestados.append(e.getID())
-     print("Orden original: ", list_encuestados)
+#Insertion sort: lde
+def lde_insertion_sort(head):
+    key=head.next
+    while key:
+        i=key.prev
+        while i and key.data.getOpinion()>=i.data.getOpinion():
+            key_0=copy.copy(key)
+            if key.data.getOpinion()==i.data.getOpinion():
+                if key.data.getExperticia()>i.data.getExperticia():
+                    key.data=i.data
+                    i.data=key_0.data
+                    #Este if verifica si i NO es el primer elemento de la lista, ya que si lo fuera
+                    #no tendria sentido asignarle a key la primera posicion de la lista, porque esto causaria una verificacion extra innecesaria
+                    if i.prev:
+                        key=i
+                    i=i.prev
+                else:
+                    i=i.prev
+            else:
+                key.data=i.data
+                i.data=key_0.data
+                if i.prev:
+                    key=i
+                i=i.prev        
+        key=key.next
+    return head
+    
+head = lde_insertion_sort(copy.deepcopy(pregunta1_1_lde.encuestados))
 
-     for j in range(1, len(lista)):
-          key=lista[len(lista)-j-1]
-          i=len(lista)-j
-          while i<len(lista) and key.getOpinion()<=lista[i].getOpinion():
-               if key.getOpinion()==lista[i].getOpinion():
-                    if key.getExperticia()>=lista[i].getExperticia():
-                         #print(lista[i-1].getID())
-                         #print(key.getID())
-                         lista[i-1]=key
-                         key=lista[i]
-                    else:
-                         lista[i-1]=lista[i]
-               else:
-                    lista[i-1]=lista[i]
-               i=i+1
-          lista[i-1]=key
-          #print(lista)
+#Para mostrar la id de los encuestados
+def lde_displayID(head):
+    current = head
+    while current:
+        print(current.data.getID(), end=" <-> ")
+        current = current.next
+    print("None")
 
-     #Toca hacer esto para mostrar las ids
-     list_encuestados=[]
-     for e in lista:
-          list_encuestados.append(e.getID())
-
-     print("Nuevo orden: ", list_encuestados)
-
+print("Encuestados de la pregunta 1 (con lde): ")
+lde_displayID(head)
 #Punto 2
 
 def punto2_LDE():
