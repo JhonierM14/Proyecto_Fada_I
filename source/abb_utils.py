@@ -1,10 +1,6 @@
 from controlador_abb import *
 
 #Punto 1
-
-#Punto 1 con ABB:
-lista: list = #Ingrese la lista de encuestados
-
 #Funcion propia que reemplaza el len de python
 def cant(lst):
     a=0
@@ -13,16 +9,17 @@ def cant(lst):
         lst.pop(0)
     return a 
 
-#Funcion que retorna el abb con los encuestados ya ordenados
-def abb_encuestados(lst):
+def abb_encuestados(arb):
     i=1
-    root=abb(lst[0])
-    while i<cant(copy.copy(lst)):
-        abb_insert_encuestados(root, lst[i])
+    arr=[]
+    abb_to_array(arr, arb)
+    #root sera la raiz del nuevo arbol ordenado por la opinion
+    root=abb(arr[0])
+    while i<cant(copy.copy(arr)):
+        abb_insert_encuestados(root, arr[i])
         i=i+1
     return root
 
-#Insertar los encuestados en un abb segun su opinion, o experticia en caso de empate
 def abb_insert_encuestados(root, key):
     if root is None:
         return abb(key)
@@ -51,18 +48,33 @@ def abb_insert_encuestados(root, key):
         else:
             abb_insert_encuestados(root.right, key)
 
-#Sirve para imprimir la id de los encuestados en orden descendente segun su opinion
-def inorder_encuestados(root):
+#Sirve para crear un arreglo con la id de todos los elementos del arbol en orden descendiente
+def inorder_encuestados(root, arr):
     if root is None:
         return root
-    inorder_encuestados(root.right)
-    print(root.val.getID(), end=" ")
-    inorder_encuestados(root.left)
+    inorder_encuestados(root.right, arr)
+    arr.append(root.val.getID())
+    inorder_encuestados(root.left, arr)
+    return arr
 
-root = abb_encuestados(lista)
-print("Encuestados de la pregunta 1 (con abb): ")
-inorder_encuestados(root)
-print(" ")
+#Sirve para crear un string "str" que tiene la informacion necesaria para la primer parte de la salida
+def abb_escribir_opiniones(encuesta):
+    str=""
+    temas = encuesta.getTemas()
+    while temas:
+        str = str + "Tema "+f"{temas.val.getNombre()}: " + "\n"
+        preguntas = temas.val.getPreguntas()
+        while preguntas:
+            arr = []
+            encuestados = preguntas.val.getEncuestados()
+            root = abb_encuestados(encuestados)
+            str = str + "Pregunta " + f"{preguntas.val.getNombre()}: " + f"{inorder_encuestados(root, arr)}" + "\n"
+            preguntas=preguntas.right
+        temas = temas.right
+    return str
+
+#Salida del abb
+abb_print=abb_escribir_opiniones(encuesta_abb)
 
 #Punto 2
 
@@ -120,10 +132,79 @@ def Ordenar_Tema_Por_Promedio(arbol):
 
 def punto4_Abb():
     pass
-#Punto 5
 
-def punto5_Abb():
-    pass
+
+#Punto 5
+def abb_mayor_promedio(encuesta):
+    temas=[]
+    copy.copy(abb_to_array(temas, encuesta.Temas))
+    preguntas=[]
+    i=0
+    while i<cant(copy.copy(temas)):
+        aux=[]
+        abb_to_array(aux, temas[i].getPreguntas())
+        preguntas = preguntas + aux
+        i=i+1
+    root=abb_promedios(preguntas)
+
+    while root.right:
+        root=root.right
+    return "Pregunta de la encuesta con mayor promedio: ["+ f"{promedio(root.val.obtener_opiniones())}" + "] Pregunta: " + root.val.nombre 
+
+def abb_promedios(preguntas):
+    encuestados = []
+    abb_to_array(encuestados, preguntas[0].getEncuestados())
+    preguntas[0].setEncuestados(encuestados)
+    root= abb(preguntas[0])    
+    i=1
+    while i<cant(copy.copy(preguntas)):
+        encuestados = []
+        abb_to_array(encuestados, preguntas[i].getEncuestados())
+        preguntas[i].setEncuestados(encuestados)
+        abb_insert_promedios(root, abb(preguntas[i]))
+        i=i+1
+    return root
+
+def abb_insert_promedios(root, pregunta):
+    prom_root = promedio(root.val.obtener_opiniones())
+    prom2 = promedio(pregunta.val.obtener_opiniones())
+    exp_root = promedio(root.val.obtener_experticias())
+    exp2 = promedio(pregunta.val.obtener_experticias())
+    
+    if prom_root < prom2:
+        if root.right == None:
+            root.right = pregunta
+        else:
+            abb_insert_promedios(root.right, pregunta)
+    elif prom_root == prom2:
+        if exp_root < exp2:
+            if root.right == None:
+                root.right = pregunta
+            else:
+                abb_insert_promedios(root.right, pregunta)
+        elif exp_root>=exp2:
+                if root.left == None:
+                    root.left= pregunta
+                else:
+                    abb_insert_promedios(root.left, pregunta)
+        else:
+            if cant(copy.copy(root.val.encuestados)) >= cant(copy.copy(pregunta.val.encuestados)):
+                if root.left == None:
+                    root.left = pregunta
+                else:
+                    abb_insert_promedios(root.left, pregunta)
+            else:
+                if root.right == None:
+                    root.right= pregunta
+                else:
+                    abb_insert_promedios(root.right, pregunta)
+    else:
+        if root.left == None:
+            root.left= pregunta
+        else:
+            abb_insert_promedios(root.left, pregunta)
+
+abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
 
 #Punto 6
 
@@ -137,8 +218,100 @@ def punto8_Abb():
 
 #Punto 9
 
-def punto9_Abb():
-    pass
+def abb_moda(opiniones):
+    map_moda = []  
+    while opiniones:
+        key=opiniones[0]
+        i=1
+        a=1
+        length = cant(copy.copy(opiniones))
+        while i< length:
+            if key==opiniones[i]:
+                a=a+1
+                opiniones.pop(i)
+                length=length-1
+                i=i-1
+            i=i+1
+        map_moda.append([key, a])
+        opiniones.pop(0)
+
+    while map_moda:
+        key=map_moda[0]
+        i=1
+        length = cant(copy.copy(map_moda))
+        while i < length and key[1] >= map_moda[i][1]:
+            if key[1] == map_moda[i][1]:
+                if key[0] <= map_moda[i][0]:
+                    i=i+1
+                else:
+                    key=map_moda[i]
+            else:
+                i=i+1
+        if i<length:
+            map_moda.pop(0)
+        else:
+            return key
+    return key
+
+def abb_mayor_moda(encuesta):
+    temas=[]
+    abb_to_array(temas, encuesta.Temas)
+    preguntas=[]
+    i=0
+    while i<cant(copy.copy(temas)):
+        aux=[]
+        abb_to_array(aux, temas[i].getPreguntas())
+        preguntas = preguntas + aux
+        i=i+1
+    root=abb_modas(preguntas)
+
+    while root.right:
+        root=root.right
+    return "Pregunta con mayor moda de opinion: " + "[" + f"{abb_moda(root.val.obtener_opiniones())[0]}" + "] Pregunta: " + root.val.nombre
+        
+def abb_modas(preguntas):
+    encuestados = []
+    abb_to_array(encuestados, preguntas[0].getEncuestados())
+    preguntas[0].setEncuestados(encuestados)
+    root = abb(preguntas[0])
+    i=1
+    while i<cant(copy.copy(preguntas)):
+        encuestados = []
+        abb_to_array(encuestados, preguntas[i].getEncuestados())
+        preguntas[i].setEncuestados(encuestados)
+        abb_insert_moda(root, abb(preguntas[i]))
+        i=i+1
+    return root
+
+def abb_insert_moda(root, pregunta):
+    moda_root = abb_moda(root.val.obtener_opiniones())[0]
+    moda2= abb_moda(pregunta.val.obtener_opiniones())[0]
+    
+    if moda_root < moda2:
+        if root.right == None:
+            root.right = pregunta
+        else:
+            abb_insert_moda(root.right, pregunta)
+
+    elif moda_root == moda2:
+        if root.val.nombre <= pregunta.val.nombre:
+                if root.left == None:
+                    root.left = pregunta
+                else:
+                    abb_insert_moda(root.left, pregunta)
+
+        else:
+            if root.right == None:
+                root.right = pregunta
+            else:
+                abb_insert_moda(root.right, pregunta)
+    else:
+        if root.left == None:
+            root.left = pregunta
+        else:
+            abb_insert_moda(root.left, pregunta)
+
+abb_punto9 = abb_mayor_moda(copy.deepcopy(encuesta_abb))
 
 #Punto 10
 
@@ -200,5 +373,51 @@ def Mayor_X_Pregunta(arbol, K, M, dato):
 
 #Punto 12
 
-def punto12_Abb():
-    pass
+def abb_mayor_consenso(encuesta):
+    temas=[]
+    abb_to_array(temas, encuesta.Temas)
+    preguntas=[]
+    i=0
+    while i<cant(copy.copy(temas)):
+        aux=[]
+        abb_to_array(aux, temas[i].getPreguntas())
+        preguntas = preguntas + aux
+        i=i+1
+
+    root=abb_consensos(preguntas)
+    
+    while root.right:
+        root=root.right
+    consenso = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.encuestados))
+    return "Pregunta con mayor consenso: " + "[" + f"{round(consenso, 2)}" + "] Pregunta: " + f"{root.val.nombre}"
+
+def abb_consensos(preguntas):
+    encuestados = []
+    abb_to_array(encuestados, preguntas[0].getEncuestados())
+    preguntas[0].setEncuestados(encuestados)
+    root = abb(preguntas[0])
+    i=1
+    while i<cant(copy.copy(preguntas)):
+        encuestados = []
+        abb_to_array(encuestados, preguntas[i].getEncuestados())
+        preguntas[i].setEncuestados(encuestados)
+        abb_insert_consenso(root, abb(preguntas[i]))
+        i=i+1
+    return root
+
+def abb_insert_consenso(root, pregunta):
+    cons_root = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.encuestados))
+    cons2 = abb_moda(pregunta.val.obtener_opiniones())[1]/cant(copy.deepcopy(pregunta.val.encuestados))
+    
+    if cons_root >= cons2:
+        if root.left == None:
+            root.left = pregunta
+        else:
+            abb_insert_consenso(root.left, pregunta)
+    else:
+        if root.right == None:
+            root.right = pregunta
+        else:
+            abb_insert_consenso(root.right, pregunta)
+
+abb_punto12 = abb_mayor_consenso(encuesta_abb)
