@@ -1,0 +1,76 @@
+Sofía Ruiz, Experticia: 7, Opinion: 2
+Valentina González, Experticia: 2, Opinion: 9
+Alejandro Sánchez, Experticia: 1, Opinion: 0
+Sebastián González, Experticia: 3, Opinion: 8
+Alejandro Sánchez, Experticia: 10, Opinion: 10
+Camila Sánchez, Experticia: 4, Opinion: 0
+Juan López, Experticia: 5, Opinion: 6
+Juan Torres, Experticia: 8, Opinion: 8
+Sebastián Díaz, Experticia: 1, Opinion: 6
+Valentina Pérez, Experticia: 5, Opinion: 3
+Camila Fernández, Experticia: 8, Opinion: 10
+Daniel Torres, Experticia: 5, Opinion: 2
+Isabella González, Experticia: 8, Opinion: 9
+Camila Rodríguez, Experticia: 10, Opinion: 2
+Luciana Torres, Experticia: 4, Opinion: 10
+Alejandro Vásquez, Experticia: 5, Opinion: 10
+Mateo Díaz, Experticia: 10, Opinion: 1
+Valentina Martínez, Experticia: 8, Opinion: 4
+Juan Torres, Experticia: 1, Opinion: 4
+Alejandro Sánchez, Experticia: 7, Opinion: 3
+Lucas Fernández, Experticia: 6, Opinion: 1
+Juan Vásquez, Experticia: 1, Opinion: 7
+Isabella Ruiz, Experticia: 10, Opinion: 10
+Isabella Ruiz, Experticia: 7, Opinion: 8
+Mateo Torres, Experticia: 3, Opinion: 8
+Mateo Pérez, Experticia: 10, Opinion: 2
+Juan Fernández, Experticia: 3, Opinion: 5
+Sofía Martínez, Experticia: 1, Opinion: 3
+Alejandro Díaz, Experticia: 6, Opinion: 1
+Sebastián Vásquez, Experticia: 1, Opinion: 10
+Sebastián Ruiz, Experticia: 1, Opinion: 3
+Alejandro García, Experticia: 8, Opinion: 3
+Isabella Vásquez, Experticia: 5, Opinion: 7
+Luciana Rodríguez, Experticia: 10, Opinion: 2
+Alejandro Torres, Experticia: 4, Opinion: 2
+Sofía López, Experticia: 5, Opinion: 9
+Luciana García, Experticia: 5, Opinion: 0
+Martina García, Experticia: 1, Opinion: 5
+Alejandro García, Experticia: 3, Opinion: 6
+Juan Martínez, Experticia: 4, Opinion: 0
+Juan Pérez, Experticia: 10, Opinion: 4
+Isabella Torres, Experticia: 6, Opinion: 3
+Lucas Vásquez, Experticia: 1, Opinion: 5
+Juan González, Experticia: 6, Opinion: 8
+Camila Martínez, Experticia: 5, Opinion: 8
+Daniel González, Experticia: 4, Opinion: 3
+Sebastián Ruiz, Experticia: 8, Opinion: 3
+Sebastián Rodríguez, Experticia: 10, Opinion: 9
+Martina Rodríguez, Experticia: 8, Opinion: 2
+Camila Martínez, Experticia: 4, Opinion: 9
+Mateo Sánchez, Experticia: 8, Opinion: 8
+Camila González, Experticia: 3, Opinion: 10
+Martina López, Experticia: 9, Opinion: 7
+Martina Martínez, Experticia: 10, Opinion: 9
+Isabella Sánchez, Experticia: 8, Opinion: 10
+Camila Rodríguez, Experticia: 7, Opinion: 2
+Camila Martínez, Experticia: 4, Opinion: 2
+Mateo Pérez, Experticia: 8, Opinion: 2
+Daniel Sánchez, Experticia: 6, Opinion: 2
+Valentina García, Experticia: 5, Opinion: 7
+Alejandro Díaz, Experticia: 10, Opinion: 1
+Sofía Díaz, Experticia: 3, Opinion: 3
+Alejandro Torres, Experticia: 7, Opinion: 3
+Isabella Díaz, Experticia: 9, Opinion: 10
+
+{59, 18, 53}
+{55, 24, 50}
+{8, 56, 43}
+
+{50, 56, 41}
+{11, 29, 40}
+{3, 63}
+
+{1, 2}
+{58, 13}
+{3, 8, 32}

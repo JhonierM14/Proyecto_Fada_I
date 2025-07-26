@@ -1,4 +1,7 @@
 from controlador_LDE import *
+from data_structures.listadoble import *
+from data_structures.abb import *
+from form.AlgoritmosOrdenamiento.MedidasTenciaCentral import *
 
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
 def punto1_LDE():
@@ -62,7 +65,32 @@ def punto3_LDE():
 #Punto 4
 
 def punto4_LDE():
-     pass
+    """
+    Ordenar a todos los encuestados según su experticia (descendente)
+    En caso de empate, ordenar por ID (ascendente)
+    """    
+    # Cargar directamente en la Lista Doblemente Enlazada
+    head_lde = None
+    
+    # Recopilar y cargar encuestados directamente en la LDE
+    for tema in encuesta._iterate_temas():
+        for pregunta in tema._iterate_preguntas():
+            for encuestado in pregunta._iterate_encuestados():
+                # Cargar directamente en la LDE sin verificar duplicados
+                head_lde = List_Insert_End(head_lde, encuestado)
+    
+    # Usar el método de ordenamiento de la estructura LDE
+    lde_sorter = LDE(None)  # Instancia para usar los métodos
+    head_lde = lde_sorter.List_Merge_Sort_Experticia(head_lde)
+    
+    print("Lista de encuestados:")
+    current = head_lde
+    while current:
+        enc = current.getData()
+        print(f" ({enc.getID()}, Nombre:'{enc.getNombre()}', Experticia:{enc.getExperticia()}, Opinión:{enc.getOpinion()})")
+        current = current.getNext()
+    
+    print()
 
 #Punto 5
 
@@ -72,7 +100,7 @@ def punto5_LDE():
 #Punto 6
 
 def punto6_LDE():
-     print("#################################")
+     pass
 
 #Punto 7
 
@@ -82,7 +110,44 @@ def punto7_LDE():
 #Punto 8
 
 def punto8_LDE():
-     pass
+    """
+    Pregunta con menor mediana de opiniones
+    En caso de empate, se usa la pregunta con menor identificador
+    """
+
+    # Crear una lista doblemente enlazada para almacenar las preguntas con su mediana
+    head_preguntas = None
+    pregunta_id = 1
+    
+    # Cargar preguntas directamente en la LDE
+    for tema_idx, tema in enumerate(encuesta._iterate_temas(), 1):
+        for pregunta_idx, pregunta in enumerate(tema._iterate_preguntas(), 1):
+            # Obtener opiniones de la pregunta
+            opiniones = pregunta.get_opiniones()
+            mediana_pregunta = mediana(opiniones)
+            
+            # Crear objeto pregunta con mediana para la lista
+            pregunta_con_mediana = {
+                'pregunta': pregunta,
+                'mediana': mediana_pregunta,
+                'tema_idx': tema_idx,
+                'pregunta_idx': pregunta_idx,
+                'id': pregunta_id,
+                'nombre_completo': f"Pregunta {tema_idx}.{pregunta_idx}"
+            }
+            
+            # Insertar directamente en lista doblemente enlazada
+            head_preguntas = List_Insert_End(head_preguntas, pregunta_con_mediana)
+            pregunta_id += 1
+    
+    # Usar el método de ordenamiento de la estructura LDE
+    lde_sorter = LDE(None)  # Instancia para usar los métodos
+    head_preguntas = lde_sorter.List_Insertion_Sort_Mediana(head_preguntas)
+    
+    # La primera pregunta en la lista ordenada tiene la menor mediana
+    if head_preguntas:
+        return head_preguntas.getData()
+    return None
 
 #Punto 9
 
@@ -92,7 +157,7 @@ def punto9_LDE():
 #Punto 10
 
 def punto10_LDE():
-     print("#################################")
+     pass
 
 #Punto 11
 
@@ -102,4 +167,45 @@ def punto11_LDE():
 #Punto 12
 
 def punto12_LDE():
-     pass
+    """
+    Pregunta con mayor consenso, donde consenso se define como el porcentaje 
+    de los encuestados en la pregunta que tiene la opinión moda o la más frecuente
+    En caso de empate, se usa la pregunta con menor identificador
+    """    
+    # Crear una lista doblemente enlazada para almacenar las preguntas con su consenso
+    head_preguntas = None
+    pregunta_id = 1
+    
+    # Cargar preguntas directamente en la LDE
+    for tema_idx, tema in enumerate(encuesta._iterate_temas(), 1):
+        for pregunta_idx, pregunta in enumerate(tema._iterate_preguntas(), 1):
+            # Obtener opiniones de la pregunta
+            opiniones = pregunta.get_opiniones()
+            moda_pregunta = moda(opiniones)
+            consenso_pregunta = consenso(opiniones)
+            
+            # Crear objeto pregunta con consenso para la lista
+            pregunta_con_consenso = {
+                'pregunta': pregunta,
+                'consenso': consenso_pregunta,
+                'moda': moda_pregunta,
+                'tema_idx': tema_idx,
+                'pregunta_idx': pregunta_idx,
+                'id': pregunta_id,
+                'nombre_completo': f"Pregunta {tema_idx}.{pregunta_idx}"
+            }
+            
+            # Insertar directamente en lista doblemente enlazada
+            head_preguntas = List_Insert_End(head_preguntas, pregunta_con_consenso)
+            pregunta_id += 1
+    
+    # Usar el método de ordenamiento de la estructura LDE
+    lde_sorter = LDE(None)  # Instancia para usar los métodos
+    head_preguntas = lde_sorter.List_Insertion_Sort_Consenso(head_preguntas)
+    
+    # La primera pregunta en la lista ordenada tiene el mayor consenso
+    if head_preguntas:
+        return head_preguntas.getData()
+    return None
+
+

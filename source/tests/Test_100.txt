@@ -1,0 +1,115 @@
+Luis Rodriguez, Experticia: 9, Opinión: 10
+Francisco Jiménez, Experticia: 8, Opinión: 0
+Concepción Mendoza, Experticia: 4, Opinión: 7
+Carlos Martín, Experticia: 1, Opinión: 2
+Manuel Romero, Experticia: 4, Opinión: 4
+Laura Sánchez, Experticia: 5, Opinión: 9
+Alejandro Torres, Experticia: 1, Opinión: 1
+Isabel Moreno, Experticia: 9, Opinión: 2
+María López, Experticia: 4, Opinión: 0
+José Ortega, Experticia: 5, Opinión: 9
+Manuel Romero, Experticia: 7, Opinión: 3
+Alejandro Torres, Experticia: 1, Opinión: 7
+Manuel Romero, Experticia: 4, Opinión: 4
+José Ortega, Experticia: 9, Opinión: 9
+Concepción Mendoza, Experticia: 9, Opinión: 9
+Diego Fernández, Experticia: 10, Opinión: 5
+Teresa Navarro, Experticia: 8, Opinión: 5
+Carmen Ruiz, Experticia: 6, Opinión: 8
+Elena Álvarez, Experticia: 9, Opinión: 4
+Miguel Guerrero, Experticia: 1, Opinión: 3
+Patricia Díaz, Experticia: 5, Opinión: 6
+Roberto Pérez, Experticia: 8, Opinión: 5
+Antonio Vázquez, Experticia: 4, Opinión: 6
+María López, Experticia: 10, Opinión: 5
+Amparo Silva, Experticia: 10, Opinión: 7
+Laura Sánchez, Experticia: 7, Opinión: 7
+Carmen Ruiz, Experticia: 3, Opinión: 3
+Luis Rodriguez, Experticia: 1, Opinión: 6
+Roberto Pérez, Experticia: 5, Opinión: 4
+Miguel Guerrero, Experticia: 3, Opinión: 6
+Pilar Ramos, Experticia: 6, Opinión: 9
+Elena Álvarez, Experticia: 4, Opinión: 7
+Manuel Romero, Experticia: 10, Opinión: 8
+Elena Álvarez, Experticia: 8, Opinión: 2
+Manuel Romero, Experticia: 5, Opinión: 9
+Isabel Moreno, Experticia: 2, Opinión: 3
+Isabel Moreno, Experticia: 1, Opinión: 0
+Teresa Navarro, Experticia: 10, Opinión: 8
+Amparo Silva, Experticia: 3, Opinión: 6
+Carmen Ruiz, Experticia: 6, Opinión: 10
+Carlos Martín, Experticia: 8, Opinión: 4
+Ángel Herrera, Experticia: 5, Opinión: 2
+Isabel Moreno, Experticia: 5, Opinión: 10
+Manuel Romero, Experticia: 7, Opinión: 5
+Ana García, Experticia: 2, Opinión: 6
+Carmen Ruiz, Experticia: 1, Opinión: 3
+Concepción Mendoza, Experticia: 6, Opinión: 7
+Pilar Ramos, Experticia: 4, Opinión: 10
+Carmen Ruiz, Experticia: 6, Opinión: 1
+Luis Rodriguez, Experticia: 1, Opinión: 3
+Miguel Guerrero, Experticia: 6, Opinión: 0
+Carmen Ruiz, Experticia: 10, Opinión: 8
+Carlos Martín, Experticia: 7, Opinión: 6
+Patricia Díaz, Experticia: 9, Opinión: 3
+Francisco Jiménez, Experticia: 5, Opinión: 1
+Miguel Guerrero, Experticia: 5, Opinión: 6
+Laura Sánchez, Experticia: 6, Opinión: 5
+Carmen Ruiz, Experticia: 3, Opinión: 7
+Antonio Vázquez, Experticia: 7, Opinión: 2
+Laura Sánchez, Experticia: 1, Opinión: 3
+Rosa Delgado, Experticia: 7, Opinión: 9
+Dolores Castro, Experticia: 3, Opinión: 1
+Rosa Delgado, Experticia: 6, Opinión: 0
+Alejandro Torres, Experticia: 9, Opinión: 6
+Carmen Ruiz, Experticia: 5, Opinión: 4
+Amparo Silva, Experticia: 3, Opinión: 9
+Manuel Romero, Experticia: 7, Opinión: 4
+Manuel Romero, Experticia: 1, Opinión: 1
+Elena Álvarez, Experticia: 9, Opinión: 6
+Laura Sánchez, Experticia: 3, Opinión: 5
+Laura Sánchez, Experticia: 6, Opinión: 2
+Rosa Delgado, Experticia: 10, Opinión: 6
+Elena Álvarez, Experticia: 9, Opinión: 7
+Laura Sánchez, Experticia: 3, Opinión: 4
+María López, Experticia: 9, Opinión: 5
+Pilar Ramos, Experticia: 5, Opinión: 3
+Carlos Martín, Experticia: 8, Opinión: 5
+Ángel Herrera, Experticia: 4, Opinión: 8
+José Ortega, Experticia: 4, Opinión: 6
+Alejandro Torres, Experticia: 10, Opinión: 8
+Pilar Ramos, Experticia: 2, Opinión: 1
+Francisco Jiménez, Experticia: 3, Opinión: 6
+José Ortega, Experticia: 5, Opinión: 9
+Amparo Silva, Experticia: 8, Opinión: 2
+Teresa Navarro, Experticia: 1, Opinión: 4
+Francisco Jiménez, Experticia: 1, Opinión: 4
+Isabel Moreno, Experticia: 7, Opinión: 4
+Diego Fernández, Experticia: 9, Opinión: 6
+Amparo Silva, Experticia: 7, Opinión: 1
+Laura Sánchez, Experticia: 5, Opinión: 3
+Ana García, Experticia: 10, Opinión: 2
+Pilar Ramos, Experticia: 9, Opinión: 2
+Carlos Martín, Experticia: 5, Opinión: 2
+Ángel Herrera, Experticia: 10, Opinión: 10
+Elena Álvarez, Experticia: 10, Opinión: 1
+Pilar Ramos, Experticia: 5, Opinión: 4
+Teresa Navarro, Experticia: 4, Opinión: 8
+Jorge González, Experticia: 3, Opinión: 1
+Miguel Guerrero, Experticia: 3, Opinión: 5
+Alejandro Torres, Experticia: 9, Opinión: 9
+
+Tema 1
+{8, 25, 42, 64, 65}
+{18, 24, 33, 35, 80}
+{6, 27, 30, 69, 73, 80, 88}
+
+Tema 2
+{11, 18, 39, 85, 86, 100}
+{36, 39, 91}
+{37, 58, 90}
+
+Tema 3
+{2, 51, 71, 78, 79}
+{5, 7, 14, 24, 33, 46, 86, 95}
+{3, 8, 14, 42, 75}

@@ -53,39 +53,44 @@ def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
     return Pregunta(nombre, encuestados_pregunta)
 
 def Texto_a_Encuesta(archivo):
-    with open("source/tests/" + archivo, "r", encoding='utf-8') as documento:
-        texto = documento.read() # Leer todo el contenido del archivo
-        parrafos = texto.split("\n\n") # Dividir en párrafos
-        encuestados = texto.split("\n\n")[0].split("\n") # El primer parrafo (los encuestados y sus datos)
+    try:
+        with open("source/tests/" + archivo, "r", encoding='utf-8') as documento:
+            texto = documento.read()
+    except FileNotFoundError:
+        with open("tests/" + archivo, "r", encoding='utf-8') as documento:
+            texto = documento.read()
+    
+    parrafos = texto.split("\n\n") # Dividir en párrafos
+    encuestados = texto.split("\n\n")[0].split("\n") # El primer parrafo (los encuestados y sus datos)
 
-        lista_encuestados = []
-        lista_temas = None
+    lista_encuestados = []
+    lista_temas = None
 
-        K = len(parrafos)-1 # Cantidad de temas
-        M = len(parrafos[1].split("\n"))-1 # Cantidad de preguntas por tema
+    K = len(parrafos)-1 # Cantidad de temas
+    M = len(parrafos[1].split("\n"))-1 # Cantidad de preguntas por tema
 
-        for i in range(0, K+1):
-            if i == 0:
-                for e in encuestados:
-                    lista_encuestados.append(e)
-                Nmin = len(lista_encuestados) # Número como caso base
-                Nmax = 1 #Número como caso base
-            else:
-                lista_preguntas = None
-                for j in range(1, M+1):
-                    texto_pregunta = parrafos[i].split("\n")[j]
-                    nombre_pregunta = "Pregunta " + str(i+j*0.1)
-                    pregunta = Pregunta_a_Objeto(texto_pregunta, nombre_pregunta, lista_encuestados)
-                    lista_preguntas = List_Insert_End(lista_preguntas, pregunta)
+    for i in range(0, K+1):
+        if i == 0:
+            for e in encuestados:
+                lista_encuestados.append(e)
+            Nmin = len(lista_encuestados) # Número como caso base
+            Nmax = 1 #Número como caso base
+        else:
+            lista_preguntas = None
+            for j in range(1, M+1):
+                texto_pregunta = parrafos[i].split("\n")[j]
+                nombre_pregunta = "Pregunta " + str(i+j*0.1)
+                pregunta = Pregunta_a_Objeto(texto_pregunta, nombre_pregunta, lista_encuestados)
+                lista_preguntas = List_Insert_End(lista_preguntas, pregunta)
 
-                    if Nmin > List_Size(pregunta.getEncuestados()):
-                        Nmin = List_Size(pregunta.getEncuestados())
-                    if Nmax < List_Size(pregunta.getEncuestados()):
-                        Nmax = List_Size(pregunta.getEncuestados())
+                if Nmin > List_Size(pregunta.getEncuestados()):
+                    Nmin = List_Size(pregunta.getEncuestados())
+                if Nmax < List_Size(pregunta.getEncuestados()):
+                    Nmax = List_Size(pregunta.getEncuestados())
 
-                tema = Tema("Tema " + str(i), lista_preguntas)
-                lista_temas = List_Insert_End(lista_temas, tema)
+            tema = Tema("Tema " + str(i), lista_preguntas)
+            lista_temas = List_Insert_End(lista_temas, tema)
 
     return Encuesta(K, M, Nmin, Nmax, lista_temas)
 
-encuesta = Texto_a_Encuesta("Test3.txt")
+encuesta = Texto_a_Encuesta("Test_256.txt")

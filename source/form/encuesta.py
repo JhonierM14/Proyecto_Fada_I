@@ -15,6 +15,19 @@ class Encuesta():
         self.Nmin = Nmin
         self.Nmax = Nmax
         self.Temas = Temas
+
+    def _iterate_temas(self):
+        """
+        Generador que itera sobre temas, manejando tanto listas Python como LDEs
+        """
+        if hasattr(self.Temas, 'getData'):  # Es una LDE
+            current = self.Temas
+            while current:
+                yield current.getData()
+                current = current.getNext()
+        else:  # Es una lista Python
+            for tema in self.Temas:
+                yield tema
     
     def getK(self) -> int:
         return self.K
@@ -49,6 +62,6 @@ class Encuesta():
         Retorna el id de todos los participantes de la encuesta
         """
         aux = []
-        for tema in self.Temas:
+        for tema in self._iterate_temas():
             aux += tema.getIDSEncuentadosTema()
         return aux

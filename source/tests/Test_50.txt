@@ -1,0 +1,65 @@
+Alejandro Torres, Experticia: 6, Opinión: 5
+Manuel Romero, Experticia: 10, Opinión: 7
+Jorge González, Experticia: 1, Opinión: 2
+María López, Experticia: 4, Opinión: 3
+José Ortega, Experticia: 10, Opinión: 0
+Francisco Jiménez, Experticia: 10, Opinión: 3
+Concepción Mendoza, Experticia: 8, Opinión: 4
+Concepción Mendoza, Experticia: 4, Opinión: 3
+Alejandro Torres, Experticia: 1, Opinión: 6
+Ana García, Experticia: 8, Opinión: 6
+Rosa Delgado, Experticia: 6, Opinión: 7
+Antonio Vázquez, Experticia: 7, Opinión: 3
+Dolores Castro, Experticia: 4, Opinión: 3
+Isabel Moreno, Experticia: 5, Opinión: 1
+Luis Rodriguez, Experticia: 4, Opinión: 0
+Teresa Navarro, Experticia: 3, Opinión: 2
+Diego Fernández, Experticia: 10, Opinión: 4
+Amparo Silva, Experticia: 10, Opinión: 8
+José Ortega, Experticia: 5, Opinión: 9
+Isabel Moreno, Experticia: 9, Opinión: 7
+Pilar Ramos, Experticia: 2, Opinión: 8
+Diego Fernández, Experticia: 9, Opinión: 9
+Roberto Pérez, Experticia: 10, Opinión: 10
+Pilar Ramos, Experticia: 6, Opinión: 0
+Jorge González, Experticia: 9, Opinión: 4
+Pilar Ramos, Experticia: 1, Opinión: 2
+Isabel Moreno, Experticia: 6, Opinión: 2
+Antonio Vázquez, Experticia: 2, Opinión: 7
+Ana García, Experticia: 5, Opinión: 1
+Francisco Jiménez, Experticia: 4, Opinión: 0
+Ángel Herrera, Experticia: 6, Opinión: 6
+Isabel Moreno, Experticia: 6, Opinión: 8
+Concepción Mendoza, Experticia: 2, Opinión: 8
+Rosa Delgado, Experticia: 6, Opinión: 4
+Miguel Guerrero, Experticia: 10, Opinión: 9
+María López, Experticia: 4, Opinión: 1
+Carmen Ruiz, Experticia: 1, Opinión: 1
+Miguel Guerrero, Experticia: 1, Opinión: 3
+María López, Experticia: 9, Opinión: 3
+José Ortega, Experticia: 8, Opinión: 3
+Isabel Moreno, Experticia: 5, Opinión: 3
+Ana García, Experticia: 6, Opinión: 6
+Patricia Díaz, Experticia: 9, Opinión: 6
+Dolores Castro, Experticia: 7, Opinión: 0
+Ana García, Experticia: 10, Opinión: 5
+Teresa Navarro, Experticia: 6, Opinión: 8
+José Ortega, Experticia: 8, Opinión: 6
+Carmen Ruiz, Experticia: 6, Opinión: 3
+Amparo Silva, Experticia: 7, Opinión: 7
+Diego Fernández, Experticia: 1, Opinión: 4
+
+Tema 1
+{1, 6, 11, 20, 27, 46, 48}
+{10, 25, 31, 35, 48}
+{5, 9, 14, 35, 42, 48}
+
+Tema 2
+{1, 23, 40}
+{3, 4, 26, 29, 38}
+{9, 17, 25, 31, 38, 44, 47}
+
+Tema 3
+{1, 8, 16}
+{1, 19, 24, 34, 37, 44, 45}
+{6, 12, 13, 16, 30, 34, 35}

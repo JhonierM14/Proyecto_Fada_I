@@ -7,6 +7,19 @@ class Tema:
         self.nombre = nombre
         self.preguntas = preguntas
 
+    def _iterate_preguntas(self):
+        """
+        Generador que itera sobre preguntas, manejando tanto listas Python como LDEs
+        """
+        if hasattr(self.preguntas, 'getData'):  # Es una LDE
+            current = self.preguntas
+            while current:
+                yield current.getData()
+                current = current.getNext()
+        else:  # Es una lista Python
+            for pregunta in self.preguntas:
+                yield pregunta
+
     def getNombre(self) -> str:
         return self.nombre
     def getPreguntas(self) -> list[Pregunta]:
@@ -20,7 +33,7 @@ class Tema:
         """
         Retorna una lista con los promedios individuales de las preguntas de un tema
         """
-        return [pregunta.getPromedioPregunta() for pregunta in self.preguntas]
+        return [pregunta.getPromedioPregunta() for pregunta in self._iterate_preguntas()]
     
     def getPromedioAllPreguntas(self) -> int:
         """
@@ -33,6 +46,6 @@ class Tema:
         Retorna una lista con el id de los encuestados de un tema
         """
         aux = []
-        for pregunta in self.preguntas:
+        for pregunta in self._iterate_preguntas():
             aux += pregunta.getIDS()
         return aux
