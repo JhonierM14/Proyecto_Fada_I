@@ -1,0 +1,57 @@
+Verónica Oscar, Experticia: 10, Opinión: 5
+Adriana Diego, Experticia: 9, Opinión: 6
+Raúl Francisco, Experticia: 7, Opinión: 1
+Carmen Diego, Experticia: 4, Opinión: 1
+Natalia Mónica, Experticia: 9, Opinión: 6
+Guillermo Diego, Experticia: 10, Opinión: 0
+Antonio Valeria, Experticia: 3, Opinión: 4
+Oscar Natalia, Experticia: 9, Opinión: 0
+María Miguel, Experticia: 10, Opinión: 10
+Verónica Diana, Experticia: 7, Opinión: 6
+Elena Guillermo, Experticia: 5, Opinión: 0
+Eduardo Diego, Experticia: 3, Opinión: 4
+Lucía Mónica, Experticia: 1, Opinión: 1
+Teresa Valeria, Experticia: 5, Opinión: 8
+Elena Ricardo, Experticia: 2, Opinión: 10
+Diego Mónica, Experticia: 7, Opinión: 6
+Ricardo Verónica, Experticia: 9, Opinión: 7
+Beatriz Ricardo, Experticia: 4, Opinión: 1
+Beatriz María, Experticia: 3, Opinión: 0
+Miguel Lucía, Experticia: 5, Opinión: 8
+Rosa Rosa, Experticia: 1, Opinión: 5
+Roberto Miguel, Experticia: 4, Opinión: 8
+Fernando Javier, Experticia: 1, Opinión: 9
+Roberto Diana, Experticia: 2, Opinión: 6
+Patricia Pedro, Experticia: 9, Opinión: 4
+Héctor Valeria, Experticia: 9, Opinión: 6
+Sofía Claudia, Experticia: 2, Opinión: 5
+Manuel Miguel, Experticia: 3, Opinión: 7
+Roberto Ana, Experticia: 2, Opinión: 7
+Ricardo Adriana, Experticia: 7, Opinión: 1
+Teresa Laura, Experticia: 5, Opinión: 3
+Carmen Carlos, Experticia: 3, Opinión: 3
+Patricia Valeria, Experticia: 4, Opinión: 5
+Diego Francisco, Experticia: 2, Opinión: 4
+Francisco Natalia, Experticia: 8, Opinión: 10
+Adriana María, Experticia: 4, Opinión: 0
+Javier Andrés, Experticia: 2, Opinión: 5
+María Diego, Experticia: 9, Opinión: 2
+Antonio Elena, Experticia: 9, Opinión: 0
+Pedro Andrés, Experticia: 6, Opinión: 7
+Teresa Miguel, Experticia: 9, Opinión: 5
+Sofía Guillermo, Experticia: 5, Opinión: 4
+Roberto Mónica, Experticia: 4, Opinión: 7
+Isabel Teresa, Experticia: 2, Opinión: 0
+Javier Laura, Experticia: 6, Opinión: 9
+Natalia José, Experticia: 7, Opinión: 0
+Alberto Juan, Experticia: 9, Opinión: 6
+Rosa Pedro, Experticia: 7, Opinión: 5
+Manuel Valeria, Experticia: 9, Opinión: 7
+Lucía Alberto, Experticia: 4, Opinión: 6
+
+
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+{11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+{21, 22, 23, 24, 25, 26, 27, 28, 29, 30}
+{31, 32, 33, 34, 35, 36, 37, 38, 39, 40}
+{41, 42, 43, 44, 45, 46, 47, 48, 49, 50}

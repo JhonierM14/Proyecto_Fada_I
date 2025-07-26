@@ -1,0 +1,110 @@
+María Verónica, Experticia: 6, Opinión: 4
+Eduardo Claudia, Experticia: 5, Opinión: 10
+Antonio Manuel, Experticia: 8, Opinión: 6
+Sofía Eduardo, Experticia: 7, Opinión: 4
+Silvia Francisco, Experticia: 7, Opinión: 8
+Teresa Diego, Experticia: 5, Opinión: 1
+Silvia Patricia, Experticia: 7, Opinión: 0
+Laura Pedro, Experticia: 4, Opinión: 9
+Rosa Beatriz, Experticia: 1, Opinión: 3
+Sofía Roberto, Experticia: 10, Opinión: 8
+Javier Ricardo, Experticia: 6, Opinión: 10
+Patricia Miguel, Experticia: 7, Opinión: 3
+Eduardo Alberto, Experticia: 10, Opinión: 8
+Teresa Beatriz, Experticia: 1, Opinión: 2
+Oscar Lucía, Experticia: 1, Opinión: 3
+Isabel Beatriz, Experticia: 2, Opinión: 4
+Diego Andrés, Experticia: 2, Opinión: 10
+Isabel Natalia, Experticia: 6, Opinión: 5
+Patricia Ricardo, Experticia: 3, Opinión: 10
+Raúl María, Experticia: 5, Opinión: 7
+Roberto Miguel, Experticia: 2, Opinión: 4
+Sofía Andrés, Experticia: 3, Opinión: 9
+Rosa Diego, Experticia: 9, Opinión: 5
+Elena Manuel, Experticia: 4, Opinión: 10
+Manuel Luis, Experticia: 6, Opinión: 3
+Sofía Rosa, Experticia: 3, Opinión: 5
+Raúl Raúl, Experticia: 3, Opinión: 10
+María Ana, Experticia: 2, Opinión: 2
+Juan Beatriz, Experticia: 7, Opinión: 5
+Natalia Fernando, Experticia: 9, Opinión: 2
+Rosa Teresa, Experticia: 3, Opinión: 9
+Raúl Laura, Experticia: 7, Opinión: 5
+Antonio Isabel, Experticia: 5, Opinión: 6
+María Diego, Experticia: 7, Opinión: 3
+Miguel Alberto, Experticia: 10, Opinión: 1
+Roberto Francisco, Experticia: 7, Opinión: 7
+María Ricardo, Experticia: 2, Opinión: 6
+Guillermo Rosa, Experticia: 10, Opinión: 10
+Carmen Ricardo, Experticia: 3, Opinión: 8
+María Sofía, Experticia: 3, Opinión: 4
+Javier Patricia, Experticia: 6, Opinión: 5
+Pedro Oscar, Experticia: 3, Opinión: 7
+Gabriela Rosa, Experticia: 8, Opinión: 7
+Javier Diego, Experticia: 9, Opinión: 7
+Silvia Carmen, Experticia: 7, Opinión: 2
+Raúl Ana, Experticia: 3, Opinión: 2
+Gabriela Oscar, Experticia: 4, Opinión: 9
+Verónica Guillermo, Experticia: 10, Opinión: 1
+Claudia Javier, Experticia: 10, Opinión: 3
+Manuel Isabel, Experticia: 9, Opinión: 4
+Gabriela Isabel, Experticia: 9, Opinión: 10
+Ana Antonio, Experticia: 1, Opinión: 8
+Lucía Andrés, Experticia: 4, Opinión: 8
+Silvia Javier, Experticia: 9, Opinión: 8
+Héctor Antonio, Experticia: 1, Opinión: 3
+Isabel Carmen, Experticia: 8, Opinión: 3
+José Guillermo, Experticia: 10, Opinión: 4
+Valeria Antonio, Experticia: 8, Opinión: 9
+Mónica Claudia, Experticia: 6, Opinión: 0
+Ricardo Silvia, Experticia: 9, Opinión: 4
+Andrés Rosa, Experticia: 5, Opinión: 2
+Eduardo Eduardo, Experticia: 10, Opinión: 6
+Carmen Javier, Experticia: 3, Opinión: 6
+Natalia Antonio, Experticia: 2, Opinión: 6
+Miguel Teresa, Experticia: 8, Opinión: 6
+Verónica Carlos, Experticia: 6, Opinión: 9
+Ricardo Rosa, Experticia: 6, Opinión: 2
+Ricardo Ana, Experticia: 3, Opinión: 7
+Sofía Elena, Experticia: 3, Opinión: 10
+Oscar Alberto, Experticia: 5, Opinión: 1
+María Manuel, Experticia: 10, Opinión: 9
+Claudia Elena, Experticia: 9, Opinión: 10
+Beatriz Javier, Experticia: 10, Opinión: 6
+Natalia Teresa, Experticia: 1, Opinión: 5
+Javier Beatriz, Experticia: 7, Opinión: 10
+Roberto Andrés, Experticia: 3, Opinión: 1
+María Ana, Experticia: 6, Opinión: 9
+Miguel Claudia, Experticia: 8, Opinión: 9
+Raúl Manuel, Experticia: 10, Opinión: 0
+Manuel Valeria, Experticia: 4, Opinión: 1
+Natalia Carmen, Experticia: 10, Opinión: 9
+Andrés Lucía, Experticia: 3, Opinión: 10
+Juan María, Experticia: 3, Opinión: 1
+Juan Raúl, Experticia: 8, Opinión: 0
+Elena Patricia, Experticia: 7, Opinión: 9
+Mónica Ana, Experticia: 9, Opinión: 5
+Natalia Andrés, Experticia: 10, Opinión: 4
+Guillermo Ana, Experticia: 8, Opinión: 6
+Sofía Pedro, Experticia: 7, Opinión: 1
+Oscar Lucía, Experticia: 1, Opinión: 5
+Carlos Claudia, Experticia: 2, Opinión: 3
+Eduardo Pedro, Experticia: 4, Opinión: 3
+Antonio Luis, Experticia: 6, Opinión: 9
+Pedro Diego, Experticia: 10, Opinión: 5
+Teresa Diego, Experticia: 6, Opinión: 8
+Guillermo Ana, Experticia: 5, Opinión: 4
+Ricardo María, Experticia: 9, Opinión: 6
+Andrés Silvia, Experticia: 4, Opinión: 8
+Claudia Carlos, Experticia: 7, Opinión: 7
+Gabriela Oscar, Experticia: 8, Opinión: 4
+
+
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}
+{14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26}
+{27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39}
+{40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52}
+{53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}
+{65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76}
+{77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88}
+{89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100}

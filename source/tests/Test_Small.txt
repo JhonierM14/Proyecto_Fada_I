@@ -1,0 +1,39 @@
+Lucía Luis, Experticia: 10, Opinión: 4
+Manuel Mónica, Experticia: 4, Opinión: 7
+Fernando Teresa, Experticia: 8, Opinión: 8
+Mónica Eduardo, Experticia: 9, Opinión: 1
+Silvia Luis, Experticia: 7, Opinión: 5
+Ana Raúl, Experticia: 6, Opinión: 10
+Rosa Patricia, Experticia: 5, Opinión: 8
+Sofía Guillermo, Experticia: 10, Opinión: 5
+Natalia Diana, Experticia: 2, Opinión: 10
+Verónica Gabriela, Experticia: 10, Opinión: 2
+Eduardo Guillermo, Experticia: 2, Opinión: 1
+Laura Eduardo, Experticia: 4, Opinión: 4
+Valeria Guillermo, Experticia: 2, Opinión: 5
+Eduardo Isabel, Experticia: 6, Opinión: 9
+Héctor Eduardo, Experticia: 4, Opinión: 3
+Francisco Antonio, Experticia: 6, Opinión: 5
+Ricardo Eduardo, Experticia: 4, Opinión: 9
+Pedro Manuel, Experticia: 9, Opinión: 4
+Alberto Guillermo, Experticia: 10, Opinión: 10
+Ana Héctor, Experticia: 10, Opinión: 4
+Héctor Roberto, Experticia: 10, Opinión: 4
+Isabel Pedro, Experticia: 8, Opinión: 10
+Diana Diana, Experticia: 7, Opinión: 7
+Patricia Carmen, Experticia: 10, Opinión: 8
+Francisco Mónica, Experticia: 1, Opinión: 4
+Andrés Claudia, Experticia: 9, Opinión: 5
+Pedro Francisco, Experticia: 5, Opinión: 5
+Elena Eduardo, Experticia: 1, Opinión: 0
+Sofía Fernando, Experticia: 10, Opinión: 6
+Oscar Mónica, Experticia: 3, Opinión: 3
+
+
+{1, 2, 3, 4, 5}
+{6, 7, 8, 9, 10}
+{11, 12, 13, 14, 15}
+
+{16, 17, 18, 19, 20}
+{21, 22, 23, 24, 25}
+{26, 27, 28, 29, 30}
