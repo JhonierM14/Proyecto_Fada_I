@@ -2,6 +2,7 @@ from controlador_LDE import *
 
 #Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
 #Insertion sort: lde
+#Insertion sort: lde
 def lde_insertion_sort(head):
     key=head.next
     while key:
@@ -28,18 +29,34 @@ def lde_insertion_sort(head):
         key=key.next
     return head
     
-head = lde_insertion_sort(copy.deepcopy(pregunta1_1_lde.encuestados))
 
-#Para mostrar la id de los encuestados
+#Sirve para pasar una lde a un string con las ids de los encuestados
 def lde_displayID(head):
     current = head
+    str=""
     while current:
-        print(current.data.getID(), end=" <-> ")
+        str = str + f"{current.data.getID()}"+ " <-> "
         current = current.next
-    print("None")
+    str=str+"None"
+    return str
 
-print("Encuestados de la pregunta 1 (con lde): ")
-lde_displayID(head)
+
+def lde_escribir_opiniones(encuesta):
+    temas=encuesta.getTemas()
+    str = ""
+    while temas:
+        str=str+("Tema "+f"{temas.data.getNombre()}:"+"\n")
+        preguntas = temas.data.getPreguntas()
+        while preguntas:
+            head = lde_insertion_sort(preguntas.data.getEncuestados())
+            str=str +"Pregunta "+f"{preguntas.data.getNombre()}: "+f"{lde_displayID(head)}"+"\n"
+            preguntas=preguntas.next
+        temas=temas.next
+    return str
+
+#Esta es la salida de los encuestados de todas las preguntas de todos los temas ordenados
+lde_print = (lde_escribir_opiniones(encuesta_lde)
+
 #Punto 2
 
 def punto2_LDE():
@@ -104,25 +121,28 @@ def punto4_LDE():
      pass
 
 #Punto 5
+#Punto 5: Pregunta con mayor promedio de opiniones. 
+#LDE:
 #Funcion auxliar que calcula el promedio de un grupo de encuestados, segun su opinion o experticia
 def lde_promedio(encuestados, method):
     total: int=0
     a: int = 0
-    if method == "opinion":
+    if method == 1:
         while encuestados:
             a=a+1
             total=total+encuestados.data.getOpinion()
             encuestados=encuestados.next
-    else:
-        if method == "experticia":
+    elif method == 2:
             while encuestados:
                 a=a+1
                 total=total+encuestados.data.getExperticia()
                 encuestados=encuestados.next
+    else:
+        return None
     return total/a
 
-#La funcion recibe una encuesta y extrae los 
-def punto5_LDE(encuesta):
+#Funcion principal que retorna la pregunta con mayor promedio
+def lde_mayor_promedio(encuesta):
     temas=encuesta.getTemas()
     key=None
     while temas:
@@ -132,19 +152,22 @@ def punto5_LDE(encuesta):
 
     while key.next:
         i=key.next
-        while i and lde_promedio(key.data.getEncuestados(), "opinion") >= lde_promedio(i.data.getEncuestados(), "opinion"):
-            if lde_promedio(key.data.getEncuestados(), "opinion") == lde_promedio(i.data.getEncuestados(), "opinion"):
+        while i and lde_promedio(key.data.getEncuestados(), 1) >= lde_promedio(i.data.getEncuestados(), 1):
+            if lde_promedio(key.data.getEncuestados(), 1) == lde_promedio(i.data.getEncuestados(), 1):
+                #Se calcula el promedio de las experticias y se almacena para no tener que calcular 2 veces despues
+                prom_exp_key = lde_promedio(key.data.getEncuestados(), 2)
+                prom_exp_i = lde_promedio(i.data.getEncuestados(), 2)
                 #Comparacion de las experticias para el desempate
-                if lde_promedio(key.data.getEncuestados(), "experticia") > lde_promedio(i.data.getEncuestados(), "experticia"):
+                if  prom_exp_key > prom_exp_i:
                     i=i.next
-                elif lde_promedio(key.data.getEncuestados(), "experticia") < lde_promedio(i.data.getEncuestados(), "experticia"):
+                elif prom_exp_key < prom_exp_i:
                     if i.next:
                         key=i
                     else:
                         #Si no hay i.next, significa que i es la ultima pregunta de la lista, 
                         #por lo cual no hay mas preguntas para comparar y se debe retornar i al ser mayor que key.
-                        return List_Insert_End(lde(i), lde_promedio(i.data.getEncuestados(), "opinion"))
-                elif lde_promedio(key.data.getEncuestados(), "experticia") == lde_promedio(i.data.getEncuestados(), "experticia"):
+                        return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(i.data.getEncuestados(), 1)}""] Pregunta: " f"{i.data.getNombre()}"
+                else:
                     #Comparacion del numero de encuestados de las preguntas para el segundo desempate. Si en este caso todavía
                     #hay empate, se toma la pregunta mas a la izquierda (key) como la que tiene mayor promedio.
                     if List_Size(key) >= List_Size(i):
@@ -153,21 +176,20 @@ def punto5_LDE(encuesta):
                         if i.next:
                             key=i
                         else:
-                            return List_Insert_End(lde(i), lde_promedio(i.data.getEncuestados(), "opinion"))   
+                            return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(i.data.getEncuestados(), 1)}""] Pregunta: " f"{i.data.getNombre()}"
+            
             i=i.next
 
         if i:
             key=i
         else:
-            return List_Insert_End(lde(key), lde_promedio(key.data.getEncuestados(), "opinion"))   
-    return List_Insert_End(lde(key), lde_promedio(key.data.getEncuestados(), "opinion"))   
+            return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(key.data.getEncuestados(), 1)}""] Pregunta: " f"{key.data.getNombre()}" 
+    return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(key.data.getEncuestados(), 1)}""] Pregunta: " f"{key.data.getNombre()}" 
 
 #Es necesario llamar la funcion con una deep copy de la encuesta, ya que si no, se enviaría la encuesta como referencia,
 #asi que cualquier cambio que le haga a encuesta_lde en la funcion tambien modificaría la encuesta_lde original y me dañaría los otros puntos.
-lde_punto5 = punto5_LDE(copy.deepcopy(encuesta_lde))
-
-print("Pregunta de la encuesta con mayor promedio:",
-       "["f"{lde_punto5.next.data}""]" ,lde_punto5.data.data.getNombre())
+#lde_punto5 tiene el string que debe salir en el output
+lde_punto5 = lde_mayor_promedio(copy.deepcopy(encuesta_lde))
 
 #Punto 6
 
@@ -181,8 +203,74 @@ def punto8_LDE():
 
 #Punto 9
 
-def punto9_LDE():
-     pass
+#Funcion para encontrar la moda de la opinion de los encuestados de una pregunta
+def lde_moda(encuestados):
+    repeticiones=None  
+    key=encuestados
+    
+    while key:
+        i=key.next
+        a=1
+        while i:
+            if key.data.getOpinion()==i.data.getOpinion():
+                a=a+1
+            i=i.next         
+        map = List_Insert_End(lde(key.data.getOpinion()), a)
+        repeticiones = List_Insert_End(repeticiones, map)
+        key=key.next
+    
+    #Repeticiones es la LDE que contiene las opiniones de los encuestados junto a su numero de repeticiones
+    key = repeticiones
+    while key.next:
+        #print(key.data.data, key.data.next.data)
+        i=key.next
+        while i and key.data.next.data >= i.data.next.data:
+            #Se comparan las repeticiones para hallar la moda
+            if key.data.next.data > i.data.next.data:
+                i=i.next
+            #Si hay mas de una moda, se compara el valor de la moda, y se toma como moda el menor de todos
+            elif key.data.data <= i.data.data:
+                    i=i.next
+            elif i:
+                key = i
+            else:
+                return key.data
+        if i:
+            key = i
+        else:
+            return key.data
+    return key.data
+
+#Funcion principal que retorna la pregunta de la encuesta con mayor moda de opiniones
+def lde_mayor_moda(encuesta):
+    temas=encuesta.getTemas()
+    key=None
+    while temas:
+        preguntas = temas.data.getPreguntas()
+        key = lde_join(key, preguntas)
+        temas=temas.next
+    while key.next:
+        i = key.next
+        while i and lde_moda(key.data.getEncuestados()).data >= lde_moda(i.data.getEncuestados()).data :
+            if lde_moda(key.data.getEncuestados()).data == lde_moda(i.data.getEncuestados()).data:
+                if key.data.getNombre() <= i.data.getNombre():
+                    i=i.next
+                else:
+                    if i.next:
+                        key = i
+                    else:
+                        return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(i.data.getEncuestados()).data}"+"] Pregunta: " + i.data.getNombre()
+            else:
+                i=i.next
+
+        if i:
+            key = i
+        else:
+            return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre()
+    return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre()
+
+#La salida
+lde_punto9 = lde_mayor_moda(copy.deepcopy(encuesta_lde))
 
 #Punto 10
 
@@ -240,5 +328,28 @@ def Mayor_X_Pregunta(lista, K, M, dato):
 
 #Punto 12
 
-def punto12_LDE():
-     pass
+def lde_mayor_consenso(encuesta):
+    temas=encuesta.Temas
+    key=None
+    while temas:
+        preguntas = temas.data.preguntas
+        #print(preguntas.next.next.data.nombre)
+        key = lde_join(key, preguntas)
+        temas=temas.next
+
+    while key.next:
+        i=key.next
+        cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
+        while i and cons_key >= lde_moda(i.data.encuestados).next.data/List_Size(i.data.encuestados):
+            i=i.next
+        if i:
+            key=i
+        else:
+            return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
+    #Si ocurre este caso, significa que la ultima pregunta es la que tiene el mayor consenso, y por la logica del
+    #codigo esta sería la i, mientras que cons_key tendria el consenso de la pregunta con mayor consenso anterior
+    cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
+    return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
+
+#La salida
+lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))
