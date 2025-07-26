@@ -1,5 +1,4 @@
 from form.tema import Tema
-from form.AlgoritmosOrdenamiento.MedidasTenciaCentral import promedio
 
 class Encuesta():
     'K => temas, ' \
