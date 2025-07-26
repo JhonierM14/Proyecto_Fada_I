@@ -88,7 +88,7 @@ def plot_benchmark_results(data):
     
     plt.tight_layout()
     plt.savefig('benchmark_comparison.png', dpi=300, bbox_inches='tight')
-    plt.show()
+    # plt.show()  # Comentado para evitar mostrar ventana
 
 def print_summary_statistics(data):
     """Print summary statistics"""
