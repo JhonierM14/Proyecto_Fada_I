@@ -2,9 +2,40 @@ import matplotlib.pyplot as plt
 from LDE_utils import *
 from abb_utils import *
 from data import *
-import time
+from generate_data import generar_encuesta_simulada_ABB_determinista, generar_encuesta_simulada_LDE_determinista
+import time, random
 
-entradas = [Texto_a_Encuesta("Test1.txt"), Texto_a_Encuesta("Test2.txt"), Texto_a_Encuesta("Test3.txt")]
+def generar_entradas_para_grafica_incremental(
+    n_muestras=10,              # cuántas entradas se generarán
+    k=3,                        # número fijo de temas
+    m=4,                        # número fijo de preguntas máximas por tema
+    encuestados_min=50,         # cantidad mínima total de encuestados
+    encuestados_max=10000,      # cantidad máxima total de encuestados
+    nmin=1,                     # mínimo encuestados por pregunta
+    # nmax=5                    # máximo encuestados por pregunta
+):
+    """
+    Genera entradas incrementales para evaluar rendimiento.
+    :return: Lista de tuplas (encuesta_LDE, encuesta_ABB)
+    """
+
+    if generar_encuesta_simulada_LDE_determinista is None or generar_encuesta_simulada_ABB_determinista is None:
+        raise ValueError("Funciones generadoras de encuestas no definidas.")
+
+    entradas = []
+    incremento = (encuestados_max - encuestados_min) // (n_muestras - 1)
+
+    for i in range(n_muestras):
+        total_encuestados = encuestados_min + i * incremento
+        nmax = max(5, total_encuestados // (k * m))
+
+        encuesta_LDE = generar_encuesta_simulada_LDE_determinista(k, m, total_encuestados, nmin, nmax)
+        encuesta_ABB = generar_encuesta_simulada_ABB_determinista(k, m, total_encuestados, nmin, nmax)
+
+        entradas.append((encuesta_LDE, encuesta_ABB))
+
+    return entradas
+
 
 def comparar_funciones_y_graficar(funcion1, funcion2, entradas, etiquetas=("LDE", "ABB")):
     """
@@ -38,6 +69,8 @@ def comparar_funciones_y_graficar(funcion1, funcion2, entradas, etiquetas=("LDE"
     plt.grid(True)
     plt.legend()
     plt.show()
+
+entradas = generar_entradas_para_grafica_incremental()
 
 comparar_funciones_y_graficar(punto2_LDE, punto2_Abb, entradas)
 
