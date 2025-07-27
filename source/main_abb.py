@@ -76,9 +76,9 @@ if __name__ == "__main__":
     # Punto 8: Pregunta con menor mediana de opinión (USANDO ÁRBOLES)
     menor_mediana = punto8_Abb()
     if menor_mediana:
-        print(f"  Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana_opinion'])}] Pregunta: {menor_mediana['nombre']}")
+        print(f"  Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}")
     
     # Punto 12: Pregunta con mayor consenso (USANDO ÁRBOLES)
     mayor_consenso = punto12_Abb()
     if mayor_consenso:
-        print(f"  Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre']}") 
+        print(f"  Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre_completo']}") 
