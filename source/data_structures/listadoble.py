@@ -65,6 +65,22 @@ def List_Median(lista):
     izq, der = List_Divide(lista) # Por la naturaleza de Divide, la mediana se encontrará al inicio de la lista derecha
     return der.data # Retornamos la mediana
 
+def lde_last(head):
+    while head.next:
+        head = head.next
+    return head
+
+def lde_join(lde1, lde2):
+    if not lde1:
+        return lde2
+    elif not lde2:
+        return lde1
+    else:
+        last = lde_last(lde1)
+        last.next = lde2
+        lde2.prev = last
+        return lde1
+
 #--------------------------------------Insertion sort LDE-------------------------------------
 
     def lde_insertion_sort(self, head):
