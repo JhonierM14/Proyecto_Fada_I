@@ -552,15 +552,26 @@ def lde_mayor_consenso(encuesta):
 
     while key.next:
         i=key.next
-        cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
-        while i and cons_key >= lde_moda(i.data.encuestados).next.data/List_Size(i.data.encuestados):
-            i=i.next
+        while i and lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados) >= lde_moda(i.data.encuestados).next.data/List_Size(i.data.encuestados):
+            cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
+
+            if cons_key == lde_moda(i.data.encuestados).next.data/List_Size(i.data.encuestados):
+                if key.data.getNombre() <= i.data.getNombre():
+                    i=i.next
+                else:
+                    if i.next:
+                        key = i
+                    else:
+                        return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
+            else:
+                i=i.next
+                
         if i:
             key=i
         else:
             return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
     #Si ocurre este caso, significa que la ultima pregunta es la que tiene el mayor consenso, y por la logica del
-    #codigo esta sería la i, mientras que cons_key tendria el consenso de la pregunta con mayor consenso anterior
+    #codigo esta sería la i, mientras que cons_key tendria el consenso de la pregunta con mayor consenso anterio
     cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
     return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
 
