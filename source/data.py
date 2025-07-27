@@ -6,8 +6,10 @@ from form.pregunta import Pregunta
 from form.tema import Tema
 from form.encuesta import Encuesta
 
-from LDE_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Listas, Mayor_X_Pregunta as Mayor_Listas
-from abb_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Arboles, Mayor_X_Pregunta as Mayor_Arboles
+from LDE_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Listas, Mayor_X_Pregunta as Mayor_Listas, lde_mayor_promedio, lde_mayor_moda, punto6_LDE, punto10_LDE, lde_mayor_consenso, punto8_LDE
+from abb_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Arboles, Mayor_X_Pregunta as Mayor_Arboles, abb_mayor_promedio, abb_mayor_moda, punto6_Abb, punto10_Abb, abb_mayor_consenso, punto8_Abb
+
+import copy
 
 def Encuestado_a_Objeto(texto, id):
     partes = texto.split(',') # Separa el texto del nombre, experticia y opinion en una lista
@@ -17,7 +19,7 @@ def Encuestado_a_Objeto(texto, id):
     
     return Encuestado(id, nombre, int(experiencia), int(opinion)) 
 
-def Pregunta_a_Objeto(texto, id, nombre, lista_todos_encuestados):
+def Pregunta_a_Objeto(texto, nombre, lista_todos_encuestados):
     partes = texto.strip('{}')
     partes = partes.split(', ')
     lista_encuestados_pregunta = None
@@ -29,7 +31,7 @@ def Pregunta_a_Objeto(texto, id, nombre, lista_todos_encuestados):
         lista_encuestados_pregunta = List_Insert_End(lista_encuestados_pregunta, encuestado_obj)
         arbol_encuestados_pregunta = Arb_Insert(arbol_encuestados_pregunta, encuestado_obj, lambda e: e.getID())
 
-    return Pregunta(id, nombre, lista_encuestados_pregunta), Pregunta(id, nombre, arbol_encuestados_pregunta)
+    return Pregunta(nombre, lista_encuestados_pregunta), Pregunta(nombre, arbol_encuestados_pregunta)
 
 def Texto_a_Encuesta(archivo):
     with open("source/tests/" + archivo, "r", encoding='utf-8') as documento:
@@ -57,7 +59,7 @@ def Texto_a_Encuesta(archivo):
                 for j in range(1, M+1):
                     texto_pregunta = parrafos[i].split("\n")[j]
                     nombre_pregunta = str(i+j*0.1)
-                    pregunta_lista, pregunta_arbol = Pregunta_a_Objeto(texto_pregunta, j, nombre_pregunta, lista_encuestados)
+                    pregunta_lista, pregunta_arbol = Pregunta_a_Objeto(texto_pregunta, nombre_pregunta, lista_encuestados)
 
                     lista_preguntas = List_Insert_End(lista_preguntas, pregunta_lista)
                     arbol_preguntas = Arb_Insert(arbol_preguntas, pregunta_arbol, lambda e: e.getNombre())
@@ -67,8 +69,8 @@ def Texto_a_Encuesta(archivo):
                     if Nmax < List_Size(pregunta_lista.getEncuestados()):
                         Nmax = List_Size(pregunta_lista.getEncuestados())
 
-                tema_lista = Tema(i, i, lista_preguntas)
-                tema_arbol = Tema(i, i, arbol_preguntas)
+                tema_lista = Tema(i, lista_preguntas)
+                tema_arbol = Tema(i, arbol_preguntas)
 
                 lista_temas = List_Insert_End(lista_temas, tema_lista)
                 arbol_temas = Arb_Insert(arbol_temas, tema_arbol, lambda e: e.getNombre())
@@ -82,20 +84,32 @@ def Resultados_a_Texto(nombre, encuesta, tipo):
     # Lo abrimos y escribimos en él
     with open("source/results/" + nombre, "a", encoding='utf-8'):
 
-        if tipo == "listas_entrelazadas":
+        if tipo == "listas entrelazadas":
             f.write("Resultados de la encuesta:\n")
             f.write(Ordenar_Tema_Listas(encuesta.getTemas(), encuesta.getM()))
+            f.write("\nLista de encuestados:\n")
             f.write("\nResultados:\n")
-            f.write(Mayor_Listas(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "extremismo"))
-            f.write(Mayor_Listas(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "mediana"))
+            f.write("   " + lde_mayor_promedio(copy.deepcopy(encuesta)))
+            f.write("   " + punto6_LDE(copy.deepcopy(encuesta)))
+            f.write("   " + Mayor_Listas(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "mediana"))
+            #f.write("   " + punto8_LDE(copy.deepcopy(encuesta)))
+            f.write("   " + lde_mayor_moda(copy.deepcopy(encuesta)))
+            f.write("   " + punto10_LDE(copy.deepcopy(encuesta)))
+            f.write("   " + Mayor_Listas(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "extremismo"))
+            f.write("   " + lde_mayor_consenso(copy.deepcopy(encuesta)))
 
         else:
             f.write("Resultados de la encuesta:\n")
             f.write(Ordenar_Tema_Arboles(encuesta.getTemas()))
+            f.write("\nLista de encuestados:\n")
             f.write("\nResultados:\n")
-            f.write(Mayor_Arboles(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "extremismo"))
-            f.write(Mayor_Arboles(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "mediana"))
+            f.write("   " + abb_mayor_promedio(copy.deepcopy(encuesta)))
+            f.write("   " + punto6_Abb(copy.deepcopy(encuesta)))
+            f.write("   " + Mayor_Arboles(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "mediana"))
+            #f.write("   " + punto8_Abb(copy.deepcopy(encuesta)))
+            f.write("   " + abb_mayor_moda(copy.deepcopy(encuesta)))
+            f.write("   " + punto10_Abb(copy.deepcopy(encuesta)))
+            f.write("   " + Mayor_Arboles(encuesta.getTemas(), encuesta.getK(), encuesta.getM(), "extremismo"))
+            f.write("   " + abb_mayor_consenso(copy.deepcopy(encuesta)))
 
     return f
-
-encuesta = Texto_a_Encuesta("Test3.txt")

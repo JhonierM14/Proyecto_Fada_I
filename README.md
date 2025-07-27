@@ -1,22 +1,33 @@
-# Poryecto_Fada_I <--> Python 3.12
+# Proyecto_Fada_I
+## El problema del procesamiento de una encuesta
 
-1. Navegar con la terminal hasta la raiz del proyecto y crear un entorno virtual, ingresando en la terminal:
-## Se debe tener la version de python 3.12 instalada
-
-```
-py -3.12 -m venv env
-```
-
-2. Activar el entorno virtual
+Añadir el archivo de prueba con la siguiente estructura
 
 ```
-.\env\Scripts\activate
+Lista de participantes
+• salto de línea
+• salto de línea
+• Pregunta 1.1
+• …
+• pregunta 1.n
+• salto de línea
+• salto de línea
+• pregunta 2.1
+• …
+• pregunta 2.n
+```
+Es de vital importancia que procure que no haya ninguna linea ni salto de linea después de la última pregunta
+
+Después de crearlo debe pegarlo en la siguiente ubicación:
+```
+Proyecto_FADA_I/Pruebas/
 ```
 
-3. Instalar dependencias requeridas:
-
+Para procesar su archivo txt debe ir al archivo main.py y escribir las siguientes lineas de código:
 ```
-pip install -r requirements.txt
+encuesta = Texto_a_Encuesta("Nombre_de_su_archivo.txt")
+
+Resultados_a_Texto("Nombre_de_salida.txt", encuesta)
 ```
 
-4. En el archivo main.py, seleccionar el metodo y ejecutar
+Y ejecutar main.py, los resultados los encontrará en la carpeta results

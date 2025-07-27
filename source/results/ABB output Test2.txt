@@ -1,0 +1,15 @@
+Resultados de la encuesta:
+[6.0] Tema 1:
+[5.08] Tema 2:
+[4.96] Tema 3:
+
+Lista de encuestados:
+
+Resultados:
+   Pregunta con mayor promedio de opinion: [7.0] Pregunta: 1.1
+   Pregunta con menor promedio de opinion: [4.67] Pregunta: 2.2
+   Pregunta con mayor mediana de opinión: [7] Pregunta: 2.1
+   Pregunta con mayor moda de opinion: [7] Pregunta: 2.1
+   Pregunta con menor moda de opinion: [0] Pregunta: 2.2
+   Pregunta con mayor extremismo: [0.67] Pregunta: 2.2
+   Pregunta con mayor consenso: [0.67] Pregunta: 1.1

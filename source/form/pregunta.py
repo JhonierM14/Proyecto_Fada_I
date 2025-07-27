@@ -1,23 +1,27 @@
+from data_structures import abb
 from form.encuestado import Encuestado
-from data_structures.abb import abb
 
 class Pregunta:
-    def __init__(self, id: int, nombre: str, encuestados):
-        self.id = id
+    def __init__(self, nombre, encuestados):
         self.nombre = nombre
         self.encuestados = encuestados
     
-    def getID(self) -> int:
-        return self.id
-
-    def getNombre(self) -> str:
+    def getNombre(self):
         return self.nombre
-        
+    
     def getEncuestados(self):
         return self.encuestados
-
     
-    # ----------------------------------------------- ABB -----------------------------------------------
+    def getOpiniones(self):
+        return [e.opinion for e in self.encuestados]
+
+    def getExperticias(self):
+        return [e.experticia for e in self.encuestados]
+    
+    def setEncuestados(self, encuestados):
+        self.encuestados = encuestados
+
+            # ----------------------------------------------- ABB -----------------------------------------------
 
     def get_ids_encuestados(self):
         def insertar_id(arbol, id_val):

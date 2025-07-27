@@ -1,19 +1,15 @@
-import copy
-
-class LDE():
-    def __init__(self, data = None):
+class LDE: # Clase LDE (Lista Doblemente Entrelazada)
+    def __init__(self, data):
         self.data = data
         self.next = None
         self.prev = None
 
-    def getData(self):
-        return self.data
-
-    def getNext(self):
-        return self.next
-
-    def getPrev(self):
-        return self.prev
+def List_Print(lista):
+    current = lista
+    while current: # Recorremos la lista desde la cabeza hasta el final
+        print(current.data, end=" <-> ") # Imprimimos el dato del nodo actual
+        current = current.next # Cambiamos al siguiente nodo
+    print("None") # Imprimimos None al final para indicar el final de la lista
 
 def List_Insert(lista, llave):
     nuevo_nodo = LDE(llave)
@@ -22,26 +18,32 @@ def List_Insert(lista, llave):
         lista.prev = nuevo_nodo # el puntero prev de la cabeza apunta al nuevo nodo
     return nuevo_nodo
 
-def List_Insert_End(head: LDE, data: LDE) -> object:
-    """
-    Inserta al final de la lista doblemente enlazada un objecto
-    """
-    nuevo = LDE(data)
-    if head is None:
+def List_Insert_End(lista, data):
+    nuevo = LDE(data) 
+    if lista is None: # Si la lista está vacía, el nuevo nodo es la cabeza
         return nuevo
-    actual = head
-    while actual.next:
-        actual = actual.next
-    actual.next = nuevo
-    nuevo.prev = actual
+    actual = lista
+    while actual.next: # mientras haya un siguiente nodo
+        actual = actual.next # cambiamos al siguiente nodo
+    actual.next = nuevo # el puntero next del último nodo apunta al nuevo nodo
+    nuevo.prev = actual # el puntero prev del nuevo nodo apunta al último nodo
+    return lista # Retornamos la cabeza de la lista
+
+def lde_last(head):
+    while head.next:
+        head = head.next
     return head
 
-def List_Print(head: LDE):
-    nodo_actual = head
-    while nodo_actual:
-        print(nodo_actual.getData().getID(), end=" <-> ")  
-        nodo_actual = nodo_actual.next  
-    print("None")
+def lde_join(lde1, lde2):
+    if not lde1:
+        return lde2
+    elif not lde2:
+        return lde1
+    else:
+        last = lde_last(lde1)
+        last.next = lde2
+        lde2.prev = last
+        return lde1
 
 def List_Size(lista):
     if lista is None: # Si la lista está vacía, retornamos 0
@@ -65,54 +67,8 @@ def List_Median(lista):
     izq, der = List_Divide(lista) # Por la naturaleza de Divide, la mediana se encontrará al inicio de la lista derecha
     return der.data # Retornamos la mediana
 
-def lde_last(head):
-    while head.next:
-        head = head.next
-    return head
-
-def lde_join(lde1, lde2):
-    if not lde1:
-        return lde2
-    elif not lde2:
-        return lde1
-    else:
-        last = lde_last(lde1)
-        last.next = lde2
-        lde2.prev = last
-        return lde1
-
-#--------------------------------------Insertion sort LDE-------------------------------------
-
-    def lde_insertion_sort(self, head):
-        key=head.next
-        while key:
-            i=key.prev
-            #Aqui se debe poner el metodo para extraer el atributo de los objetos que se quiere comparar
-            while i and key.data>=i.data:
-                #Copia del valor de key, se usa para intercambiar el valor de i y key sin problemas
-                key_0=copy.copy(key)
-                if key.data==i.data:
-                    #Aqui se debe poner el metodo para extraer el atributo a comparar en caso de empate
-                    if key.data>=i.data:
-                        key.data=i.data
-                        i.data=key_0.data
-                        #Este if verifica si i NO es el primer elemento de la lista, ya que si lo fuera
-                        #no tendria sentido asignarle a key la primera posicion de la lista, porque esto causaria una verificacion extra innecesaria
-                        if i.prev:
-                            key=i
-                        i=i.prev
-                    else:
-                        i=i.prev
-                else:
-                    key.data=i.data
-                    i.data=key_0.data
-                    if i.prev:
-                        key=i
-                    i=i.prev        
-            key=key.next
-        return head
-
 #--------------------------------------FUNCIONES PARA MERGE SORT-------------------------------------
+
 def List_Divide(lista):
     lista_izq = None # Lista para almacenar la mitad izquierda
     lista_der = None # Lista para almacenar la mitad derecha

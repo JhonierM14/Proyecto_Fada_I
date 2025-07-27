@@ -1,206 +1,8 @@
-import time, copy
+from data_structures.listadoble import *
+from form.MedidasTenciaCentral import mediana
+import time
 
-from data_structures.listadoble import List_Median, List_Merge_Sort, List_Print, List_Size
-
-def contar_encuestados_encuesta_LDE(temas):
-    """
-    Retorna el número total de encuestados en toda la encuesta (estructura LDE).
-    """
-    total = 0
-    nodo_tema = temas
-    while nodo_tema:
-        tema = nodo_tema.data
-        nodo_pregunta = tema.preguntas
-        while nodo_pregunta:
-            pregunta = nodo_pregunta.data
-            nodo_encuestado = pregunta.encuestados
-            while nodo_encuestado:
-                total += 1
-                nodo_encuestado = nodo_encuestado.next
-            nodo_pregunta = nodo_pregunta.next
-        nodo_tema = nodo_tema.next
-    return total
-
-#Punto 1: Ordenar encuestados de la pregunta ascendentemente segun su opinion
-#Insertion sort: lde
-def lde_insertion_sort(head):
-    key=head.next
-    while key:
-        i=key.prev
-        while i and key.data.getOpinion()>=i.data.getOpinion():
-            key_0=copy.copy(key)
-            if key.data.getOpinion()==i.data.getOpinion():
-                if key.data.getExperticia()>i.data.getExperticia():
-                    key.data=i.data
-                    i.data=key_0.data
-                    #Este if verifica si i NO es el primer elemento de la lista, ya que si lo fuera
-                    #no tendria sentido asignarle a key la primera posicion de la lista, porque esto causaria una verificacion extra innecesaria
-                    if i.prev:
-                        key=i
-                    i=i.prev
-                else:
-                    i=i.prev
-            else:
-                key.data=i.data
-                i.data=key_0.data
-                if i.prev:
-                    key=i
-                i=i.prev        
-        key=key.next
-    return head
-
-#Sirve para pasar una lde a un string con las ids de los encuestados
-def lde_displayID(head):
-    current = head
-    str=""
-    while current:
-        str = str + f"{current.data.getID()}"+ " <-> "
-        current = current.next
-    str=str+"None"
-    return str
-
-def lde_escribir_opiniones(encuesta):
-    temas=encuesta.getTemas()
-    str = ""
-    while temas:
-        str=str+("Tema "+f"{temas.data.getNombre()}:"+"\n")
-        preguntas = temas.data.getPreguntas()
-        while preguntas:
-            head = lde_insertion_sort(preguntas.data.getEncuestados())
-            str=str +"Pregunta "+f"{preguntas.data.getNombre()}: "+f"{lde_displayID(head)}"+"\n"
-            preguntas=preguntas.next
-        temas=temas.next
-    return str
-
-#Esta es la salida de los encuestados de todas las preguntas de todos los temas ordenados
-# lde_print = (lde_escribir_opiniones(encuesta_lde)
-
-#Punto 2
-
-def promedio_tema(tema):
-    """
-    Calcula el promedio del promedio de opiniones de todas las preguntas del tema.
-    """
-    nodo_pregunta = tema.preguntas
-    suma_promedios = 0
-    count = 0
-
-    while nodo_pregunta:
-        pregunta = nodo_pregunta.data
-        suma_promedios += promedio_opinion(pregunta)
-        count += 1
-        nodo_pregunta = nodo_pregunta.next
-
-    return suma_promedios / count if count > 0 else 0
-
-def ordenar_preguntas_por_promedio_opinion(preguntas):
-    """
-    Ordena una lista doblemente enlazada de preguntas por promedio de opinión descendente.
-    """
-    if preguntas is None or preguntas.next is None:
-        return preguntas  # ya está ordenada o vacía
-
-    nueva_cabeza = None
-
-    actual = preguntas
-    while actual:
-        siguiente = actual.next
-        actual.prev = actual.next = None  # desconectar temporalmente
-
-        if nueva_cabeza is None:
-            nueva_cabeza = actual
-        else:
-            # insertar actual en nueva_cabeza de forma ordenada
-            nodo = nueva_cabeza
-            anterior = None
-            while nodo:
-                p1 = promedio_opinion(actual.data)
-                p2 = promedio_opinion(nodo.data)
-                if p1 > p2:
-                    break
-                elif p1 == p2:
-                    # empate: promedio de experticia
-                    e1 = promedio_experticia(actual.data)
-                    e2 = promedio_experticia(nodo.data)
-                    if e1 > e2:
-                        break
-                    elif e1 == e2:
-                        n1 = contar_encuestados(actual.data)
-                        n2 = contar_encuestados(nodo.data)
-                        if n1 > n2:
-                            break
-                anterior = nodo
-                nodo = nodo.next
-            if anterior is None:
-                actual.next = nueva_cabeza
-                nueva_cabeza.prev = actual
-                nueva_cabeza = actual
-            else:
-                actual.next = anterior.next
-                if anterior.next:
-                    anterior.next.prev = actual
-                anterior.next = actual
-                actual.prev = anterior
-
-        actual = siguiente
-
-    return nueva_cabeza
-
-def mostrar_ids_encuesta_completa(temas):
-    """
-    Muestra en una única línea los IDs de todos los encuestados que respondieron en toda la encuesta (LDE).
-    """
-
-    nodo_tema = temas
-    while nodo_tema:
-        tema = nodo_tema.data
-        nodo_pregunta = tema.preguntas
-        while nodo_pregunta:
-            pregunta = nodo_pregunta.data
-            imprimir_ids_encuestados_lde(pregunta.encuestados)
-            nodo_pregunta = nodo_pregunta.next
-        nodo_tema = nodo_tema.next
-
-    print() 
-
-def imprimir_ids_encuestados_lde(nodo):
-    """
-    Imprime los IDs de una LDE de encuestados
-    """
-    while nodo:
-        print(nodo.data.id, end=" ")
-        nodo = nodo.next
-
-def punto2_LDE(encuesta):
-    """
-    Por cada tema, se busca que las preguntas estén ordenadas 
-    descendentemente según su promedio del valor de opinión.
-    La salida se imprime por tema y por pregunta, mostrando sus promedios.
-    """
-    tiempo_inicio = time.time()
-
-    nodo_tema = encuesta.Temas
-    while nodo_tema:
-        tema = nodo_tema.data
-        tema.preguntas = ordenar_preguntas_por_promedio_opinion(tema.preguntas)
-        print(f"[{round(promedio_tema(tema), 2)}] Tema {tema.nombre}:")
-        nodo_pregunta = tema.preguntas
-        while nodo_pregunta:
-            pregunta = nodo_pregunta.data
-            prom = round(promedio_opinion(pregunta), 2)
-            print(f"[{prom}] Pregunta {pregunta.nombre}")
-            List_Print(pregunta.encuestados)
-            nodo_pregunta = nodo_pregunta.next
-
-        nodo_tema = nodo_tema.next
-
-    mostrar_ids_encuesta_completa(encuesta.Temas)
-
-    tiempo_final = time.time()
-
-    return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
-
-#Punto 3
+#---------------------------------------------- PUNTO 3 ----------------------------------------------
 
 # A esta función se le pasa la lista entrelazada con los encuestados
 def Promedio_Pregunta(lista):
@@ -226,6 +28,7 @@ def Promedio_Tema(lista, M):
 
 # A esta función se le pasa la lista entrelazada con los temas
 def Ordenar_Tema_Por_Promedio(lista, M):
+    inicio = time.time()
     # Ordenar descendentemente la lista dependiendo del promedio del promedio de sus preguntas
     lista = List_Merge_Sort(lista, lambda e: Promedio_Tema(e.getPreguntas(), M), "descendente")
     resultado = ""
@@ -234,18 +37,12 @@ def Ordenar_Tema_Por_Promedio(lista, M):
         # Concatenar al resultado el promedio de promedios del tema y su nombre
         resultado = resultado + f"{[Promedio_Tema(lista.data.getPreguntas(), M)]}" + " Tema " + f"{lista.data.getNombre()}:" + "\n"
         lista = lista.next # Avanzar al siguiente tema
-
-    print(resultado)
+    final = time.time()
+    print("Ordenar temas " + f"{1000*(final - inicio):.10f}")
     return resultado # Retornamos los temas por orden descendente de sus promedios
 
-#Punto 4
+#---------------------------------------------- PUNTO 5 ----------------------------------------------
 
-def punto4_LDE():
-     pass
-
-#Punto 5
-#Punto 5: Pregunta con mayor promedio de opiniones. 
-#LDE:
 #Funcion auxliar que calcula el promedio de un grupo de encuestados, segun su opinion o experticia
 def lde_promedio(encuestados, method):
     total: int=0
@@ -299,22 +96,31 @@ def lde_mayor_promedio(encuesta):
                         if i.next:
                             key=i
                         else:
-                            return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(i.data.getEncuestados(), 1)}""] Pregunta: " f"{i.data.getNombre()}"
+                            return "Pregunta con mayor promedio de opinion: [" f"{lde_promedio(i.data.getEncuestados(), 1)}""] Pregunta: " f"{i.data.getNombre()}"
             
             i=i.next
 
         if i:
             key=i
         else:
-            return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(key.data.getEncuestados(), 1)}""] Pregunta: " f"{key.data.getNombre()}" 
-    return "Pregunta de la encuesta con mayor promedio: [" f"{lde_promedio(key.data.getEncuestados(), 1)}""] Pregunta: " f"{key.data.getNombre()}" 
+            return "Pregunta con mayor promedio de opinion: [" f"{round(lde_promedio(key.data.getEncuestados(), 1), 2)}""] Pregunta: " f"{key.data.getNombre()}\n" 
+    return "Pregunta con mayor promedio de opinion: [" f"{round(lde_promedio(key.data.getEncuestados(), 1), 2)}""] Pregunta: " f"{key.data.getNombre()}\n" 
 
 #Es necesario llamar la funcion con una deep copy de la encuesta, ya que si no, se enviaría la encuesta como referencia,
 #asi que cualquier cambio que le haga a encuesta_lde en la funcion tambien modificaría la encuesta_lde original y me dañaría los otros puntos.
 #lde_punto5 tiene el string que debe salir en el output
-# lde_punto5 = lde_mayor_promedio(copy.deepcopy(encuesta_lde))
 
-#Punto 6
+#---------------------------------------------- PUNTO 6 ----------------------------------------------
+
+def promedio_opinion(pregunta):
+    nodo = pregunta.encuestados
+    suma = 0
+    count = 0
+    while nodo:
+        suma += nodo.data.opinion
+        count += 1
+        nodo = nodo.next
+    return suma / count if count > 0 else 0
 
 def punto6_LDE(encuesta):
     """
@@ -322,7 +128,7 @@ def punto6_LDE(encuesta):
     """
 
     tiempo_inicio = time.time()
-
+    resultado = ""
     nodo_tema = encuesta.Temas
     menor_pregunta = None
 
@@ -336,20 +142,97 @@ def punto6_LDE(encuesta):
         nodo_tema = nodo_tema.next
 
     if menor_pregunta:
-        print(f"La pregunta con menor promedio es '{menor_pregunta.nombre}' con promedio {round(promedio_opinion(menor_pregunta), 2)}")
+        resultado = f"Pregunta con menor promedio de opinion: [{round(promedio_opinion(menor_pregunta), 2)}] Pregunta: {menor_pregunta.nombre}\n"
     else:
         print("No se encontró ninguna pregunta.")
 
     tiempo_final = time.time()
 
-    return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
+    return resultado
 
-#Punto 8
+#---------------------------------------------- PUNTO 7 ----------------------------------------------
 
-def punto8_LDE():
-     pass
+# A esta función se le pasa la lista entrelazada con los temas
+def Mayor_X_Pregunta(lista, K, M, dato):
+    inicio = time.time()
+    if lista is None:
+        return 0
+    temas = K # Obtenemos cuántos temas hay
+    tema_actual = lista # Obtenemos la lista de temas
+    preguntas_actuales = tema_actual.data.getPreguntas() # Obtenemos la lista de preguntas del primer tema como base
+    mayor = preguntas_actuales # Por si hay empate de extremismo, se toma la pregunta con menor id
 
-#Punto 9
+    while temas > 0:
+        preguntas = M # Obtenemos cuántas preguntas hay en cada tema
+        while preguntas > 0:
+            if dato == "extremismo":
+                if Extremismo_Pregunta(mayor.data.getEncuestados()) < Extremismo_Pregunta(preguntas_actuales.data.getEncuestados()):
+                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor extremismo
+            if dato == "mediana":
+                if List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion() < List_Median(List_Merge_Sort(preguntas_actuales.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion():
+                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor mediana
+            preguntas_actuales = preguntas_actuales.next # Cambiamos a la siguiente pregunta
+            preguntas -= 1
+
+        tema_actual = tema_actual.next # Cambiamos al siguiente tema
+        if tema_actual: # 
+            preguntas_actuales = tema_actual.data.getPreguntas() # Cambiamos a las preguntas del siguiente tema
+        temas -= 1
+        
+    if dato == "extremismo":
+        final = time.time()
+        resultado = "Pregunta con mayor extremismo: " + f"{[Extremismo_Pregunta(mayor.data.getEncuestados())]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
+        print("extremismo: " +  f"{1000*(final - inicio):.10f}")
+        return resultado
+    if dato == "mediana":
+        final = time.time()
+        resultado = "Pregunta con mayor mediana de opinión: " + f"{[List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion()]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
+        print("mediana: " + f"{1000*(final - inicio):.10f}")
+        return resultado
+
+#---------------------------------------------- PUNTO 8 ----------------------------------------------
+
+def punto8_LDE(encuesta):
+    """
+    Pregunta con menor mediana de opiniones
+    En caso de empate, se usa la pregunta con menor identificador
+    Retorna un string con el resultado
+    """
+
+    # Crear una lista doblemente enlazada para almacenar las preguntas con su mediana
+    head_preguntas = None
+    pregunta_id = 1
+    
+    # Cargar preguntas directamente en la LDE
+    for tema_idx, tema in enumerate(encuesta._iterate_temas(), 1):
+        for pregunta_idx, pregunta in enumerate(tema._iterate_preguntas(), 1):
+            # Obtener opiniones de la pregunta
+            opiniones = pregunta.get_opiniones()
+            mediana_pregunta = mediana(opiniones)
+            
+            # Crear objeto pregunta con mediana para la lista
+            pregunta_con_mediana = {
+                'pregunta': pregunta,
+                'mediana': mediana_pregunta,
+                'tema_idx': tema_idx,
+                'pregunta_idx': pregunta_idx,
+                'id': pregunta_id,
+                'nombre_completo': f"Pregunta {tema_idx}.{pregunta_idx}"
+            }
+            
+            # Insertar directamente en lista doblemente enlazada
+            head_preguntas = List_Insert_End(head_preguntas, pregunta_con_mediana)
+            pregunta_id += 1
+    
+    # Usar el método de ordenamiento de la estructura LDE
+    lde_sorter = LDE(None)  # Instancia para usar los métodos
+    head_preguntas = lde_sorter.List_Insertion_Sort_Mediana(head_preguntas)
+    
+    # La primera pregunta en la lista ordenada tiene la menor mediana
+    menor_mediana = head_preguntas.getData()
+    return f"Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}"
+
+#---------------------------------------------- PUNTO 9 ----------------------------------------------
 
 #Funcion para encontrar la moda de la opinion de los encuestados de una pregunta
 def lde_moda(encuestados):
@@ -363,7 +246,7 @@ def lde_moda(encuestados):
             if key.data.getOpinion()==i.data.getOpinion():
                 a=a+1
             i=i.next         
-        map = List_Insert_End(lde(key.data.getOpinion()), a)
+        map = List_Insert_End(LDE(key.data.getOpinion()), a)
         repeticiones = List_Insert_End(repeticiones, map)
         key=key.next
     
@@ -414,13 +297,21 @@ def lde_mayor_moda(encuesta):
         if i:
             key = i
         else:
-            return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre()
-    return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre()
+            return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre() + "\n"
+    return "Pregunta con mayor moda de opinion: " + "[" + f"{lde_moda(key.data.getEncuestados()).data}" + "] Pregunta: " + key.data.getNombre() + "\n"
 
-#La salida
-# lde_punto9 = lde_mayor_moda(copy.deepcopy(encuesta_lde))
+#---------------------------------------------- PUNTO 10 ----------------------------------------------
 
-#Punto 10
+def moda_opinion(pregunta):
+    frec = [0] * 11
+    nodo = pregunta.encuestados
+    while nodo:
+        frec[nodo.data.opinion] += 1
+        nodo = nodo.next
+    max_frec = max(frec)
+    for i in range(11):
+        if frec[i] == max_frec:
+            return i
 
 def punto10_LDE(encuesta):
      """
@@ -442,55 +333,16 @@ def punto10_LDE(encuesta):
           nodo_tema = nodo_tema.next
 
      if menor_pregunta:
-          print(f"La pregunta con menor moda es '{menor_pregunta.nombre}' con moda {moda_opinion(menor_pregunta)}")
+          resultado = f"Pregunta con menor moda de opinion: [{moda_opinion(menor_pregunta)}] Pregunta: {menor_pregunta.nombre}\n"
      else:
           print("No se encontró ninguna pregunta.")
 
 
      tiempo_final = time.time()
 
-     return contar_encuestados_encuesta_LDE(encuesta.Temas), tiempo_final - tiempo_inicio
+     return resultado
 
-def promedio_opinion(pregunta):
-    nodo = pregunta.encuestados
-    suma = 0
-    count = 0
-    while nodo:
-        suma += nodo.data.opinion
-        count += 1
-        nodo = nodo.next
-    return suma / count if count > 0 else 0
-
-def promedio_experticia(pregunta):
-    nodo = pregunta.encuestados
-    suma = 0
-    count = 0
-    while nodo:
-        suma += nodo.data.experticia
-        count += 1
-        nodo = nodo.next
-    return suma / count if count > 0 else 0
-
-def contar_encuestados(pregunta):
-    nodo = pregunta.encuestados
-    count = 0
-    while nodo:
-        count += 1
-        nodo = nodo.next
-    return count
-
-def moda_opinion(pregunta):
-    frec = [0] * 11
-    nodo = pregunta.encuestados
-    while nodo:
-        frec[nodo.data.opinion] += 1
-        nodo = nodo.next
-    max_frec = max(frec)
-    for i in range(11):
-        if frec[i] == max_frec:
-            return i
-
-#Punto 11
+#---------------------------------------------- PUNTO 11 ----------------------------------------------
 
 # A esta función se le pasa la lista entrelazada con los encuestados
 def Extremismo_Pregunta(lista):
@@ -504,42 +356,8 @@ def Extremismo_Pregunta(lista):
         
     return round((extremismo / List_Size(lista)), 2) # Devuelve el porcentaje de encuestados que tienen una opinión de 0 o 10
 
-# A esta función se le pasa la lista entrelazada con los temas
-def Mayor_X_Pregunta(lista, K, M, dato):
-    if lista is None:
-        return 0
-    temas = K # Obtenemos cuántos temas hay
-    tema_actual = lista # Obtenemos la lista de temas
-    preguntas_actuales = tema_actual.data.getPreguntas() # Obtenemos la lista de preguntas del primer tema como base
-    mayor = preguntas_actuales # Por si hay empate de extremismo, se toma la pregunta con menor id
+#---------------------------------------------- PUNTO 12 ----------------------------------------------
 
-    while temas > 0:
-        preguntas = M # Obtenemos cuántas preguntas hay en cada tema
-        while preguntas > 0:
-            if dato == "extremismo":
-                if Extremismo_Pregunta(mayor.data.getEncuestados()) < Extremismo_Pregunta(preguntas_actuales.data.getEncuestados()):
-                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor extremismo
-            if dato == "mediana":
-                if List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion() < List_Median(List_Merge_Sort(preguntas_actuales.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion():
-                    mayor = preguntas_actuales # Actualizamos la pregunta con mayor mediana
-            preguntas_actuales = preguntas_actuales.next # Cambiamos a la siguiente pregunta
-            preguntas -= 1
-
-        tema_actual = tema_actual.next # Cambiamos al siguiente tema
-        if tema_actual: # 
-            preguntas_actuales = tema_actual.data.getPreguntas() # Cambiamos a las preguntas del siguiente tema
-        temas -= 1
-        
-    if dato == "extremismo":
-        resultado = "Pregunta con mayor extremismo: " + f"{[Extremismo_Pregunta(mayor.data.getEncuestados())]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
-        print(resultado)
-        return resultado
-    if dato == "mediana":
-        resultado = "Pregunta con mayor mediana de opinión: " + f"{[List_Median(List_Merge_Sort(mayor.data.getEncuestados(), lambda e: e.getOpinion(), "ascendente")).getOpinion()]}" + " Pregunta: " + mayor.data.getNombre() + "\n"
-        print(resultado)
-        return resultado
-
-#Punto 12
 def lde_consenso(pregunta):
     consenso = lde_moda(pregunta.data.getEncuestados()).next.data/List_Size(pregunta.data.getEncuestados())
     return consenso
@@ -572,50 +390,3 @@ def lde_mayor_consenso(encuesta):
             return "Pregunta con mayor consenso: " + "[" + f"{round(lde_consenso(key), 2)}" + "] Pregunta: " + f"{key.data.getNombre()}"
     #Si ocurre este caso, significa que la ultima pregunta es la que tiene el mayor consenso
     return "Pregunta con mayor consenso: " + "[" + f"{round(lde_consenso(key), 2)}" + "] Pregunta: " + f"{key.data.getNombre()}"
-
-#La salida
-# lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))
-
-def seleccionarFuncionLDE(metodo: int):
-     """
-     1. ordenar los encuestrados en cada pregunta segun su valor de opinion. 
-     2. por cada tema, ordenar las preguntas por su promedio del valor de opinion de forma descendente.
-     3. ordenar los temas por el promedio de sus preguntas.
-     4. ordenar a todos los encuestados segun su experticia.
-     5. Pregunta con mayor promedio de opiniones.
-     6. Pregunta con menor promedio de opiniones.
-     7. Pregunta con mayor  mediana de opiniones.
-     8. Pregunta con menor mediana  opiniones.
-     9. Pregunta con el mayor valor de moda de opiniones.
-     10. Pregunta con el menor valor de moda de opiniones.
-     11. Pregunta con mayor valor de extremismo.
-     12. Pregunta con mayor consenso
-     """
-     match metodo:
-        case 1:
-            pass
-        case 2:
-            return punto2_LDE
-        case 3:
-            pass
-        case 4:
-            pass
-        case 5:
-            pass
-        case 6:
-            return punto6_LDE
-        case 7:
-            pass
-        case 8:
-            pass
-        case 9:
-            pass
-        case 10:
-            return punto10_LDE
-        case 11:
-            pass
-        case 12:
-            pass
-        case _:
-            raise ValueError("funcion no implementada.")
-         
