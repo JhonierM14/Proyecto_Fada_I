@@ -1,6 +1,10 @@
 Resultados de la encuesta:
 [8.25] Tema 1:
+  [9.5] Pregunta 1.1: 2 <-> 10 <-> None
+  [7.0] Pregunta 1.2: 6 <-> 12 <-> 1 <-> 9 <-> None
 [3.67] Tema 2:
+  [7.0] Pregunta 2.2: 8 <-> 7 <-> 11 <-> None
+  [0.33] Pregunta 2.1: 4 <-> 3 <-> 5 <-> None
 
 Lista de encuestados:
 

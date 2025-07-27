@@ -1,7 +1,191 @@
 from data_structures.listadoble import *
 from form.MedidasTenciaCentral import mediana
-import time
+import time, copy
 
+#---------------------------------------------- PUNTO 1 ----------------------------------------------
+def lde_insertion_sort(head):
+    key=head.next
+    while key:
+        i=key.prev
+        while i and key.data.getOpinion()>=i.data.getOpinion():
+            key_0=copy.copy(key)
+            if key.data.getOpinion()==i.data.getOpinion():
+                if key.data.getExperticia()>i.data.getExperticia():
+                    key.data=i.data
+                    i.data=key_0.data
+                    #Este if verifica si i NO es el primer elemento de la lista, ya que si lo fuera
+                    #no tendria sentido asignarle a key la primera posicion de la lista, porque esto causaria una verificacion extra innecesaria
+                    if i.prev:
+                        key=i
+                    i=i.prev
+                else:
+                    i=i.prev
+            else:
+                key.data=i.data
+                i.data=key_0.data
+                if i.prev:
+                    key=i
+                i=i.prev        
+        key=key.next
+    return head
+
+#Sirve para pasar una lde a un string con las ids de los encuestados
+def lde_displayID(head):
+    current = head
+    str=""
+    while current:
+        str = str + f"{current.data.getID()}"+ " <-> "
+        current = current.next
+    str=str+"None"
+    return str
+
+def lde_escribir_opiniones(encuesta):
+    preguntas=encuesta
+    head = lde_insertion_sort(preguntas.getEncuestados())
+    str=f"{lde_displayID(head)}"+"\n"
+    return str
+
+#Esta es la salida de los encuestados de todas las preguntas de todos los temas ordenados
+# lde_print = (lde_escribir_opiniones(encuesta_lde)
+
+#---------------------------------------------- PUNTO 2 ----------------------------------------------
+
+def promedio_experticia(pregunta):
+    nodo = pregunta.encuestados
+    suma = 0
+    count = 0
+    while nodo:
+        suma += nodo.data.experticia
+        count += 1
+        nodo = nodo.next
+    return suma / count if count > 0 else 0
+
+def contar_encuestados(pregunta):
+    nodo = pregunta.encuestados
+    count = 0
+    while nodo:
+        count += 1
+        nodo = nodo.next
+    return count
+
+def promedio_tema(tema):
+    """
+    Calcula el promedio del promedio de opiniones de todas las preguntas del tema.
+    """
+    nodo_pregunta = tema.preguntas
+    suma_promedios = 0
+    count = 0
+
+    while nodo_pregunta:
+        pregunta = nodo_pregunta.data
+        suma_promedios += promedio_opinion(pregunta)
+        count += 1
+        nodo_pregunta = nodo_pregunta.next
+
+    return suma_promedios / count if count > 0 else 0
+
+def ordenar_preguntas_por_promedio_opinion(preguntas):
+    """
+    Ordena una lista doblemente enlazada de preguntas por promedio de opinión descendente.
+    """
+    if preguntas is None or preguntas.next is None:
+        return preguntas  # ya está ordenada o vacía
+
+    nueva_cabeza = None
+
+    actual = preguntas
+    while actual:
+        siguiente = actual.next
+        actual.prev = actual.next = None  # desconectar temporalmente
+
+        if nueva_cabeza is None:
+            nueva_cabeza = actual
+        else:
+            # insertar actual en nueva_cabeza de forma ordenada
+            nodo = nueva_cabeza
+            anterior = None
+            while nodo:
+                p1 = promedio_opinion(actual.data)
+                p2 = promedio_opinion(nodo.data)
+                if p1 > p2:
+                    break
+                elif p1 == p2:
+                    # empate: promedio de experticia
+                    e1 = promedio_experticia(actual.data)
+                    e2 = promedio_experticia(nodo.data)
+                    if e1 > e2:
+                        break
+                    elif e1 == e2:
+                        n1 = contar_encuestados(actual.data)
+                        n2 = contar_encuestados(nodo.data)
+                        if n1 > n2:
+                            break
+                anterior = nodo
+                nodo = nodo.next
+            if anterior is None:
+                actual.next = nueva_cabeza
+                nueva_cabeza.prev = actual
+                nueva_cabeza = actual
+            else:
+                actual.next = anterior.next
+                if anterior.next:
+                    anterior.next.prev = actual
+                anterior.next = actual
+                actual.prev = anterior
+
+        actual = siguiente
+
+    return nueva_cabeza
+
+def mostrar_ids_encuesta_completa(temas):
+    """
+    Muestra en una única línea los IDs de todos los encuestados que respondieron en toda la encuesta (LDE).
+    """
+
+    nodo_tema = temas
+    while nodo_tema:
+        tema = nodo_tema.data
+        nodo_pregunta = tema.preguntas
+        while nodo_pregunta:
+            pregunta = nodo_pregunta.data
+            imprimir_ids_encuestados_lde(pregunta.encuestados)
+            nodo_pregunta = nodo_pregunta.next
+        nodo_tema = nodo_tema.next
+
+    print() 
+
+def imprimir_ids_encuestados_lde(nodo):
+    """
+    Imprime los IDs de una LDE de encuestados
+    """
+    while nodo:
+        print(nodo.data.id, end=" ")
+        nodo = nodo.next
+
+def punto2_LDE(tema):
+    """
+    Por cada tema, se busca que las preguntas estén ordenadas 
+    descendentemente según su promedio del valor de opinión.
+    La salida se imprime por tema y por pregunta, mostrando sus promedios.
+    """
+    tiempo_inicio = time.time()
+
+    resultado = ""
+
+    tema.preguntas = ordenar_preguntas_por_promedio_opinion(tema.preguntas)
+    nodo_pregunta = tema.preguntas
+
+    while nodo_pregunta:
+        pregunta = nodo_pregunta.data
+        prom = round(promedio_opinion(pregunta), 2)
+        resultado = resultado + "  " + f"[{prom}] Pregunta {pregunta.nombre}: "
+        resultado = resultado + lde_escribir_opiniones(pregunta)
+        List_Print(pregunta.encuestados)
+        nodo_pregunta = nodo_pregunta.next
+
+    tiempo_final = time.time()
+
+    return resultado
 #---------------------------------------------- PUNTO 3 ----------------------------------------------
 
 # A esta función se le pasa la lista entrelazada con los encuestados
@@ -36,10 +220,44 @@ def Ordenar_Tema_Por_Promedio(lista, M):
     while lista: # Mientras hayan temas
         # Concatenar al resultado el promedio de promedios del tema y su nombre
         resultado = resultado + f"{[Promedio_Tema(lista.data.getPreguntas(), M)]}" + " Tema " + f"{lista.data.getNombre()}:" + "\n"
+        resultado = resultado + f"{punto2_LDE(lista.data)}" 
         lista = lista.next # Avanzar al siguiente tema
     final = time.time()
     print("Ordenar temas " + f"{1000*(final - inicio):.10f}")
     return resultado # Retornamos los temas por orden descendente de sus promedios
+
+#---------------------------------------------- PUNTO 4 ----------------------------------------------
+
+def punto4_LDE(encuesta):
+    """
+    Ordenar a todos los encuestados según su experticia (descendente)
+    En caso de empate, ordenar por ID (ascendente)
+    Retorna un string con la lista ordenada de encuestados
+    """    
+    # Cargar directamente en la Lista Doblemente Enlazada
+    head_lde = None
+    
+    # Recopilar y cargar encuestados directamente en la LDE
+    for tema in encuesta._iterate_temas():
+        for pregunta in tema._iterate_preguntas():
+            for encuestado in pregunta._iterate_encuestados():
+                # Cargar directamente en la LDE sin verificar duplicados
+                head_lde = List_Insert_End(head_lde, encuestado)
+    
+    # Usar el método de ordenamiento de la estructura LDE
+    lde_sorter = LDE(None)  # Instancia para usar los métodos
+    head_lde = lde_sorter.List_Merge_Sort_Experticia(head_lde)
+    
+    # Construir el string de salida
+    resultado = "Lista de encuestados:\n"
+    current = head_lde
+    while current:
+        enc = current.getData()
+        resultado += f" ({enc.getID()}, Nombre:'{enc.getNombre()}', Experticia:{enc.getExperticia()}, Opinión:{enc.getOpinion()})\n"
+        current = current.getNext()
+    
+    resultado += "\n"
+    return resultado
 
 #---------------------------------------------- PUNTO 5 ----------------------------------------------
 

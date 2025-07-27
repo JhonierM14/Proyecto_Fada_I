@@ -25,7 +25,8 @@ class Encuesta:
         else:  # Es una lista Python
             for tema in self.Temas:
                 yield tema
-    
+    def getData(self):
+        return self.data
     def getK(self):
         return self.K
     def getM(self):

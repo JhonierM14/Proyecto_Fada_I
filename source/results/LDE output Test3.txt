@@ -1,7 +1,16 @@
 Resultados de la encuesta:
 [5.97] Tema 3:
+  [7.17] Pregunta 3.1: 28 <-> 18 <-> 5 <-> 33 <-> 19 <-> 38 <-> None
+  [7.0] Pregunta 3.3: 6 <-> 30 <-> 36 <-> None
+  [3.75] Pregunta 3.2: 37 <-> 21 <-> 14 <-> 11 <-> None
 [5.78] Tema 2:
+  [6.0] Pregunta 2.1: 12 <-> 16 <-> 24 <-> 10 <-> None
+  [6.0] Pregunta 2.2: 31 <-> 22 <-> 20 <-> 13 <-> 7 <-> None
+  [5.33] Pregunta 2.3: 26 <-> 40 <-> 9 <-> 4 <-> 17 <-> 32 <-> None
 [4.11] Tema 1:
+  [6.0] Pregunta 1.2: 15 <-> 3 <-> 1 <-> 2 <-> 23 <-> None
+  [4.0] Pregunta 1.1: 34 <-> 29 <-> 35 <-> 25 <-> None
+  [2.33] Pregunta 1.3: 27 <-> 39 <-> 8 <-> None
 
 Lista de encuestados:
 

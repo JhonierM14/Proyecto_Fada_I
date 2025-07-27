@@ -72,5 +72,5 @@ def comparar_funciones_y_graficar(funcion1, funcion2, entradas, etiquetas=("LDE"
 
 entradas = generar_entradas_para_grafica_incremental()
 
-comparar_funciones_y_graficar(punto2_LDE, punto2_Abb, entradas)
+comparar_funciones_y_graficar(Ordenar_Tema_Por_Promedio, Ordenar_Tema_Por_Promedio, entradas)
 
