@@ -540,29 +540,38 @@ def Mayor_X_Pregunta(lista, K, M, dato):
         return resultado
 
 #Punto 12
+def lde_consenso(pregunta):
+    consenso = lde_moda(pregunta.data.getEncuestados()).next.data/List_Size(pregunta.data.getEncuestados())
+    return consenso
 
 def lde_mayor_consenso(encuesta):
-    temas=encuesta.Temas
+    temas=encuesta.getTemas()
     key=None
     while temas:
-        preguntas = temas.data.preguntas
-        #print(preguntas.next.next.data.nombre)
+        preguntas = temas.data.getPreguntas()
         key = lde_join(key, preguntas)
         temas=temas.next
 
     while key.next:
         i=key.next
-        cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
-        while i and cons_key >= lde_moda(i.data.encuestados).next.data/List_Size(i.data.encuestados):
-            i=i.next
+        while i and lde_consenso(key) >= lde_consenso(i):
+            if lde_consenso(key) == lde_consenso(i):
+                if key.data.getNombre() <= i.data.getNombre():
+                    i=i.next
+                else:
+                    if i.next:
+                        key = i
+                    else:
+                        return "Pregunta con mayor consenso: " + "[" + f"{round(lde_consenso(i), 2)}" + "] Pregunta: " + f"{i.data.getNombre()}"
+            else:
+                i=i.next
+                
         if i:
             key=i
         else:
-            return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
-    #Si ocurre este caso, significa que la ultima pregunta es la que tiene el mayor consenso, y por la logica del
-    #codigo esta sería la i, mientras que cons_key tendria el consenso de la pregunta con mayor consenso anterior
-    cons_key = lde_moda(key.data.encuestados).next.data/List_Size(key.data.encuestados)
-    return "Pregunta con mayor consenso: " + "[" + f"{round(cons_key, 2)}" + "] Pregunta: " + f"{key.data.nombre}"
+            return "Pregunta con mayor consenso: " + "[" + f"{round(lde_consenso(key), 2)}" + "] Pregunta: " + f"{key.data.getNombre()}"
+    #Si ocurre este caso, significa que la ultima pregunta es la que tiene el mayor consenso
+    return "Pregunta con mayor consenso: " + "[" + f"{round(lde_consenso(key), 2)}" + "] Pregunta: " + f"{key.data.getNombre()}"
 
 #La salida
 # lde_punto12 = lde_mayor_consenso(copy.deepcopy(encuesta_lde))

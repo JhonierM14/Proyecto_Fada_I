@@ -296,7 +296,7 @@ def punto4_Abb():
 #Punto 5
 def abb_mayor_promedio(encuesta):
     temas=[]
-    copy.copy(abb_to_array(temas, encuesta.Temas))
+    copy.copy(abb_to_array(temas, encuesta.getTemas()))
     preguntas=[]
     i=0
     while i<cant(copy.copy(temas)):
@@ -308,7 +308,7 @@ def abb_mayor_promedio(encuesta):
 
     while root.right:
         root=root.right
-    return "Pregunta de la encuesta con mayor promedio: ["+ f"{promedio(root.val.obtener_opiniones())}" + "] Pregunta: " + root.val.nombre 
+    return "Pregunta de la encuesta con mayor promedio: ["+ f"{promedio(root.val.obtener_opiniones())}" + "] Pregunta: " + root.val.getNombre() 
 
 def abb_promedios(preguntas):
     encuestados = []
@@ -347,7 +347,7 @@ def abb_insert_promedios(root, pregunta):
                 else:
                     abb_insert_promedios(root.left, pregunta)
         else:
-            if cant(copy.copy(root.val.encuestados)) >= cant(copy.copy(pregunta.val.encuestados)):
+            if cant(copy.copy(root.val.getEncuestados())) >= cant(copy.copy(pregunta.val.getEncuestados())):
                 if root.left == None:
                     root.left = pregunta
                 else:
@@ -363,6 +363,8 @@ def abb_insert_promedios(root, pregunta):
         else:
             abb_insert_promedios(root.left, pregunta)
 
+abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
+print(abb_punto5)
 # abb_punto5 = abb_mayor_promedio(copy.deepcopy(encuesta_abb))
 
 #Punto 6
@@ -400,7 +402,6 @@ def punto8_Abb():
     pass
 
 #Punto 9
-
 def abb_moda(opiniones):
     map_moda = []  
     while opiniones:
@@ -438,7 +439,7 @@ def abb_moda(opiniones):
 
 def abb_mayor_moda(encuesta):
     temas=[]
-    abb_to_array(temas, encuesta.Temas)
+    abb_to_array(temas, encuesta.getTemas())
     preguntas=[]
     i=0
     while i<cant(copy.copy(temas)):
@@ -450,7 +451,7 @@ def abb_mayor_moda(encuesta):
 
     while root.right:
         root=root.right
-    return "Pregunta con mayor moda de opinion: " + "[" + f"{abb_moda(root.val.obtener_opiniones())[0]}" + "] Pregunta: " + root.val.nombre
+    return "Pregunta con mayor moda de opinion: " + "[" + f"{abb_moda(root.val.obtener_opiniones())[0]}" + "] Pregunta: " + root.val.getNombre()
         
 def abb_modas(preguntas):
     encuestados = []
@@ -477,7 +478,7 @@ def abb_insert_moda(root, pregunta):
             abb_insert_moda(root.right, pregunta)
 
     elif moda_root == moda2:
-        if root.val.nombre <= pregunta.val.nombre:
+        if root.val.nombre <= pregunta.val.getNombre():
                 if root.left == None:
                     root.left = pregunta
                 else:
@@ -599,7 +600,7 @@ def Mayor_X_Pregunta(arbol, K, M, dato):
 
 def abb_mayor_consenso(encuesta):
     temas=[]
-    abb_to_array(temas, encuesta.Temas)
+    abb_to_array(temas, encuesta.getTemas())
     preguntas=[]
     i=0
     while i<cant(copy.copy(temas)):
@@ -612,8 +613,8 @@ def abb_mayor_consenso(encuesta):
     
     while root.right:
         root=root.right
-    consenso = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.encuestados))
-    return "Pregunta con mayor consenso: " + "[" + f"{round(consenso, 2)}" + "] Pregunta: " + f"{root.val.nombre}"
+    consenso = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.getEncuestados()))
+    return "Pregunta con mayor consenso: " + "[" + f"{round(consenso, 2)}" + "] Pregunta: " + f"{root.val.getNombre()}"
 
 def abb_consensos(preguntas):
     encuestados = []
@@ -630,14 +631,28 @@ def abb_consensos(preguntas):
     return root
 
 def abb_insert_consenso(root, pregunta):
-    cons_root = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.encuestados))
-    cons2 = abb_moda(pregunta.val.obtener_opiniones())[1]/cant(copy.deepcopy(pregunta.val.encuestados))
+    cons_root = abb_moda(root.val.obtener_opiniones())[1]/cant(copy.deepcopy(root.val.getEncuestados()))
+    cons2 = abb_moda(pregunta.val.obtener_opiniones())[1]/cant(copy.deepcopy(pregunta.val.getEncuestados()))
     
-    if cons_root >= cons2:
+    if cons_root > cons2:
         if root.left == None:
             root.left = pregunta
         else:
             abb_insert_consenso(root.left, pregunta)
+
+    elif cons_root == cons2:
+        if root.val.getNombre() <= pregunta.val.getNombre():
+                if root.left == None:
+                    root.left = pregunta
+                else:
+                    abb_insert_consenso(root.left, pregunta)
+
+        else:
+            if root.right == None:
+                root.right = pregunta
+            else:
+                abb_insert_consenso(root.right, pregunta)
+
     else:
         if root.right == None:
             root.right = pregunta
