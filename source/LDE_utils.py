@@ -64,7 +64,7 @@ def punto3_LDE():
 
 #Punto 4
 
-def punto4_LDE():
+def punto4_LDE(encuesta):
     """
     Ordenar a todos los encuestados según su experticia (descendente)
     En caso de empate, ordenar por ID (ascendente)
@@ -112,7 +112,7 @@ def punto7_LDE():
 
 #Punto 8
 
-def punto8_LDE():
+def punto8_LDE(encuesta):
     """
     Pregunta con menor mediana de opiniones
     En caso de empate, se usa la pregunta con menor identificador
@@ -169,7 +169,7 @@ def punto11_LDE():
 
 #Punto 12
 
-def punto12_LDE():
+def punto12_LDE(encuesta):
     """
     Pregunta con mayor consenso, donde consenso se define como el porcentaje 
     de los encuestados en la pregunta que tiene la opinión moda o la más frecuente

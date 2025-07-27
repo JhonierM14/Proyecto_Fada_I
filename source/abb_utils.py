@@ -9,7 +9,7 @@ def punto3_Abb():
 
 #Punto 4
 
-def punto4_Abb():
+def punto4_Abb(encuesta):
     """
     Ordenar a todos los encuestados según su experticia (descendente)
     En caso de empate, ordenar por ID (descendente - mayor ID)
@@ -68,7 +68,7 @@ def punto7_Abb():
 
 #Punto 8
 
-def punto8_Abb():
+def punto8_Abb(encuesta):
     """
     Pregunta con menor mediana de opiniones
     En caso de empate, se usa la pregunta con menor identificador
@@ -126,7 +126,7 @@ def punto11_Abb():
 
 #Punto 12
 
-def punto12_Abb():
+def punto12_Abb(encuesta):
     """
     Pregunta con mayor consenso, donde consenso se define como el porcentaje 
     de los encuestados en la pregunta que tiene la opinión moda o la más frecuente
