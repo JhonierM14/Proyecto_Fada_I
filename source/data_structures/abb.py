@@ -25,6 +25,73 @@ def Arb_Insert(nodo, llave, metodo):
             
     return nodo
 
+def promedio_experticia(pregunta):
+    def _sumar(nodo):
+        if nodo is None or nodo.val is None:
+            return 0, 0  # suma, cantidad
+        suma_izq, cant_izq = _sumar(nodo.left)
+        suma_der, cant_der = _sumar(nodo.right)
+        suma = suma_izq + nodo.val.experticia + suma_der
+        cantidad = cant_izq + 1 + cant_der
+        return suma, cantidad
+
+    suma, cantidad = _sumar(pregunta.encuestados)
+    return suma / cantidad if cantidad > 0 else 0
+
+def contar_encuestados(pregunta):
+    def _contar(nodo):
+        if nodo is None or nodo.val is None:
+            return 0
+        return 1 + _contar(nodo.left) + _contar(nodo.right)
+    
+    return _contar(pregunta.encuestados)
+
+def insertar_pregunta_arbol(raiz, pregunta):
+    if raiz.val is None:
+        raiz.val = pregunta
+        return
+
+    p1 = promedio_opinion(pregunta)
+    p2 = promedio_opinion(raiz.val)
+
+    if p1 > p2:
+        if raiz.left:
+            insertar_pregunta_arbol(raiz.left, pregunta)
+        else:
+            raiz.left = abb(pregunta)
+    elif p1 < p2:
+        if raiz.right:
+            insertar_pregunta_arbol(raiz.right, pregunta)
+        else:
+            raiz.right = abb(pregunta)
+    else:
+        # Desempatar con experticia y luego con número de encuestados
+        e1 = promedio_experticia(pregunta)
+        e2 = promedio_experticia(raiz.val)
+        if e1 > e2:
+            if raiz.left:
+                insertar_pregunta_arbol(raiz.left, pregunta)
+            else:
+                raiz.left = abb(pregunta)
+        elif e1 < e2:
+            if raiz.right:
+                insertar_pregunta_arbol(raiz.right, pregunta)
+            else:
+                raiz.right = abb(pregunta)
+        else:
+            n1 = contar_encuestados(pregunta)
+            n2 = contar_encuestados(raiz.val)
+            if n1 > n2:
+                if raiz.left:
+                    insertar_pregunta_arbol(raiz.left, pregunta)
+                else:
+                    raiz.left = abb(pregunta)
+            else:
+                if raiz.right:
+                    insertar_pregunta_arbol(raiz.right, pregunta)
+                else:
+                    raiz.right = abb(pregunta)
+
 #Solo sirve para imprimir los valores del arbol de forma ascendiente
 def Arb_Print(nodo, metodo):
     if nodo is None:

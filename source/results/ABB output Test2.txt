@@ -2,6 +2,15 @@ Resultados de la encuesta:
 [6.0] Tema 1:
 [5.08] Tema 2:
 [4.96] Tema 3:
+Tema 1: 
+Pregunta 1.1: [3, 2, 20]
+Pregunta 1.2: [1, 9, 8]
+Tema 2: 
+Pregunta 2.1: [6, 5, 11, 4]
+Pregunta 2.2: [12, 7, 10]
+Tema 3: 
+Pregunta 3.1: [19, 15, 13]
+Pregunta 3.2: [16, 18, 14, 17]
 
 Lista de encuestados:
 

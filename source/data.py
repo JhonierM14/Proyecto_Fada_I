@@ -7,10 +7,10 @@ from form.tema import Tema
 from form.encuesta import Encuesta
 
 from LDE_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Listas, Mayor_X_Pregunta as Mayor_Listas
-from LDE_utils import lde_escribir_opiniones, punto2_LDE, punto4_LDE, lde_mayor_promedio, lde_mayor_moda, punto6_LDE, punto10_LDE, lde_mayor_consenso, punto8_LDE
+from LDE_utils import punto4_LDE, lde_mayor_promedio, lde_mayor_moda, punto6_LDE, punto10_LDE, lde_mayor_consenso, punto8_LDE
 
 from abb_utils import Ordenar_Tema_Por_Promedio as Ordenar_Tema_Arboles, Mayor_X_Pregunta as Mayor_Arboles
-from abb_utils import abb_mayor_promedio, abb_mayor_moda, punto6_Abb, punto10_Abb, abb_mayor_consenso, punto8_Abb
+from abb_utils import punto2_Abb, abb_escribir_opiniones, abb_mayor_promedio, abb_mayor_moda, punto6_Abb, punto10_Abb, abb_mayor_consenso, punto8_Abb
 
 import copy
 
@@ -90,10 +90,8 @@ def Resultados_a_Texto(nombre, encuesta, tipo):
         if tipo == "listas entrelazadas":
             f.write("Resultados de la encuesta:\n")
             f.write(Ordenar_Tema_Listas(encuesta.getTemas(), encuesta.getM()))
-            #f.write(lde_escribir_opiniones(copy.deepcopy(encuesta)))
-            #f.write(punto2_LDE(copy.deepcopy(encuesta)))
             f.write("\nLista de encuestados:\n")
-           # f.write(punto4_LDE(copy.deepcopy(encuesta)))
+            #f.write(punto4_LDE(copy.deepcopy(encuesta)))
             f.write("\nResultados:\n")
             f.write("   " + lde_mayor_promedio(copy.deepcopy(encuesta)))
             f.write("   " + punto6_LDE(copy.deepcopy(encuesta)))
@@ -107,6 +105,8 @@ def Resultados_a_Texto(nombre, encuesta, tipo):
         else:
             f.write("Resultados de la encuesta:\n")
             f.write(Ordenar_Tema_Arboles(encuesta.getTemas()))
+            #f.write(punto2_Abb(copy.deepcopy(encuesta)))
+            f.write(abb_escribir_opiniones(copy.deepcopy(encuesta)))
             f.write("\nLista de encuestados:\n")
             f.write("\nResultados:\n")
             f.write("   " + abb_mayor_promedio(copy.deepcopy(encuesta)))

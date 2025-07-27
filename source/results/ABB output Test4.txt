@@ -3,6 +3,26 @@ Resultados de la encuesta:
 [5.19] Tema 1:
 [4.82] Tema 3:
 [4.5] Tema 4:
+Tema 1: 
+Pregunta 1.1: [56, 3, 13, 1, 10, 7, 66]
+Pregunta 1.2: [57, 59, 34, 39]
+Pregunta 1.3: [72, 46, 36]
+Pregunta 1.4: [79, 9, 48, 43, 80, 40]
+Tema 2: 
+Pregunta 2.1: [71, 64, 24, 49, 23, 55, 20]
+Pregunta 2.2: [63, 52, 28]
+Pregunta 2.3: [75, 35, 74, 19, 29]
+Pregunta 2.4: [68, 73, 65, 37, 2]
+Tema 3: 
+Pregunta 3.1: [77, 76, 58, 22, 33]
+Pregunta 3.2: [16, 27, 60, 44]
+Pregunta 3.3: [12, 4, 61, 26, 25, 32]
+Pregunta 3.4: [30, 51, 70, 15, 38]
+Tema 4: 
+Pregunta 4.1: [42, 11, 50, 17, 62]
+Pregunta 4.2: [45, 18, 41, 8, 47]
+Pregunta 4.3: [54, 69, 53, 78]
+Pregunta 4.4: [14, 67, 21, 6, 5, 31]
 
 Lista de encuestados:
 

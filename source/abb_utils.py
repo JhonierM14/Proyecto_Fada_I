@@ -3,28 +3,10 @@ from form.encuestado import Encuestado
 from form.MedidasTenciaCentral import promedio
 from data_structures.abb import abb_mediana
 from form.MedidasTenciaCentral import mediana
-import time
-import copy
+import time, copy
 
-#---------------------------------------------- PUNTO 3 ----------------------------------------------
+#---------------------------------------------- PUNTO 1 ----------------------------------------------
 
-#Punto 1 con abb:
-encuestado1 = Encuestado(1, "Sofía", 1, 6)
-encuestado2 = Encuestado(2, "Alejandro", 7, 10)
-encuestado3 = Encuestado(3, "Valentina", 9, 0)
-encuestado4 = Encuestado(4, "Juan", 10, 1)
-encuestado5 = Encuestado(5, "Martina", 7, 0)
-encuestado6 = Encuestado(6, "Sebastián", 8, 9)
-encuestado7 = Encuestado(7, "Camila", 2, 7)
-encuestado8 = Encuestado(8, "Mateo", 4, 7)
-encuestado9 = Encuestado(9, "Isabella", 7, 5)
-encuestado10 = Encuestado(10, "Daniel", 2, 9)
-encuestado11 = Encuestado(11, "Luciana", 1, 7)
-encuestado12 = Encuestado(12, "Lucas", 6, 8)
-
-lista: list = [encuestado1, encuestado2, encuestado3, encuestado4, encuestado5, encuestado6, encuestado7, encuestado8, encuestado9, encuestado10, encuestado11, encuestado12]
-
-#Funcion propia que reemplaza el len de python
 def cant(lst):
     a=0
     while lst:
@@ -32,16 +14,17 @@ def cant(lst):
         lst.pop(0)
     return a 
 
-#Funcion que retorna el abb con los encuestados ya ordenados
-def abb_encuestados(lst):
+def abb_encuestados(arb):
     i=1
-    root=abb(lst[0])
-    while i<cant(copy.copy(lst)):
-        abb_insert_encuestados(root, lst[i])
+    arr=[]
+    abb_to_array(arr, arb)
+    #root sera la raiz del nuevo arbol ordenado por la opinion
+    root=abb(arr[0])
+    while i<cant(copy.copy(arr)):
+        abb_insert_encuestados(root, arr[i])
         i=i+1
     return root
 
-#Insertar los encuestados en un abb segun su opinion, o experticia en caso de empate
 def abb_insert_encuestados(root, key):
     if root is None:
         return abb(key)
@@ -70,19 +53,155 @@ def abb_insert_encuestados(root, key):
         else:
             abb_insert_encuestados(root.right, key)
 
-#Sirve para imprimir la id de los encuestados en orden descendente segun su opinion
-def inorder_encuestados(root):
+#Sirve para crear un arreglo con la id de todos los elementos del arbol en orden descendiente
+def inorder_encuestados(root, arr):
     if root is None:
         return root
-    inorder_encuestados(root.right)
-    print(root.val.getID(), end=" ")
-    inorder_encuestados(root.left)
+    inorder_encuestados(root.right, arr)
+    arr.append(root.val.getID())
+    inorder_encuestados(root.left, arr)
+    return arr
 
-root = abb_encuestados(lista)
-print("Encuestados de la pregunta 1 (con abb): ")
-inorder_encuestados(root)
-print(" ")
+#Sirve para crear un string "str" que tiene la informacion necesaria para la primer parte de la salida
+def abb_escribir_opiniones(encuesta):
+    inicio = time.time()
+    str=""
+    temas = encuesta.getTemas()
+    while temas:
+        str = str + "Tema "+f"{temas.val.getNombre()}: " + "\n"
+        preguntas = temas.val.getPreguntas()
+        while preguntas:
+            arr = []
+            encuestados = preguntas.val.getEncuestados()
+            root = abb_encuestados(encuestados)
+            str = str + "Pregunta " + f"{preguntas.val.getNombre()}: " + f"{inorder_encuestados(root, arr)}" + "\n"
+            preguntas=preguntas.right
+        temas = temas.right
+    final = time.time()
+    print("Tiempo: ", final-inicio)
+    return str
+
 #---------------------------------------------- PUNTO 2 ----------------------------------------------
+
+def recorrer_temas(nodo_tema):
+    if nodo_tema is None or nodo_tema.val is None:
+        return
+    recorrer_temas(nodo_tema.left)
+
+    tema = nodo_tema.val
+    recorrer_preguntas_ordenadas_por_promedio(tema.preguntas)
+
+    recorrer_temas(nodo_tema.right)
+
+def recorrer_preguntas_ordenadas_por_promedio(raiz_preguntas):
+    # Creamos un nuevo árbol ordenado por promedio de opinión
+    nuevo_arbol = abb()
+
+    def insertar_todas(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        insertar_todas(nodo.left)
+        insertar_pregunta_arbol(nuevo_arbol, nodo.val)
+        insertar_todas(nodo.right)
+
+    insertar_todas(raiz_preguntas)
+
+    def imprimir_en_orden(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        imprimir_en_orden(nodo.left)
+        preg = nodo.val
+        ids = obtener_ids_pregunta(preg)
+        prom = round(preg.promedio_opinion(), 2)
+        print(f"[{prom}] Pregunta {preg.nombre}: ({', '.join(map(str, ids))})")
+        imprimir_en_orden(nodo.right)
+
+    imprimir_en_orden(nuevo_arbol)
+
+def promedio_tema(tema):
+        suma = 0
+        count = 0
+
+        def acumular_promedios(nodo: abb): # preguntas
+            nonlocal suma, count
+            if nodo is None or nodo.val is None:
+                return
+            acumular_promedios(nodo.left)
+            pregunta = nodo.val
+            suma += promedio_opinion(pregunta)
+            count += 1
+            acumular_promedios(nodo.right)
+
+        acumular_promedios(tema.preguntas)
+        return suma / count if count > 0 else 0
+
+def obtener_ids_pregunta(pregunta):
+    ids = []
+
+    def recorrer_encuestados(nodo):
+        if nodo is None or nodo.val is None:
+            return
+        recorrer_encuestados(nodo.left)
+        ids.append(nodo.val.id)
+        recorrer_encuestados(nodo.right)
+
+    recorrer_encuestados(pregunta.encuestados)
+    return ids
+
+def mostrar_ids_encuesta_completa(raiz_temas):
+    """
+    Muestra en una única línea los IDs de todos los encuestados de toda la encuesta (ABB).
+    """
+    def recorrer_temas(nodo_tema):
+        if nodo_tema is None or nodo_tema.val is None:
+            return
+        recorrer_temas(nodo_tema.left)
+
+        tema = nodo_tema.val
+        recorrer_preguntas(tema.preguntas)
+
+        recorrer_temas(nodo_tema.right)
+
+    def recorrer_preguntas(nodo_pregunta):
+        if nodo_pregunta is None or nodo_pregunta.val is None:
+            return
+        recorrer_preguntas(nodo_pregunta.left)
+
+        pregunta = nodo_pregunta.val
+        imprimir_ids_encuestados_abb(pregunta.encuestados)
+
+        recorrer_preguntas(nodo_pregunta.right)
+
+    recorrer_temas(raiz_temas)
+    print()
+
+def imprimir_ids_encuestados_abb(nodo):
+    """
+    Imprime los IDs de un ABB de encuestados en una misma línea, sin usar estructuras auxiliares.
+    """
+    if nodo is None or nodo.val is None:
+        return
+    imprimir_ids_encuestados_abb(nodo.left)
+    print(nodo.val.id, end=" ")
+    imprimir_ids_encuestados_abb(nodo.right)
+
+def punto2_Abb(encuesta):
+    """
+    Por cada tema, se busca que las preguntas estén ordenadas 
+    descendentemente según su promedio del valor de opinión.
+    La salida se imprime por tema y por pregunta, mostrando sus promedios.
+    """
+    tiempo_inicio = time.time()
+
+    # Ejecutar recorrido
+    recorrer_temas(encuesta.Temas)
+
+    mostrar_ids_encuesta_completa(encuesta.Temas)
+
+    tiempo_final = time.time()
+    print(f"\nTiempo usado: {tiempo_final - tiempo_inicio:.4f} segundos")
+
+    return contar_encuestados_encuesta_ABB(encuesta.Temas), tiempo_final - tiempo_inicio
 
 #---------------------------------------------- PUNTO 3 ----------------------------------------------
 
@@ -118,6 +237,15 @@ def Temas_Print(nodo):
     resultado = resultado + Temas_Print(nodo.left)
     return resultado
 
+def Preguntas_Print(nodo):
+    if nodo is None:
+        return ""
+    resultado = ""
+    resultado = resultado + Preguntas_Print(nodo.right)
+    resultado = resultado + "  [" + str(Promedio_Pregunta(nodo)) + "] " + "Pregunta " + str(nodo.val.getNombre()) + ": "
+    resultado = resultado + Preguntas_Print(nodo.left)
+    return resultado
+
 # A esta funcion se le pasa el árbol binario de búsqueda con los temas
 def Ordenar_Tema_Por_Promedio(arbol):
     inicio = time.time()
@@ -130,7 +258,7 @@ def Ordenar_Tema_Por_Promedio(arbol):
 
     resultado = Temas_Print(arbol_temas) # Guardamos el print del resultado de ordenar los temas
     final = time.time()
-    print("Ordenar temas " + f"{1000*(final - inicio):.10f}")
+    print("Ordenar temas: " + f"{1000*(final - inicio):.10f}")
     return resultado
 #---------------------------------------------- PUNTO 4 ----------------------------------------------
 
