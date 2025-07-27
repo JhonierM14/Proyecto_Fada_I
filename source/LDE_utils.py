@@ -68,6 +68,7 @@ def punto4_LDE():
     """
     Ordenar a todos los encuestados según su experticia (descendente)
     En caso de empate, ordenar por ID (ascendente)
+    Retorna un string con la lista ordenada de encuestados
     """    
     # Cargar directamente en la Lista Doblemente Enlazada
     head_lde = None
@@ -83,14 +84,16 @@ def punto4_LDE():
     lde_sorter = LDE(None)  # Instancia para usar los métodos
     head_lde = lde_sorter.List_Merge_Sort_Experticia(head_lde)
     
-    print("Lista de encuestados:")
+    # Construir el string de salida
+    resultado = "Lista de encuestados:\n"
     current = head_lde
     while current:
         enc = current.getData()
-        print(f" ({enc.getID()}, Nombre:'{enc.getNombre()}', Experticia:{enc.getExperticia()}, Opinión:{enc.getOpinion()})")
+        resultado += f" ({enc.getID()}, Nombre:'{enc.getNombre()}', Experticia:{enc.getExperticia()}, Opinión:{enc.getOpinion()})\n"
         current = current.getNext()
     
-    print()
+    resultado += "\n"
+    return resultado
 
 #Punto 5
 
@@ -113,6 +116,7 @@ def punto8_LDE():
     """
     Pregunta con menor mediana de opiniones
     En caso de empate, se usa la pregunta con menor identificador
+    Retorna un string con el resultado
     """
 
     # Crear una lista doblemente enlazada para almacenar las preguntas con su mediana
@@ -145,9 +149,8 @@ def punto8_LDE():
     head_preguntas = lde_sorter.List_Insertion_Sort_Mediana(head_preguntas)
     
     # La primera pregunta en la lista ordenada tiene la menor mediana
-    if head_preguntas:
-        return head_preguntas.getData()
-    return None
+    menor_mediana = head_preguntas.getData()
+    return f"Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}"
 
 #Punto 9
 
@@ -171,6 +174,7 @@ def punto12_LDE():
     Pregunta con mayor consenso, donde consenso se define como el porcentaje 
     de los encuestados en la pregunta que tiene la opinión moda o la más frecuente
     En caso de empate, se usa la pregunta con menor identificador
+    Retorna un string con el resultado
     """    
     # Crear una lista doblemente enlazada para almacenar las preguntas con su consenso
     head_preguntas = None
@@ -204,8 +208,7 @@ def punto12_LDE():
     head_preguntas = lde_sorter.List_Insertion_Sort_Consenso(head_preguntas)
     
     # La primera pregunta en la lista ordenada tiene el mayor consenso
-    if head_preguntas:
-        return head_preguntas.getData()
-    return None
+    mayor_consenso = head_preguntas.getData()
+    return f"Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre_completo']}"
 
 

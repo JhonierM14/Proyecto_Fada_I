@@ -68,18 +68,17 @@ if __name__ == "__main__":
     generar_formato_encuesta()
     
     # Punto 4: Mostrar lista de encuestados ordenados por experticia
-    punto4_LDE()
+    resultado_punto4 = punto4_LDE()
+    print(resultado_punto4)
     
     # Mostrar solo los resultados de puntos implementados
     print("Resultados:")
     
     # Punto 8: Pregunta con menor mediana de opinión
-    menor_mediana = punto8_LDE()
-    if menor_mediana:
-        print(f"  Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}")
+    resultado_punto8 = punto8_LDE()
+    print(f"  {resultado_punto8}")
     
     # Punto 12: Pregunta con mayor consenso
-    mayor_consenso = punto12_LDE()
-    if mayor_consenso:
-        print(f"  Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre_completo']}")
+    resultado_punto12 = punto12_LDE()
+    print(f"  {resultado_punto12}")
 

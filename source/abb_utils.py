@@ -13,6 +13,7 @@ def punto4_Abb():
     """
     Ordenar a todos los encuestados según su experticia (descendente)
     En caso de empate, ordenar por ID (descendente - mayor ID)
+    Retorna un string con la lista ordenada de encuestados
     """
     from data_structures.abb import abb_experticia
     
@@ -29,11 +30,26 @@ def punto4_Abb():
                 else:
                     root_experticia.insert_experticia(encuestado)
     
-    print("Lista de encuestados:")
+    # Construir el string de salida
+    resultado = "Lista de encuestados:\n"
     if root_experticia:
-        root_experticia.inorder_experticia()
+        # Crear una función auxiliar para construir el string
+        def inorder_to_string(node, result):
+            if node.left:
+                inorder_to_string(node.left, result)
+            
+            enc = node.encuestado
+            result.append(f" ({enc.getID()}, Nombre:'{enc.getNombre()}', Experticia:{enc.getExperticia()}, Opinión:{enc.getOpinion()})")
+            
+            if node.right:
+                inorder_to_string(node.right, result)
+        
+        encuestados_list = []
+        inorder_to_string(root_experticia, encuestados_list)
+        resultado += "\n".join(encuestados_list)
     
-    print()
+    resultado += "\n\n"
+    return resultado
 
 #Punto 5
 
@@ -56,6 +72,7 @@ def punto8_Abb():
     """
     Pregunta con menor mediana de opiniones
     En caso de empate, se usa la pregunta con menor identificador
+    Retorna un string con el resultado
     """
     from data_structures.abb import abb_mediana
     from form.AlgoritmosOrdenamiento.MedidasTenciaCentral import mediana
@@ -89,9 +106,8 @@ def punto8_Abb():
             pregunta_id += 1
     
     # Encontrar la pregunta con menor mediana
-    if root_mediana:
-        return root_mediana.find_min_mediana()
-    return None
+    menor_mediana = root_mediana.find_min_mediana()
+    return f"Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}"
 
 #Punto 9
 
@@ -115,6 +131,7 @@ def punto12_Abb():
     Pregunta con mayor consenso, donde consenso se define como el porcentaje 
     de los encuestados en la pregunta que tiene la opinión moda o la más frecuente
     En caso de empate, se usa la pregunta con menor identificador
+    Retorna un string con el resultado
     """
     from data_structures.abb import abb_consenso
     from form.AlgoritmosOrdenamiento.MedidasTenciaCentral import moda, consenso
@@ -150,6 +167,5 @@ def punto12_Abb():
             pregunta_id += 1
     
     # Encontrar la pregunta con mayor consenso
-    if root_consenso:
-        return root_consenso.find_max_consenso()
-    return None
+    mayor_consenso = root_consenso.find_max_consenso()
+    return f"Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre_completo']}"

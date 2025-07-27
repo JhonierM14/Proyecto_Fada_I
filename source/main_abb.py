@@ -68,17 +68,16 @@ if __name__ == "__main__":
     generar_formato_encuesta()
     
     # Punto 4: Mostrar lista de encuestados ordenados por experticia (USANDO ÁRBOLES)
-    punto4_Abb()
+    resultado_punto4 = punto4_Abb()
+    print(resultado_punto4)
     
     # Mostrar solo los resultados de puntos implementados
     print("Resultados:")
     
     # Punto 8: Pregunta con menor mediana de opinión (USANDO ÁRBOLES)
-    menor_mediana = punto8_Abb()
-    if menor_mediana:
-        print(f"  Pregunta con menor mediana de opinion: [{int(menor_mediana['mediana'])}] Pregunta: {menor_mediana['nombre_completo']}")
+    resultado_punto8 = punto8_Abb()
+    print(f"  {resultado_punto8}")
     
     # Punto 12: Pregunta con mayor consenso (USANDO ÁRBOLES)
-    mayor_consenso = punto12_Abb()
-    if mayor_consenso:
-        print(f"  Pregunta con mayor consenso: [{mayor_consenso['consenso']:.2f}] Pregunta: {mayor_consenso['nombre_completo']}") 
+    resultado_punto12 = punto12_Abb()
+    print(f"  {resultado_punto12}") 
